@@ -1,0 +1,116 @@
+{
+  "club": "Golfklúbburinn Keilir",
+  "course": "Hvaleyrarvöllur",
+  "location": "Hafnarfjörður, Iceland",
+  "par": 71,
+  "holes": [
+    {
+      "number": 1,
+      "par": 5,
+      "distance": 480,
+      "description": "A straightaway par 5. The hole features a wide fairway with bunkers on both sides."
+    },
+    {
+      "number": 2,
+      "par": 4,
+      "distance": 380,
+      "description": "A par 4 with a slight dogleg left. Bunkers protect the fairway."
+    },
+    {
+      "number": 3,
+      "par": 3,
+      "distance": 180,
+      "description": "A challenging par 3 with water hazards on the left and bunkers around the green."
+    },
+    {
+      "number": 4,
+      "par": 4,
+      "distance": 420,
+      "description": "A long par 4 with a dogleg right. Accuracy off the tee is crucial."
+    },
+    {
+      "number": 5,
+      "par": 4,
+      "distance": 390,
+      "description": "A par 4 with a slight dogleg left. The fairway is guarded by bunkers."
+    },
+    {
+      "number": 6,
+      "par": 5,
+      "distance": 520,
+      "description": "A challenging par 5 with water hazards and bunkers along the fairway."
+    },
+    {
+      "number": 7,
+      "par": 3,
+      "distance": 200,
+      "description": "A long par 3 with bunkers protecting the green."
+    },
+    {
+      "number": 8,
+      "par": 4,
+      "distance": 410,
+      "description": "A par 4 with a slight dogleg right. The green is well-guarded by bunkers."
+    },
+    {
+      "number": 9,
+      "par": 4,
+      "distance": 370,
+      "description": "A straightaway par 4. Avoid the bunkers on the fairway for a clear approach shot."
+    },
+    {
+      "number": 10,
+      "par": 4,
+      "distance": 385,
+      "description": "A challenging par 4 with a dogleg left. Bunkers guard the left side of the fairway."
+    },
+    {
+      "number": 11,
+      "par": 3,
+      "distance": 160,
+      "description": "A short par 3 with bunkers surrounding the green."
+    },
+    {
+      "number": 12,
+      "par": 4,
+      "distance": 420,
+      "description": "A par 4 with a dogleg right. Accuracy off the tee is crucial."
+    },
+    {
+      "number": 13,
+      "par": 5,
+      "distance": 510,
+      "description": "A par 5 with a slight dogleg left. Beware of the water hazard on the left side."
+    },
+    {
+      "number": 14,
+      "par": 4,
+      "distance": 390,
+      "description": "A par 4 with a slight dogleg right. The fairway is guarded by bunkers."
+    },
+    {
+      "number": 15,
+      "par": 3,
+      "distance": 190,
+      "description": "A par 3 with a large green surrounded by bunkers."
+    },
+    {
+      "number": 16,
+      "par": 4,
+      "distance": 410,
+      "description": "A par 4 with a dogleg left. Accuracy off the tee is crucial to avoid trouble."
+    },
+    {
+      "number": 17,
+      "par": 4,
+      "distance": 400,
+      "description": "A par 4 with a slight dogleg right. The fairway is narrow with bunkers on both sides."
+    },
+    {
+      "number": 18,
+      "par": 5,
+      "distance": 540,
+      "description": "A challenging par 5 with a dogleg left. Long hitters can go for the green in two, but beware of the hazards."
+    }
+  ]
+}
