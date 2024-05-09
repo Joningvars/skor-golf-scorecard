@@ -17,10 +17,15 @@ GolfCourse getCourseData() {
 
     // Create a GolfCourse object from JSON
     final golfCourse = GolfCourse(
-      clubName: jsonData['clubName'] ?? '',
-      name: jsonData['name'] ?? '',
+      clubName: jsonData['club'] ?? '',
+      name: jsonData['course'] ?? '',
       location: jsonData['location'] ?? '',
+      imgUrl: jsonData['imgUrl'] ?? '',
       par: jsonData['par'] ?? 0,
+      whiteTee: jsonData['distance']['white'] ?? 0,
+      yellowTee: jsonData['distance']['yellow'] ?? 0,
+      blueTee: jsonData['distance']['blue'] ?? 0,
+      redTee: jsonData['distance']['red'] ?? 0,
       holes: (jsonData['holes'] as List?)
               ?.map(
                 (holeJson) => Hole(
@@ -34,11 +39,11 @@ GolfCourse getCourseData() {
           [],
     );
 
-    print(golfCourse.name);
-    print(golfCourse.clubName);
-    print(golfCourse.location);
-    print(golfCourse.par);
-    print(golfCourse.holes);
+    // print(golfCourse.name);
+    // print(golfCourse.clubName);
+    // print(golfCourse.location);
+    // print(golfCourse.par);
+    // print(golfCourse.holes);
 
     return golfCourse;
 
@@ -47,11 +52,16 @@ GolfCourse getCourseData() {
     print('Error: $e');
 
     return GolfCourse(
-      clubName: '',
-      name: '',
+      clubName: 'could not find',
+      name: 'error loading course',
       location: '',
       par: 0,
       holes: [],
+      redTee: 0,
+      yellowTee: 0,
+      blueTee: 0,
+      whiteTee: 0,
+      imgUrl: '',
     );
   }
 }

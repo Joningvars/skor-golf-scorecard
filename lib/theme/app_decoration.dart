@@ -10,7 +10,7 @@ class AppDecoration {
         color: theme.colorScheme.errorContainer,
       );
   static BoxDecoration get fillLightGreen => BoxDecoration(
-        color: appTheme.lightGreen50,
+        color: appTheme.background,
       );
   static BoxDecoration get fillOnPrimary => BoxDecoration(
         color: theme.colorScheme.onPrimary,

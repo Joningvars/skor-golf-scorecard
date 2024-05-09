@@ -37,7 +37,7 @@ class ThemeHelper {
     return ThemeData(
       colorScheme: colorScheme,
       textTheme: TextThemes.textTheme(colorScheme),
-      scaffoldBackgroundColor: appTheme.lightGreen50,
+      scaffoldBackgroundColor: appTheme.background,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: appTheme.indigo500,
@@ -72,7 +72,7 @@ class ThemeHelper {
 class TextThemes {
   static TextTheme textTheme(ColorScheme colorScheme) => TextTheme(
         displayMedium: TextStyle(
-          color: appTheme.lightGreen50,
+          color: appTheme.background,
           fontSize: 48,
           fontFamily: 'Inter',
           fontWeight: FontWeight.w800,
@@ -84,7 +84,7 @@ class TextThemes {
           fontWeight: FontWeight.w800,
         ),
         headlineLarge: TextStyle(
-          color: appTheme.lightGreen50,
+          color: appTheme.background,
           fontSize: 32,
           fontFamily: 'Inter',
           fontWeight: FontWeight.w800,
@@ -118,8 +118,8 @@ class TextThemes {
 
 /// Class containing the supported color schemes.
 class ColorSchemes {
-  static final lightCodeColorScheme = ColorScheme.light(
-    primary: Color(0XFF13334C),
+  static const lightCodeColorScheme = ColorScheme.light(
+    primary: const Color(0XFF13334C),
     primaryContainer: Color(0XFF949494),
     errorContainer: Color(0XFF195482),
     onPrimary: Color(0XFFFFFFFF),
@@ -129,23 +129,23 @@ class ColorSchemes {
 /// Class containing custom colors for a lightCode theme.
 class LightCodeColors {
   // Black
-  Color get black900 => Color(0XFF000000);
+  Color get black900 => const Color(0XFF000000);
 // BlueGray
-  Color get blueGray400 => Color(0XFF888888);
+  Color get blueGray400 => const Color(0XFF888888);
 // Gray
-  Color get gray50 => Color(0XFFF8F8F8);
-  Color get gray700 => Color(0XFF675E5E);
+  Color get gray50 => const Color(0XFFF8F8F8);
+  Color get gray700 => const Color(0XFF675E5E);
 // Green
-  Color get green700 => Color(0XFF2BB308);
+  Color get green700 => const Color(0XFF2BB308);
 // Indigo
-  Color get indigo500 => Color(0XFF3270A2);
+  Color get indigo500 => const Color(0XFF3270A2);
 // LightBlue
-  Color get lightBlueA700 => Color(0XFF009BF3);
+  Color get lightBlueA700 => const Color(0XFF009BF3);
 // LightGreen
-  Color get lightGreen50 => Color(0XFFF6F6E9);
+  Color get background => const Color(0XFFF6F6E9);
 // Red
-  Color get redA700 => Color(0XFFFF0C0C);
-  Color get redA70001 => Color(0XFFFF0000);
+  Color get redA700 => const Color(0XFFFF0C0C);
+  Color get redA70001 => const Color(0XFFFF0000);
 // Yellow
-  Color get yellowA200 => Color(0XFFF9FF00);
+  Color get yellowA200 => const Color(0XFFF9FF00);
 }

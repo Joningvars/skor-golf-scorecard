@@ -12,17 +12,17 @@ class CustomButtonStyles {
       );
 // Outline button style
   static ButtonStyle get outlineBlackTL16 => ElevatedButton.styleFrom(
-        backgroundColor: appTheme.lightGreen50,
+        backgroundColor: appTheme.background,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
         shadowColor: appTheme.black900.withOpacity(0.25),
         elevation: 4,
       );
-  static ButtonStyle get outlineBlackTL21 => ElevatedButton.styleFrom(
+  static ButtonStyle get cardButton => ElevatedButton.styleFrom(
         backgroundColor: theme.colorScheme.errorContainer,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(21),
+          borderRadius: BorderRadius.circular(18),
         ),
         shadowColor: appTheme.black900.withOpacity(0.25),
         elevation: 4,

@@ -2,6 +2,13 @@
   "club": "Golfklúbburinn Keilir",
   "course": "Hvaleyrarvöllur",
   "location": "Hafnarfjörður, Iceland",
+  "distance": {
+    "white": 5800,
+    "yellow": 5300,
+    "blue": 4950,
+    "red": 4750
+  },
+  "imgUrl": "https://www.keilir.is/wp-content/uploads/2016/12/000_Keilir_GC_JacobSjoman_lowres_sample-preview_.jpg",
   "par": 71,
   "holes": [
     {

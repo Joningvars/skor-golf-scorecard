@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:score_card/theme/theme_helper.dart';
 
 extension on TextStyle {
-  TextStyle get inter {
+  TextStyle get Lato {
     return copyWith(
-      fontFamily: 'Inter',
+      fontFamily: 'Lato',
     );
   }
 }
@@ -21,8 +21,8 @@ class CustomTextStyles {
         color: theme.colorScheme.onPrimary,
         fontWeight: FontWeight.w600,
       );
-  static get displaySmallLightgreen50 => theme.textTheme.displaySmall!.copyWith(
-        color: appTheme.lightGreen50,
+  static get displaySmallbackground => theme.textTheme.displaySmall!.copyWith(
+        color: appTheme.background,
       );
 // Headline text style
   static get headlineLargeErrorContainer =>
@@ -31,9 +31,8 @@ class CustomTextStyles {
         fontSize: 30,
         fontWeight: FontWeight.w600,
       );
-  static get headlineSmallLightgreen50 =>
-      theme.textTheme.headlineSmall!.copyWith(
-        color: appTheme.lightGreen50,
+  static get headlineSmallbackground => theme.textTheme.headlineSmall!.copyWith(
+        color: appTheme.background,
         fontWeight: FontWeight.w800,
       );
 // Inter text style
@@ -41,7 +40,7 @@ class CustomTextStyles {
         color: theme.colorScheme.onPrimary,
         fontSize: 96,
         fontWeight: FontWeight.w800,
-      ).inter;
+      ).Lato;
 // Title text style
   static get titleLargeGray700 => theme.textTheme.titleLarge!.copyWith(
         color: appTheme.gray700,
@@ -51,8 +50,8 @@ class CustomTextStyles {
         color: appTheme.green700,
         fontWeight: FontWeight.w600,
       );
-  static get titleLargeLightgreen50 => theme.textTheme.titleLarge!.copyWith(
-        color: appTheme.lightGreen50,
+  static get titleLargebackground => theme.textTheme.titleLarge!.copyWith(
+        color: appTheme.background,
       );
   static get titleLargeRedA700 => theme.textTheme.titleLarge!.copyWith(
         color: appTheme.redA700,

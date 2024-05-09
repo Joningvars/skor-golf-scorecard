@@ -1,14 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:score_card/data/course_data_loader.dart';
-import 'package:score_card/pages/course_select_screen.dart';
 import 'package:score_card/routes/app_routes.dart';
-import 'package:score_card/theme/app_decoration.dart';
 import 'package:score_card/widgets/welcome_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  WelcomeScreen({Key? key}) : super(key: key);
+  WelcomeScreen({super.key});
 
   final String imagePath = 'assets/images/';
 
@@ -44,17 +41,13 @@ class WelcomeScreen extends StatelessWidget {
                 child: Center(
                   child: Column(
                     children: [
-                      const Text(
-                        'SKOR',
-                        style: TextStyle(fontSize: 100, color: Colors.white),
-                      ),
+                      Image.asset('assets/images/logo.png'),
                       const SizedBox(
-                        height: 230,
+                        height: 175,
                       ),
                       WelcomeScreenButton(
                         text: 'Hefja Hring',
                         onPressed: () {
-                          getCourseData();
                           Navigator.pushNamed(
                               context, AppRoutes.courseSelectScreen);
                         },
