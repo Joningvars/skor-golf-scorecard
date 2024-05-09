@@ -1,16 +1,3 @@
-# score_card
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# skor-golf-scorecard
+Create, track, and analyze your golf scores with ease using this intuitive Golf Score Card app. Designed to streamline the scoring process, this application allows golfers to input scores for each hole, calculate total scores, and visualize progress over time. 
+# skor-golf-scorecard
