@@ -1,12 +1,16 @@
 class Hole {
   final int number;
   final int par;
-  final int distance;
-  final String description;
+  final int whiteTee;
+  final int yellowTee;
+  final int blueTee;
+  final int redTee;
 
   Hole({
-    required this.description,
-    required this.distance,
+    required this.yellowTee,
+    required this.blueTee,
+    required this.redTee,
+    required this.whiteTee,
     required this.number,
     required this.par,
   });

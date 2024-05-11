@@ -22,7 +22,7 @@ class CustomButtonStyles {
   static ButtonStyle get cardButton => ElevatedButton.styleFrom(
         backgroundColor: theme.colorScheme.errorContainer,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(8),
         ),
         shadowColor: appTheme.black900.withOpacity(0.25),
         elevation: 4,

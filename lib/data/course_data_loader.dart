@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
 
-GolfCourse getCourseData() {
+List<GolfCourse> getCourseData() {
   try {
     // Read the JSON
     const fileName =
@@ -12,56 +12,50 @@ GolfCourse getCourseData() {
     final file = File(fileName);
     final jsonString = file.readAsStringSync();
 
-    // parse the json
-    final jsonData = jsonDecode(jsonString);
+    // Parse the JSON data
+    List<dynamic> courses = jsonDecode(jsonString);
 
-    // Create a GolfCourse object from JSON
-    final golfCourse = GolfCourse(
-      clubName: jsonData['club'] ?? '',
-      name: jsonData['course'] ?? '',
-      location: jsonData['location'] ?? '',
-      imgUrl: jsonData['imgUrl'] ?? '',
-      par: jsonData['par'] ?? 0,
-      whiteTee: jsonData['distance']['white'] ?? 0,
-      yellowTee: jsonData['distance']['yellow'] ?? 0,
-      blueTee: jsonData['distance']['blue'] ?? 0,
-      redTee: jsonData['distance']['red'] ?? 0,
-      holes: (jsonData['holes'] as List?)
-              ?.map(
-                (holeJson) => Hole(
-                  number: holeJson['number'] ?? 0,
-                  par: holeJson['par'] ?? 0,
-                  distance: holeJson['distance'] ?? 0,
-                  description: holeJson['description'] ?? '',
-                ),
-              )
-              .toList() ??
-          [],
-    );
+    // create a list to store the golf courses
+    List<GolfCourse> golfCourses = [];
 
-    // print(golfCourse.name);
-    // print(golfCourse.clubName);
-    // print(golfCourse.location);
-    // print(golfCourse.par);
-    // print(golfCourse.holes);
+    // get club names
+    for (var course in courses) {
+      // Create a GolfCourse object from JSON
+      final golfCourse = GolfCourse(
+        clubName: course['club'] ?? '',
+        name: course['course'] ?? '',
+        location: course['location'] ?? '',
+        imgUrl: course['imgUrl'] ?? '',
+        par: course['par'] ?? 0,
+        whiteTee: course['distance']['white'] ?? 0,
+        yellowTee: course['distance']['yellow'] ?? 0,
+        blueTee: course['distance']['blue'] ?? 0,
+        redTee: course['distance']['red'] ?? 0,
+        holes: (course['holes'] as List?)
+                ?.map(
+                  (holeJson) => Hole(
+                    number: holeJson['number'] ?? 0,
+                    par: holeJson['par'] ?? 0,
+                    whiteTee: course['distance']['white'] ?? 0,
+                    yellowTee: course['distance']['yellow'] ?? 0,
+                    blueTee: course['distance']['blue'] ?? 0,
+                    redTee: course['distance']['red'] ?? 0,
+                  ),
+                )
+                .toList() ??
+            [],
+      );
 
-    return golfCourse;
+      // Add the golf course to the list
+      golfCourses.add(golfCourse);
+    }
 
-    //handle error
+    // Return the list of golf courses
+    return golfCourses;
   } catch (e) {
     print('Error: $e');
 
-    return GolfCourse(
-      clubName: 'could not find',
-      name: 'error loading course',
-      location: '',
-      par: 0,
-      holes: [],
-      redTee: 0,
-      yellowTee: 0,
-      blueTee: 0,
-      whiteTee: 0,
-      imgUrl: '',
-    );
+    // Return an empty list in case of error
+    return [];
   }
 }

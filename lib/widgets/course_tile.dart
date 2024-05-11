@@ -2,14 +2,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:score_card/models/course.dart';
+import 'package:score_card/models/hole.dart';
+import 'package:score_card/pages/hole_screen.dart';
+import 'package:score_card/pages/round_setup_screen.dart';
 import 'package:score_card/theme/custom_button_style.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-// ignore: must_be_immutable
-class CourseTile extends StatelessWidget {
-  CourseTile({super.key, required this.course});
+import 'package:flutter/material.dart';
+import 'package:score_card/models/course.dart';
+import 'package:score_card/models/hole.dart';
 
-  GolfCourse course;
+class CourseTile extends StatelessWidget {
+  final GolfCourse course;
+
+  const CourseTile({
+    Key? key,
+    required this.course,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +27,7 @@ class CourseTile extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Stack(
         children: [
+          // Background image
           CardBackgroundImage(imageUrl: course.imgUrl),
           const CardShader(),
           Padding(
@@ -38,13 +48,16 @@ class CourseTile extends StatelessWidget {
             left: 00,
             child: CardHighlight(),
           ),
-          const Positioned(
+          Positioned(
             top: 130,
             bottom: 10,
             right: 10,
             left: 250,
-            child: CardButton(),
+            child: CardButton(
+              course: course,
+            ),
           ),
+          // Tee lengths
           Positioned(
             top: 130,
             bottom: 10,
@@ -77,6 +90,44 @@ class CourseTile extends StatelessWidget {
   }
 }
 
+class CardButton extends StatelessWidget {
+  final GolfCourse course;
+
+  const CardButton({
+    Key? key,
+    required this.course,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => RoundSetupScreen(
+              course: course,
+            ),
+          ),
+        );
+      },
+      // Apply button style
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+      child: const Text(
+        'Velja',
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+}
+
 class TeeLength extends StatelessWidget {
   const TeeLength({super.key, required this.tee, required this.color});
 
@@ -85,48 +136,21 @@ class TeeLength extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 130,
-      bottom: 10,
-      right: 10,
-      left: 20,
-      child: Row(
-        children: [
-          Icon(
-            Icons.sports_golf_rounded,
-            color: color,
-            size: 18,
-          ),
-          Text(
-            '${tee}m',
-            style: TextStyle(
-                color: Color.fromARGB(255, 226, 226, 226),
-                fontSize: 10,
-                fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CardButton extends StatelessWidget {
-  const CardButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {},
-      child: const Text(
-        'Velja',
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
+    return Row(
+      children: [
+        Icon(
+          Icons.sports_golf_rounded,
+          color: color,
+          size: 18,
         ),
-      ),
-      style: CustomButtonStyles.cardButton,
+        Text(
+          '${tee}m',
+          style: const TextStyle(
+              color: Color.fromARGB(255, 226, 226, 226),
+              fontSize: 10,
+              fontWeight: FontWeight.bold),
+        ),
+      ],
     );
   }
 }
@@ -247,7 +271,7 @@ class CardHighlight extends StatelessWidget {
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(13),
-              bottomRight: const Radius.circular(13)),
+              bottomRight: Radius.circular(13)),
           color: Color.fromARGB(102, 19, 51, 76)),
     );
   }

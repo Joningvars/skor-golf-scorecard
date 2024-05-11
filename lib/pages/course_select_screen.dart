@@ -6,44 +6,48 @@ import 'package:score_card/widgets/background_blob.dart';
 import 'package:score_card/widgets/course_tile.dart';
 
 class CourseSelectScreen extends StatelessWidget {
-  const CourseSelectScreen({super.key});
+  const CourseSelectScreen({Key? key});
 
   @override
   Widget build(BuildContext context) {
-    var course = getCourseData();
+    var courses = getCourseData();
 
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset(
-          'assets/images/logo.png',
-          width: 50,
+        foregroundColor: Color(0XFF3270A2),
+        title: const Text(
+          'Select a Course',
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Theme.of(context).primaryColor,
       ),
-      body: Stack(children: [
-        const BackgroundBlob(),
-        Padding(
-          padding: const EdgeInsets.only(top: 20.0),
-          child: BuildTiles(course: course),
-        ),
-      ]),
+      body: Stack(
+        children: [
+          // const BackgroundBlob(),
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: CourseCardBuilder(courses: courses),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class BuildTiles extends StatelessWidget {
-  const BuildTiles({
-    super.key,
-    required this.course,
-  });
+class CourseCardBuilder extends StatelessWidget {
+  const CourseCardBuilder({
+    Key? key,
+    required this.courses,
+  }) : super(key: key);
 
-  final GolfCourse course;
+  final List<GolfCourse> courses;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 4,
+      itemCount: courses.length,
       itemBuilder: (context, index) {
+        final course = courses[index];
         return CourseTile(
           course: course,
         );

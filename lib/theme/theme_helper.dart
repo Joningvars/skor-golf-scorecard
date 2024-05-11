@@ -5,22 +5,20 @@ String _appTheme = "lightCode";
 LightCodeColors get appTheme => ThemeHelper().themeColor();
 ThemeData get theme => ThemeHelper().themeData();
 
-/// Helper class for managing themes and colors.
 // ignore_for_file: must_be_immutable
 
 // ignore_for_file: must_be_immutable
 class ThemeHelper {
-  // A map of custom color themes supported by the app
+  // A map of custom color themes
   Map<String, LightCodeColors> _supportedCustomColor = {
     'lightCode': LightCodeColors()
   };
 
-// A map of color schemes supported by the app
+// A map of color schemes
   Map<String, ColorScheme> _supportedColorScheme = {
     'lightCode': ColorSchemes.lightCodeColorScheme
   };
 
-  /// Changes the app theme to [_newTheme].
   void changeTheme(String _newTheme) {
     _appTheme = _newTheme;
   }
@@ -30,7 +28,7 @@ class ThemeHelper {
     return _supportedCustomColor[_appTheme] ?? LightCodeColors();
   }
 
-  /// Returns the current theme data.
+  /// Returns the current theme data
   ThemeData _getThemeData() {
     var colorScheme =
         _supportedColorScheme[_appTheme] ?? ColorSchemes.lightCodeColorScheme;
@@ -68,7 +66,7 @@ class ThemeHelper {
   ThemeData themeData() => _getThemeData();
 }
 
-/// Class containing the supported text theme styles.
+/// Theme classs
 class TextThemes {
   static TextTheme textTheme(ColorScheme colorScheme) => TextTheme(
         displayMedium: TextStyle(
@@ -116,7 +114,6 @@ class TextThemes {
       );
 }
 
-/// Class containing the supported color schemes.
 class ColorSchemes {
   static const lightCodeColorScheme = ColorScheme.light(
     primary: const Color(0XFF13334C),
@@ -126,7 +123,6 @@ class ColorSchemes {
   );
 }
 
-/// Class containing custom colors for a lightCode theme.
 class LightCodeColors {
   // Black
   Color get black900 => const Color(0XFF000000);
@@ -141,7 +137,7 @@ class LightCodeColors {
   Color get indigo500 => const Color(0XFF3270A2);
 // LightBlue
   Color get lightBlueA700 => const Color(0XFF009BF3);
-// LightGreen
+// background white
   Color get background => const Color(0XFFF6F6E9);
 // Red
   Color get redA700 => const Color(0XFFFF0C0C);

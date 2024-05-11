@@ -26,6 +26,7 @@ class AppRoutes {
     // teeScreen: (context) => VeljaTeigScreen(),
     // inputScoreScreen: (context) => SkrSkorScreen(),
     // appNavigationScreen: (context) => AppNavigationScreen(),
+    // initialRoute: (context) => WelcomeScreen()
     initialRoute: (context) => WelcomeScreen()
   };
 }
