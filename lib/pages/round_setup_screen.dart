@@ -3,6 +3,7 @@ import 'package:score_card/models/course.dart';
 import 'package:score_card/models/player.dart';
 import 'package:score_card/pages/add_player_screen.dart';
 import 'package:score_card/pages/hole_screen.dart';
+import 'package:score_card/theme/theme_helper.dart';
 import 'package:score_card/widgets/background_blob.dart';
 import 'package:score_card/widgets/customAppBar.dart';
 
@@ -35,7 +36,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
       MaterialPageRoute(
         builder: (context) => HoleDetailPage(
           players: [...players],
-          hole: widget.course.holes[0],
+          holes: widget.course.holes,
           selectedTee: selectedTee,
         ),
       ),
@@ -227,10 +228,10 @@ class AddPlayerButton extends StatelessWidget {
   final Function(String, String, int) onAddPlayer;
 
   const AddPlayerButton({
-    Key? key,
+    super.key,
     required this.course,
     required this.onAddPlayer,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
