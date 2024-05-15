@@ -1,42 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
+import 'package:score_card/models/player.dart';
+import 'package:score_card/pages/round_setup_screen.dart';
 import 'package:score_card/widgets/customAppBar.dart';
 
 class HoleDetailPage extends StatefulWidget {
   final Hole hole;
-  int selectedTee;
+  final int selectedTee;
+  final List<Player> players;
 
-  HoleDetailPage({Key? key, required this.hole, required this.selectedTee})
-      : super(key: key);
+  const HoleDetailPage({
+    super.key,
+    required this.hole,
+    required this.selectedTee,
+    required this.players,
+  });
 
   @override
-  _HoleDetailPageState createState() => _HoleDetailPageState();
+  State<HoleDetailPage> createState() => _HoleDetailPageState();
 }
 
 class _HoleDetailPageState extends State<HoleDetailPage> {
-  int strokeCount = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Hole ${widget.hole.number}'),
+      appBar: CustomAppBar(title: 'Hola ${widget.hole.number}'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('Par: ${widget.hole.par}'),
-            Text('Distance: ${widget.selectedTee} m'),
+            Text('Lengd: ${widget.hole.redTee} m'),
             const SizedBox(height: 16),
-            Text('Strokes: $strokeCount'),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  strokeCount++;
-                });
-              },
-              child: const Text('Add Stroke'),
-            ),
+            if (widget.players.isNotEmpty)
+              Column(
+                children: [
+                  for (int i = 0; i < widget.players.length; i++)
+                    Row(
+                      children: [
+                        PlayerButton(player: widget.players[i]),
+                        SizedBox(width: 100),
+                        ElevatedButton(onPressed: () {}, child: Text('-')),
+                        ElevatedButton(onPressed: () {}, child: Text('0')),
+                        ElevatedButton(onPressed: () {}, child: Text('+')),
+                      ],
+                    ),
+                ],
+              ),
           ],
         ),
       ),

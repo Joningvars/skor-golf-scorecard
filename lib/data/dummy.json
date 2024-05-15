@@ -15,92 +15,182 @@
       {
         "number": 1,
         "par": 5,
-        "distance": 480
+        "distance": {
+          "white": 480,
+          "yellow": 450,
+          "blue": 430,
+          "red": 410
+        }
       },
       {
         "number": 2,
         "par": 4,
-        "distance": 380
+        "distance": {
+          "white": 380,
+          "yellow": 360,
+          "blue": 340,
+          "red": 320
+        }
       },
       {
         "number": 3,
         "par": 3,
-        "distance": 180
+        "distance": {
+          "white": 180,
+          "yellow": 170,
+          "blue": 160,
+          "red": 150
+        }
       },
       {
         "number": 4,
         "par": 4,
-        "distance": 420
+        "distance": {
+          "white": 420,
+          "yellow": 400,
+          "blue": 380,
+          "red": 360
+        }
       },
       {
         "number": 5,
         "par": 4,
-        "distance": 390
+        "distance": {
+          "white": 390,
+          "yellow": 370,
+          "blue": 350,
+          "red": 330
+        }
       },
       {
         "number": 6,
         "par": 5,
-        "distance": 520
+        "distance": {
+          "white": 520,
+          "yellow": 500,
+          "blue": 480,
+          "red": 460
+        }
       },
       {
         "number": 7,
         "par": 3,
-        "distance": 200
+        "distance": {
+          "white": 200,
+          "yellow": 190,
+          "blue": 180,
+          "red": 170
+        }
       },
       {
         "number": 8,
         "par": 4,
-        "distance": 410
+        "distance": {
+          "white": 410,
+          "yellow": 390,
+          "blue": 370,
+          "red": 350
+        }
       },
       {
         "number": 9,
         "par": 4,
-        "distance": 370
+        "distance": {
+          "white": 370,
+          "yellow": 350,
+          "blue": 330,
+          "red": 310
+        }
       },
       {
         "number": 10,
         "par": 4,
-        "distance": 385
+        "distance": {
+          "white": 385,
+          "yellow": 365,
+          "blue": 345,
+          "red": 325
+        }
       },
       {
         "number": 11,
         "par": 3,
-        "distance": 160
+        "distance": {
+          "white": 160,
+          "yellow": 150,
+          "blue": 140,
+          "red": 130
+        }
       },
       {
         "number": 12,
         "par": 4,
-        "distance": 420
+        "distance": {
+          "white": 420,
+          "yellow": 400,
+          "blue": 380,
+          "red": 360
+        }
       },
       {
         "number": 13,
         "par": 5,
-        "distance": 510
+        "distance": {
+          "white": 510,
+          "yellow": 490,
+          "blue": 470,
+          "red": 450
+        }
       },
       {
         "number": 14,
         "par": 4,
-        "distance": 390
+        "distance": {
+          "white": 390,
+          "yellow": 370,
+          "blue": 350,
+          "red": 330
+        }
       },
       {
         "number": 15,
         "par": 3,
-        "distance": 190
+        "distance": {
+          "white": 190,
+          "yellow": 180,
+          "blue": 170,
+          "red": 160
+        }
       },
       {
         "number": 16,
         "par": 4,
-        "distance": 410
+        "distance": {
+          "white": 410,
+          "yellow": 390,
+          "blue": 370,
+          "red": 350
+        }
       },
       {
         "number": 17,
         "par": 4,
-        "distance": 400
+        "distance": {
+          "white": 400,
+          "yellow": 380,
+          "blue": 360,
+          "red": 340
+        }
       },
       {
         "number": 18,
         "par": 5,
-        "distance": 540
+        "distance": {
+          "white": 540,
+          "yellow": 520,
+          "blue": 500,
+          "red": 480
+        }
       }
     ]
   },

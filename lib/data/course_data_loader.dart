@@ -12,15 +12,15 @@ List<GolfCourse> getCourseData() {
     final file = File(fileName);
     final jsonString = file.readAsStringSync();
 
-    // Parse the JSON data
+    // Parse json
     List<dynamic> courses = jsonDecode(jsonString);
 
-    // create a list to store the golf courses
+    // Create a list for courses
     List<GolfCourse> golfCourses = [];
 
-    // get club names
+    // Get club names
     for (var course in courses) {
-      // Create a GolfCourse object from JSON
+      // Create a course from json
       final golfCourse = GolfCourse(
         clubName: course['club'] ?? '',
         name: course['course'] ?? '',
@@ -36,26 +36,26 @@ List<GolfCourse> getCourseData() {
                   (holeJson) => Hole(
                     number: holeJson['number'] ?? 0,
                     par: holeJson['par'] ?? 0,
-                    whiteTee: course['distance']['white'] ?? 0,
-                    yellowTee: course['distance']['yellow'] ?? 0,
-                    blueTee: course['distance']['blue'] ?? 0,
-                    redTee: course['distance']['red'] ?? 0,
+                    whiteTee: holeJson['distance']['white'] ?? 0,
+                    yellowTee: holeJson['distance']['yellow'] ?? 0,
+                    blueTee: holeJson['distance']['blue'] ?? 0,
+                    redTee: holeJson['distance']['red'] ?? 0,
                   ),
                 )
                 .toList() ??
             [],
       );
 
-      // Add the golf course to the list
+      // Add course
       golfCourses.add(golfCourse);
     }
 
-    // Return the list of golf courses
+    // Return list of courses
     return golfCourses;
   } catch (e) {
     print('Error: $e');
 
-    // Return an empty list in case of error
+    // Return an empty list if error
     return [];
   }
 }
