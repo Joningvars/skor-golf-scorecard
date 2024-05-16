@@ -31,4 +31,22 @@ class Player {
 
     initials = words.map((word) => word[0]).join().toUpperCase();
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'firstName': firstName,
+      'lastName': lastName,
+      'strokes': strokes,
+      'selectedTee': selectedTee,
+    };
+  }
+
+  factory Player.fromJson(Map<String, dynamic> json) {
+    return Player(
+      firstName: json['firstName'],
+      lastName: json['lastName'],
+      strokes: List<int>.from(json['strokes'] ?? []),
+      selectedTee: json['selectedTee'],
+    );
+  }
 }

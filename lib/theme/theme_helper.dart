@@ -1,3 +1,5 @@
+// ignore_for_file: duplicate_ignore
+
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
@@ -118,7 +120,7 @@ class ColorSchemes {
   static const lightCodeColorScheme = ColorScheme.light(
     primary: const Color(0XFF13334C),
     primaryContainer: Color(0XFF949494),
-    errorContainer: Color(0XFF195482),
+    secondary: Color(0XFF195482),
     onPrimary: Color(0XFFFFFFFF),
   );
 }

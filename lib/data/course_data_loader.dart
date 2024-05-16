@@ -6,21 +6,21 @@ import 'package:score_card/models/hole.dart';
 
 List<GolfCourse> getCourseData() {
   try {
-    // Read the JSON
+    // read
     const fileName =
         '/Users/joningvarsson/StudioProjects/score_card/lib/data/dummy.json';
     final file = File(fileName);
     final jsonString = file.readAsStringSync();
 
-    // Parse json
+    // parse
     List<dynamic> courses = jsonDecode(jsonString);
 
-    // Create a list for courses
+    // create course list
     List<GolfCourse> golfCourses = [];
 
-    // Get club names
+    // get club names
     for (var course in courses) {
-      // Create a course from json
+      // create course
       final golfCourse = GolfCourse(
         clubName: course['club'] ?? '',
         name: course['course'] ?? '',
@@ -46,16 +46,16 @@ List<GolfCourse> getCourseData() {
             [],
       );
 
-      // Add course
+      // add course
       golfCourses.add(golfCourse);
     }
 
-    // Return list of courses
+    // return course list
     return golfCourses;
   } catch (e) {
     print('Error: $e');
 
-    // Return an empty list if error
+    // in case of error
     return [];
   }
 }

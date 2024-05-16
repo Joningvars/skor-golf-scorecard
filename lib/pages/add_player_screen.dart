@@ -1,98 +1,190 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:score_card/models/course.dart';
+import 'package:score_card/models/player.dart';
+import 'package:score_card/theme/theme_helper.dart';
+import 'package:score_card/widgets/customAppBar.dart';
 import 'package:score_card/widgets/tee_select_dropdown.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddPlayerScreen extends StatefulWidget {
-  AddPlayerScreen({super.key, required this.course, required this.onAddPlayer});
-
   final GolfCourse course;
-  final void Function(String, String, int) onAddPlayer;
+  final Function(String, String, int) onAddPlayer;
+  final Player? initialPlayer;
+  final VoidCallback? onDeletePlayer;
+
+  const AddPlayerScreen({
+    super.key,
+    required this.course,
+    required this.onAddPlayer,
+    this.initialPlayer,
+    this.onDeletePlayer,
+  });
 
   @override
-  _AddPlayerScreenState createState() => _AddPlayerScreenState();
+  State<AddPlayerScreen> createState() => _AddPlayerScreenState();
 }
 
 class _AddPlayerScreenState extends State<AddPlayerScreen> {
-  TextEditingController _firstNameController = TextEditingController();
-  TextEditingController _lastNameController = TextEditingController();
-  int _selectedTee = 0;
+  late TextEditingController _firstNameController;
+  late TextEditingController _lastNameController;
+  late int _selectedTee;
   final _formKey = GlobalKey<FormState>();
 
-  void _onAddPlayer() {
-    if (_formKey.currentState!.validate()) {
-      String firstName = _firstNameController.text.trim();
-      String lastName = _lastNameController.text.trim();
-      if (firstName.isNotEmpty && lastName.isNotEmpty && _selectedTee != 0) {
-        widget.onAddPlayer(firstName, lastName, _selectedTee);
-        _firstNameController.clear();
-        _lastNameController.clear();
-        Navigator.of(context).pop();
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Vinsamlegast fyllut út í allar eyður.')),
+  void _deletePlayer() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Eyða golfara',
+            style: TextStyle(color: theme.primaryColor),
+          ),
+          content: const Text('viltu eyða golfara?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Hætta við',
+                style: TextStyle(color: theme.primaryColor),
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                final SharedPreferences prefs =
+                    await SharedPreferences.getInstance();
+                final List<String>? playerJsonList =
+                    prefs.getStringList('players');
+                if (playerJsonList != null) {
+                  List<Player> players = playerJsonList
+                      .map((jsonString) =>
+                          Player.fromJson(json.decode(jsonString)))
+                      .toList();
+
+                  players.remove(widget.initialPlayer);
+
+                  final List<String> updatedPlayerJsonList = players
+                      .map((player) => json.encode(player.toJson()))
+                      .toList();
+
+                  await prefs.setStringList('players', updatedPlayerJsonList);
+                }
+
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+
+                if (widget.onDeletePlayer != null) {
+                  widget.onDeletePlayer!();
+                }
+              },
+              child: const Text(
+                'Eyða',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          ],
         );
-      }
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _firstNameController = TextEditingController();
+    _lastNameController = TextEditingController();
+    _selectedTee = widget.initialPlayer?.selectedTee ?? 0;
+    if (widget.initialPlayer != null) {
+      _firstNameController.text = widget.initialPlayer!.firstName;
+      _lastNameController.text = widget.initialPlayer!.lastName;
     }
+  }
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bæta við golfara'),
-      ),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _buildTextField(
-                controller: _firstNameController, hintText: 'Fornafn'),
-            const Divider(thickness: 1, color: Colors.black26),
-            _buildTextField(
-                controller: _lastNameController, hintText: 'Eftirnafn'),
-            const Divider(thickness: 1, color: Colors.black26),
-            TeeSelectDropdown(
-              course: widget.course,
-              onItemSelected: (selectedTee) {
-                setState(() {
-                  _selectedTee = selectedTee;
-                });
-              },
-            ),
-            const Divider(thickness: 1, color: Colors.black26),
-            SizedBox(
-              height: 50,
-              width: 100,
-              child: ElevatedButton(
-                onPressed: _onAddPlayer,
-                child: Text('Bæta við'),
+      appBar: const CustomAppBar(title: 'Golfari'),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextFormField(
+                controller: _firstNameController,
+                decoration: const InputDecoration(labelText: 'Fornafn'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Vinsamlegast fylltu út.';
+                  }
+                  return null;
+                },
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTextField(
-      {required TextEditingController controller, required String hintText}) {
-    return SizedBox(
-      height: 40,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: TextFormField(
-          controller: controller,
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Vinsamlegast fylltu út $hintText';
-            }
-            return null;
-          },
-          decoration: InputDecoration(
-            border: const UnderlineInputBorder(borderSide: BorderSide.none),
-            labelText: hintText,
+              TextFormField(
+                controller: _lastNameController,
+                decoration: const InputDecoration(labelText: 'Eftirnafn'),
+              ),
+              TeeSelectDropdown(course: widget.course),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 50,
+                    width: 100,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          foregroundColor: theme.scaffoldBackgroundColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8))),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          widget.onAddPlayer(
+                            _firstNameController.text,
+                            _lastNameController.text,
+                            _selectedTee,
+                          );
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: const Text(
+                        'Vista',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  if (widget.initialPlayer != null)
+                    SizedBox(
+                      height: 50,
+                      width: 100,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            foregroundColor: theme.scaffoldBackgroundColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8))),
+                        onPressed: _deletePlayer,
+                        child: const Text(
+                          'Eyða',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

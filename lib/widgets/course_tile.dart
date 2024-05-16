@@ -1,16 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:score_card/models/course.dart';
-import 'package:score_card/models/hole.dart';
-import 'package:score_card/pages/hole_screen.dart';
 import 'package:score_card/pages/round_setup_screen.dart';
-import 'package:score_card/theme/custom_button_style.dart';
-import 'package:transparent_image/transparent_image.dart';
 
-import 'package:flutter/material.dart';
-import 'package:score_card/models/course.dart';
-import 'package:score_card/models/hole.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class CourseTile extends StatelessWidget {
   final GolfCourse course;
@@ -27,7 +19,6 @@ class CourseTile extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Stack(
         children: [
-          // Background image
           CardBackgroundImage(imageUrl: course.imgUrl),
           const CardShader(),
           Padding(
@@ -111,7 +102,6 @@ class CardButton extends StatelessWidget {
           ),
         );
       },
-      // Apply button style
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),

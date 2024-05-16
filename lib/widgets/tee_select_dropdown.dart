@@ -6,10 +6,10 @@ class TeeSelectDropdown extends StatefulWidget {
   final void Function(int)? onItemSelected;
 
   const TeeSelectDropdown({
-    super.key,
+    Key? key,
     required this.course,
     this.onItemSelected,
-  });
+  }) : super(key: key);
 
   @override
   State<TeeSelectDropdown> createState() => _TeeSelectDropdownState();
@@ -18,11 +18,14 @@ class TeeSelectDropdown extends StatefulWidget {
 class _TeeSelectDropdownState extends State<TeeSelectDropdown> {
   int _selectedTee = 0;
   late ExpansionTileController _controller;
+  String _selectedTeeTitle = 'Gulur';
 
   @override
   void initState() {
     super.initState();
     _controller = ExpansionTileController();
+    _selectedTee = widget.course.yellowTee; //default gulur
+    _selectedTeeTitle = 'Gulur';
   }
 
   @override
@@ -30,54 +33,39 @@ class _TeeSelectDropdownState extends State<TeeSelectDropdown> {
     return Column(
       children: [
         ExpansionTile(
+          backgroundColor: Colors.black12,
           leading: const Icon(Icons.sports_golf_outlined),
-          title: Text('Velja teig'),
+          title: Text('Velja teig ($_selectedTeeTitle)'),
           initiallyExpanded: false,
           controller: _controller,
           children: [
             buildTeeTile('Hvítur', widget.course.whiteTee.toString(),
-                widget.course.redTee),
+                widget.course.whiteTee, Colors.white),
             buildTeeTile('Gulur', widget.course.yellowTee.toString(),
-                widget.course.redTee),
-            buildTeeTile(
-                'Blár', widget.course.blueTee.toString(), widget.course.redTee),
+                widget.course.yellowTee, Colors.yellow),
+            buildTeeTile('Blár', widget.course.blueTee.toString(),
+                widget.course.blueTee, Colors.blue),
             buildTeeTile('Rauður', widget.course.redTee.toString(),
-                widget.course.redTee),
+                widget.course.redTee, Colors.red),
           ],
         ),
       ],
     );
   }
 
-  ListTile buildTeeTile(String title, String subtitle, int tee) {
+  ListTile buildTeeTile(String title, String subtitle, int tee, Color color) {
     return ListTile(
       title: Text(title),
       subtitle: Text(subtitle),
+      leading: Icon(Icons.sports_golf_rounded, color: color),
       onTap: () {
-        int selectedTeeValue;
-        switch (title) {
-          case 'Hvítur':
-            selectedTeeValue = widget.course.whiteTee;
-            break;
-          case 'Gulur':
-            selectedTeeValue = widget.course.yellowTee;
-            break;
-          case 'Blár':
-            selectedTeeValue = widget.course.blueTee;
-            break;
-          case 'Rauður':
-            selectedTeeValue = widget.course.redTee;
-            break;
-          default:
-            selectedTeeValue = -1;
-        }
-
         setState(() {
-          _selectedTee = selectedTeeValue;
+          _selectedTee = tee;
+          _selectedTeeTitle = title;
         });
         _controller.collapse();
         if (widget.onItemSelected != null) {
-          widget.onItemSelected!(selectedTeeValue);
+          widget.onItemSelected!(tee);
         }
       },
       selected: _selectedTee == tee,

@@ -1,7 +1,10 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:score_card/models/hole.dart';
 import 'package:score_card/models/player.dart';
 import 'package:score_card/pages/round_setup_screen.dart';
+import 'package:score_card/pages/scorecard_screen.dart';
 import 'package:score_card/widgets/background_blob.dart';
 import 'package:score_card/widgets/customAppBar.dart';
 
@@ -32,7 +35,12 @@ class HoleDetailPage extends StatelessWidget {
         ),
       );
     } else {
-      print('End of round');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ScoreCardScreen(),
+        ),
+      );
     }
   }
 
@@ -40,7 +48,7 @@ class HoleDetailPage extends StatelessWidget {
     if (currentHoleIndex > 0) {
       Navigator.pop(context);
     } else {
-      Navigator.pop(context); // Pops if no previous hole
+      Navigator.pop(context); // pops if no previous hole
     }
   }
 
@@ -52,11 +60,11 @@ class HoleDetailPage extends StatelessWidget {
       appBar: CustomAppBar(
         title: 'Hola ${currentHole.number}',
         action: IconButton(
-          icon: Icon(Icons.arrow_forward_ios),
+          icon: const Icon(Icons.arrow_forward_ios),
           onPressed: () => _navigateToNextHole(context),
         ),
         leadAction: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () => _navigateToPrevHole(context),
         ),
       ),
@@ -70,12 +78,12 @@ class HoleDetailPage extends StatelessWidget {
             bottom: 0,
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Par: ${currentHole.par}'),
-                    Text('Lengd: ${currentHole.redTee} m'),
+                    Text('Lengd: ${currentHole.yellowTee} m'),
                     const SizedBox(height: 16),
                     if (players.isNotEmpty)
                       Column(
@@ -85,12 +93,18 @@ class HoleDetailPage extends StatelessWidget {
                               children: [
                                 const SizedBox(height: 10),
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    PlayerButton(player: players[i]),
-                                    const SizedBox(width: 100),
+                                    PlayerButton(
+                                      player: players[i],
+                                      onDelete: () {},
+                                      onEdit: () {},
+                                    ),
+                                    const Spacer(),
                                     CustomCounter(
                                       player: players[i],
                                       holeIndex: currentHoleIndex,
+                                      holes: holes,
                                     ),
                                   ],
                                 ),
@@ -103,14 +117,6 @@ class HoleDetailPage extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
-            bottom: 16,
-            right: 16,
-            child: ElevatedButton(
-              onPressed: () => _navigateToNextHole(context),
-              child: Text('Next Hole'),
-            ),
-          ),
         ],
       ),
     );
@@ -120,8 +126,13 @@ class HoleDetailPage extends StatelessWidget {
 class CustomCounter extends StatefulWidget {
   final Player player;
   final int holeIndex;
+  final List<Hole> holes;
 
-  CustomCounter({super.key, required this.player, required this.holeIndex});
+  CustomCounter(
+      {super.key,
+      required this.player,
+      required this.holeIndex,
+      required this.holes});
 
   @override
   State<CustomCounter> createState() => _CustomCounterState();
@@ -133,27 +144,77 @@ class _CustomCounterState extends State<CustomCounter> {
   @override
   void initState() {
     super.initState();
-    strokeCount = widget.player.strokes.length > widget.holeIndex
-        ? widget.player.strokes[widget.holeIndex]
-        : 0;
+    if (widget.player.strokes.length <= widget.holeIndex) {
+      widget.player.strokes.addAll(
+        List<int>.filled(
+          widget.holeIndex - widget.player.strokes.length + 1,
+          widget.holes[widget.holeIndex].par,
+        ),
+      );
+    }
+    strokeCount = widget.player.strokes[widget.holeIndex];
   }
 
   void _updateStrokeCount(int change) {
     setState(() {
       strokeCount += change;
-      if (strokeCount < 0) {
-        strokeCount = 0;
+      if (strokeCount < 1) {
+        strokeCount = 1;
+      } else if (strokeCount > 10) {
+        strokeCount = 10;
       }
 
-      // Update playerS strokes
       if (widget.player.strokes.length > widget.holeIndex) {
         widget.player.strokes[widget.holeIndex] = strokeCount;
       } else {
-        widget.player.strokes.addAll(
-            List.filled(widget.holeIndex - widget.player.strokes.length, 0));
+        widget.player.strokes.addAll(List.filled(
+          widget.holeIndex - widget.player.strokes.length,
+          widget.holes[widget.holeIndex].par,
+        ));
         widget.player.strokes.add(strokeCount);
       }
     });
+  }
+
+  String _displayScoreText() {
+    int score = widget.player.strokes[widget.holeIndex];
+    int par = widget.holes[widget.holeIndex].par - 1;
+    int relativeScore = score - par;
+    String scoreText = '';
+
+    if (widget.holeIndex >= 0 && widget.holeIndex < widget.holes.length) {
+      switch (relativeScore) {
+        case -2:
+          scoreText = 'ALBATROSS';
+          break;
+        case -1:
+          scoreText = 'ÖRN';
+          break;
+        case 0:
+          scoreText = 'FUGL';
+          break;
+        case 1:
+          scoreText = 'PAR';
+          break;
+        case 2:
+          scoreText = 'SKOLLI';
+          break;
+        case 3:
+          scoreText = '2X SKOLLI';
+          break;
+        case 4:
+          scoreText = '3X SKOLLI';
+          break;
+        default:
+          if (relativeScore < -2) {
+            scoreText = 'ÁS';
+          } else {
+            scoreText = 'ANNAÐ';
+          }
+      }
+    }
+
+    return scoreText;
   }
 
   @override
@@ -187,24 +248,35 @@ class _CustomCounterState extends State<CustomCounter> {
                     borderRadius: BorderRadius.circular(3),
                     color: Colors.white,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: SizedBox(
+                    width: 50,
+                    height: 60,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Text(
-                          'PAR',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 10,
+                        SizedBox(
+                          width: double.infinity,
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            _displayScoreText(),
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 8,
+                            ),
                           ),
                         ),
-                        Text(
-                          strokeCount.toString(),
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 27,
-                            fontWeight: FontWeight.bold,
+                        SizedBox(
+                          width: double.infinity,
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            strokeCount.toString(),
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 27,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ],

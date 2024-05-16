@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:score_card/data/course_data_loader.dart';
 import 'package:score_card/models/course.dart';
-import 'package:score_card/widgets/background_blob.dart';
 import 'package:score_card/widgets/course_tile.dart';
 
 class CourseSelectScreen extends StatelessWidget {

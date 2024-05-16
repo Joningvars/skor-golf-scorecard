@@ -7,7 +7,7 @@ class CustomButtonStyles {
   static ButtonStyle get fillPrimary => ElevatedButton.styleFrom(
         backgroundColor: theme.colorScheme.primary,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(22),
+          borderRadius: BorderRadius.circular(1),
         ),
       );
 // Outline button style

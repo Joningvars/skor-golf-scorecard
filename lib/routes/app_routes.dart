@@ -1,9 +1,10 @@
+// ignore_for_file: duplicate_ignore
+
 import 'package:flutter/material.dart';
 import 'package:score_card/pages/course_select_screen.dart';
 import 'package:score_card/pages/my_scores_screen.dart';
-import 'package:score_card/pages/welcome_screen.dart'; // ignore_for_file: must_be_immutable
+import 'package:score_card/pages/welcome_screen.dart';
 
-// ignore_for_file: must_be_immutable
 class AppRoutes {
   static const String myScoresScreen = '/my_scores_screen';
 
