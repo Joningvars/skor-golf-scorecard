@@ -51,11 +51,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 SizedBox(height: safeAreaPadding.top),
                 Center(
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(
-                        width: 300,
-                        height: 250,
+                        width: size.width * 0.7,
+                        height: size.height * 0.2,
                         child: Image.asset(
                           'assets/images/logo_res.png',
                           fit: BoxFit.contain,
@@ -72,6 +72,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           },
                         ),
                       ),
+                      SizedBox(height: size.height * 0.2),
                       WelcomeScreenButton(
                         text: 'Hefja Hring',
                         onPressed: () {
@@ -79,7 +80,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               context, AppRoutes.courseSelectScreen);
                         },
                       ),
-                      SizedBox(height: size.height * 0.03),
+                      SizedBox(height: 15),
                       WelcomeScreenButton(
                         text: 'Mínir Hringir',
                         onPressed: () {
