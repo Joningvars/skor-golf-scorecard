@@ -37,6 +37,8 @@ class _ScorecardScreenState extends State<ScorecardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    int totalLength9 =
+        widget.holes.take(9).fold(0, (prev, hole) => prev + hole.yellowTee);
     return Scaffold(
       appBar: AppBar(
         title: Text('Skorkort'),
@@ -45,105 +47,100 @@ class _ScorecardScreenState extends State<ScorecardScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            _buildHoleNumbers(),
-            _buildHoleLength(),
-            _buildHandicap(),
-            for (var player in widget.players) _buildPlayerRow(player),
+            _buildFront9holes(),
+            _buildFront9Par(),
+            _buildFront9Length(),
+            _buildFront9Handicap(),
+            for (var player in widget.players) _buildPlayerFront9(player),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildHoleNumbers() {
+  Widget _buildFront9holes() {
     return Container(
       color: Colors.grey[300],
       padding: EdgeInsets.all(1.0),
       child: Row(
         children: [
           _buildCell('Hola', flex: 2),
-          for (var holeNumber = 1; holeNumber <= 18; holeNumber++)
+          for (var holeNumber = 1; holeNumber <= 9; holeNumber++)
             _buildCell('$holeNumber', flex: 1),
+          _buildCell('ÚT', flex: 1),
         ],
       ),
     );
   }
 
-  Widget _buildVerticalLayout() {
-    int totalPar9 =
-        widget.holes.take(9).fold(0, (prev, hole) => prev + hole.par);
-
+  Widget _buildFront9Length() {
     int totalLength9 =
         widget.holes.take(9).fold(0, (prev, hole) => prev + hole.yellowTee);
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        _buildVerticalCell('', totalPar9.toString()),
-        _buildVerticalCell('', totalLength9.toString()),
-        for (var player in widget.players)
-          _buildVerticalCell(
-              '${player.initials}',
-              player.strokes
-                  .take(9)
-                  .fold(0, (prev, score) => prev + score)
-                  .toString()),
-      ],
-    );
-  }
-
-  Widget _buildVerticalCell(String title, String value) {
-    return Container(
-      color: Colors.grey[300],
-      padding: EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 8.0),
-          Text(value),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHoleLength() {
     return Container(
       color: Colors.grey[300],
       padding: EdgeInsets.all(1.0),
       child: Row(
         children: [
           _buildCell('Gulur(M)', flex: 2),
-          for (var hole in widget.holes)
-            _buildCell('${hole.yellowTee}', flex: 1),
+          for (var i = 1; i < 9; i++)
+            _buildCell('${widget.holes[i].yellowTee}', flex: 1),
+          _buildCell('${totalLength9}', flex: 1),
         ],
       ),
     );
   }
 
-  Widget _buildHandicap() {
+  Widget _buildFront9Par() {
+    int totalPar9 =
+        widget.holes.take(9).fold(0, (prev, hole) => prev + hole.par);
+    return Container(
+      color: Colors.grey[300],
+      padding: EdgeInsets.all(1.0),
+      child: Row(
+        children: [
+          _buildCell('Par', flex: 2),
+          for (var i = 1; i < 9; i++)
+            _buildCell('${widget.holes[i].par}', flex: 1),
+          _buildCell(totalPar9.toString(), flex: 1),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFront9Handicap() {
     return Container(
       color: Colors.grey[300],
       padding: EdgeInsets.all(1.0),
       child: Row(
         children: [
           _buildCell('Forgjöf', flex: 2),
-          for (var hole in widget.holes)
-            _buildCell('${hole.handicap}', flex: 1),
+          for (var i = 1; i < 9; i++)
+            _buildCell('${widget.holes[i].handicap}', flex: 1),
+          _buildCell('', flex: 1),
         ],
       ),
     );
   }
 
-  Widget _buildPlayerRow(Player player) {
+  Widget _buildPlayerFront9(Player player) {
     int totalScore9 =
         player.strokes.take(9).fold(0, (prev, score) => prev + score);
 
-    int totalPar9 =
-        widget.holes.take(9).fold(0, (prev, hole) => prev + hole.par);
+    return Column(
+      children: [
+        Row(
+          children: [
+            _buildCell(player.initials, flex: 2),
+            for (var score in player.strokes.take(9))
+              _buildCell(score.toString(), flex: 1),
+            _buildCell(totalScore9.toString()),
+          ],
+        ),
+      ],
+    );
+  }
 
-    int totalLength9 =
-        widget.holes.take(9).fold(0, (prev, hole) => prev + hole.yellowTee);
-
+  Widget _buildPlayerBack9(Player player) {
     int totalScore18 = player.strokes.fold(0, (prev, score) => prev + score);
 
     int totalPar18 = widget.holes.fold(0, (prev, hole) => prev + hole.par);
@@ -156,20 +153,9 @@ class _ScorecardScreenState extends State<ScorecardScreen> {
         Row(
           children: [
             _buildCell(player.initials, flex: 2),
-            for (var score in player.strokes.take(9))
+            for (var score in player.strokes.take(-9))
               _buildCell(score.toString(), flex: 1),
-            _buildCell(
-                ' Par: $totalPar9, Lengd: $totalLength9, Högg: $totalScore9',
-                flex: 3),
-          ],
-        ),
-        SizedBox(height: 8),
-        Row(
-          children: [
-            _buildCell('', flex: 2),
-            for (var score in player.strokes.skip(9))
-              _buildCell(score.toString(), flex: 1),
-            _buildCell('$totalPar18 $totalLength18 $totalScore18', flex: 3),
+            _buildCell(totalScore18.toString()),
           ],
         ),
       ],
