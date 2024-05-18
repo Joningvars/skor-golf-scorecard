@@ -4,30 +4,48 @@ import 'package:score_card/data/course_data_loader.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/widgets/course_tile.dart';
 
-class CourseSelectScreen extends StatelessWidget {
-  const CourseSelectScreen({Key? key});
+class CourseSelectScreen extends StatefulWidget {
+  const CourseSelectScreen({Key? key}) : super(key: key);
+
+  @override
+  _CourseSelectScreenState createState() => _CourseSelectScreenState();
+}
+
+class _CourseSelectScreenState extends State<CourseSelectScreen> {
+  late Future<List<GolfCourse>> _coursesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _coursesFuture = getCourseData();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var courses = getCourseData();
-
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Color(0XFF3270A2),
         title: const Text(
-          'Select a Course',
-          style: TextStyle(color: Colors.white),
+          'Velja völl',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: Theme.of(context).primaryColor,
       ),
-      body: Stack(
-        children: [
-          // const BackgroundBlob(),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0),
-            child: CourseCardBuilder(courses: courses),
-          ),
-        ],
+      body: FutureBuilder<List<GolfCourse>>(
+        future: _coursesFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            final courses = snapshot.data!;
+            return Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: CourseCardBuilder(courses: courses),
+            );
+          }
+        },
       ),
     );
   }

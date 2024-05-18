@@ -284,8 +284,8 @@ class PlayerButton extends StatelessWidget {
             height: 60,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: theme.colorScheme.secondary),
+                foregroundColor: Colors.white,
+              ),
               onPressed: onEdit,
               child: Text(
                 '${player.initials}',
@@ -318,8 +318,8 @@ class AddPlayerButton extends StatelessWidget {
         height: 60,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-          ),
+              foregroundColor: Colors.white,
+              backgroundColor: theme.colorScheme.secondary),
           onPressed: () {
             Navigator.push(
               context,

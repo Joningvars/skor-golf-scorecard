@@ -66,8 +66,11 @@ flutter:
     - assets/
     - assets/images/welcome_background.png
     - assets/images/vecctor.png
+    - assets/images/golf_background.jpeg
     - assets/images/vector.png
-    - assets/images/logo.png
+    - assets/images/skor_logo.png
+    - assets/images/logo_res.png
+    - lib/data/dummy.json
 
 
 

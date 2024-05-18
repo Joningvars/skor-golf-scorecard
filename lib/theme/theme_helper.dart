@@ -11,12 +11,10 @@ ThemeData get theme => ThemeHelper().themeData();
 
 // ignore_for_file: must_be_immutable
 class ThemeHelper {
-  // A map of custom color themes
   Map<String, LightCodeColors> _supportedCustomColor = {
     'lightCode': LightCodeColors()
   };
 
-// A map of color schemes
   Map<String, ColorScheme> _supportedColorScheme = {
     'lightCode': ColorSchemes.lightCodeColorScheme
   };
@@ -25,7 +23,6 @@ class ThemeHelper {
     _appTheme = _newTheme;
   }
 
-  /// Returns the lightCode colors for the current theme.
   LightCodeColors _getThemeColors() {
     return _supportedCustomColor[_appTheme] ?? LightCodeColors();
   }
@@ -61,10 +58,8 @@ class ThemeHelper {
     );
   }
 
-  /// Returns the lightCode colors for the current theme.
   LightCodeColors themeColor() => _getThemeColors();
 
-  /// Returns the current theme data.
   ThemeData themeData() => _getThemeData();
 }
 
@@ -140,7 +135,7 @@ class LightCodeColors {
 // LightBlue
   Color get lightBlueA700 => const Color(0XFF009BF3);
 // background white
-  Color get background => const Color(0XFFF6F6E9);
+  Color get background => Color.fromARGB(255, 252, 252, 249);
 // Red
   Color get redA700 => const Color(0XFFFF0C0C);
   Color get redA70001 => const Color(0XFFFF0000);

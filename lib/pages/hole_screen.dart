@@ -38,7 +38,10 @@ class HoleDetailPage extends StatelessWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ScoreCardScreen(),
+          builder: (context) => ScorecardScreen(
+            players: players,
+            holes: holes,
+          ),
         ),
       );
     }
@@ -249,7 +252,7 @@ class _CustomCounterState extends State<CustomCounter> {
                     color: Colors.white,
                   ),
                   child: SizedBox(
-                    width: 50,
+                    width: 52,
                     height: 60,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

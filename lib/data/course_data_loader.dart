@@ -1,26 +1,22 @@
 import 'dart:convert';
-import 'dart:io';
-
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
 
-List<GolfCourse> getCourseData() {
+Future<List<GolfCourse>> getCourseData() async {
   try {
-    // read
-    const fileName =
-        '/Users/joningvarsson/StudioProjects/score_card/lib/data/dummy.json';
-    final file = File(fileName);
-    final jsonString = file.readAsStringSync();
+    // read file
+    final jsonString = await rootBundle.loadString('lib/data/dummy.json');
 
-    // parse
+    // parse JSON
     List<dynamic> courses = jsonDecode(jsonString);
 
     // create course list
     List<GolfCourse> golfCourses = [];
 
-    // get club names
+    // process courses
     for (var course in courses) {
-      // create course
+      // create course object
       final golfCourse = GolfCourse(
         clubName: course['club'] ?? '',
         name: course['course'] ?? '',
@@ -34,6 +30,7 @@ List<GolfCourse> getCourseData() {
         holes: (course['holes'] as List?)
                 ?.map(
                   (holeJson) => Hole(
+                    handicap: holeJson['handicap'] ?? 0,
                     number: holeJson['number'] ?? 0,
                     par: holeJson['par'] ?? 0,
                     whiteTee: holeJson['distance']['white'] ?? 0,
@@ -46,7 +43,7 @@ List<GolfCourse> getCourseData() {
             [],
       );
 
-      // add course
+      // add course to list
       golfCourses.add(golfCourse);
     }
 
@@ -55,7 +52,7 @@ List<GolfCourse> getCourseData() {
   } catch (e) {
     print('Error: $e');
 
-    // in case of error
+    // return empty list in case of error
     return [];
   }
 }

@@ -15,6 +15,7 @@
       {
         "number": 1,
         "par": 5,
+        "handicap": 13,
         "distance": {
           "white": 480,
           "yellow": 450,
@@ -25,6 +26,7 @@
       {
         "number": 2,
         "par": 4,
+        "handicap": 7,
         "distance": {
           "white": 380,
           "yellow": 360,
@@ -35,6 +37,7 @@
       {
         "number": 3,
         "par": 3,
+        "handicap": 17,
         "distance": {
           "white": 180,
           "yellow": 170,
@@ -45,6 +48,7 @@
       {
         "number": 4,
         "par": 4,
+        "handicap": 1,
         "distance": {
           "white": 420,
           "yellow": 400,
@@ -55,6 +59,7 @@
       {
         "number": 5,
         "par": 4,
+        "handicap": 9,
         "distance": {
           "white": 390,
           "yellow": 370,
@@ -65,6 +70,7 @@
       {
         "number": 6,
         "par": 5,
+        "handicap": 15,
         "distance": {
           "white": 520,
           "yellow": 500,
@@ -75,6 +81,7 @@
       {
         "number": 7,
         "par": 3,
+        "handicap": 5,
         "distance": {
           "white": 200,
           "yellow": 190,
@@ -85,6 +92,7 @@
       {
         "number": 8,
         "par": 4,
+        "handicap": 3,
         "distance": {
           "white": 410,
           "yellow": 390,
@@ -95,6 +103,7 @@
       {
         "number": 9,
         "par": 4,
+        "handicap": 11,
         "distance": {
           "white": 370,
           "yellow": 350,
@@ -105,6 +114,7 @@
       {
         "number": 10,
         "par": 4,
+        "handicap": 14,
         "distance": {
           "white": 385,
           "yellow": 365,
@@ -115,6 +125,7 @@
       {
         "number": 11,
         "par": 3,
+        "handicap": 12,
         "distance": {
           "white": 160,
           "yellow": 150,
@@ -125,6 +136,7 @@
       {
         "number": 12,
         "par": 4,
+        "handicap": 2,
         "distance": {
           "white": 420,
           "yellow": 400,
@@ -135,6 +147,7 @@
       {
         "number": 13,
         "par": 5,
+        "handicap": 8,
         "distance": {
           "white": 510,
           "yellow": 490,
@@ -145,6 +158,7 @@
       {
         "number": 14,
         "par": 4,
+        "handicap": 10,
         "distance": {
           "white": 390,
           "yellow": 370,
@@ -155,6 +169,7 @@
       {
         "number": 15,
         "par": 3,
+        "handicap": 18,
         "distance": {
           "white": 190,
           "yellow": 180,
@@ -165,6 +180,7 @@
       {
         "number": 16,
         "par": 4,
+        "handicap": 6,
         "distance": {
           "white": 410,
           "yellow": 390,
@@ -175,6 +191,7 @@
       {
         "number": 17,
         "par": 4,
+        "handicap": 4,
         "distance": {
           "white": 400,
           "yellow": 380,
@@ -185,6 +202,7 @@
       {
         "number": 18,
         "par": 5,
+        "handicap": 16,
         "distance": {
           "white": 540,
           "yellow": 520,
@@ -210,6 +228,7 @@
       {
         "number": 1,
         "par": 5,
+        "handicap": 12,
         "distance": {
           "white": 480,
           "yellow": 430,
@@ -218,174 +237,217 @@
         }
       },
       {
-        "number": 2,
-        "par": 4,
+        "club": "Golfklúbburinn Setberg",
+        "course": "Setbergsvöllur",
+        "location": "Hafnarfjörður, Iceland",
         "distance": {
-          "white": 480,
-          "yellow": 430,
-          "blue": 400,
-          "red": 390
-        }
-      },
-      {
-        "number": 3,
-        "par": 3,
-        "distance": {
-          "white": 480,
-          "yellow": 430,
-          "blue": 400,
-          "red": 390
-        }
-      },
-      {
-        "number": 4,
-        "par": 4,
-        "distance": {
-          "white": 480,
-          "yellow": 430,
-          "blue": 400,
-          "red": 390
-        }
-      },
-      {
-        "number": 5,
-        "par": 4,
-        "distance": {
-          "white": 480,
-          "yellow": 430,
-          "blue": 400,
-          "red": 390
-        }
-      },
-      {
-        "number": 6,
-        "par": 5,
-        "distance": {
-          "white": 480,
-          "yellow": 430,
-          "blue": 400,
-          "red": 390
-        }
-      },
-      {
-        "number": 7,
-        "par": 3,
-        "distance": {
-          "white": 480,
-          "yellow": 430,
-          "blue": 400,
-          "red": 390
-        }
-      },
-      {
-        "number": 8,
-        "par": 4,
-        "distance": {
-          "white": 480,
-          "yellow": 430,
-          "blue": 400,
-          "red": 390
-        }
-      },
-      {
-        "number": 9,
-        "par": 4,
-        "distance": {
-          "white": 480,
-          "yellow": 430,
-          "blue": 400,
-          "red": 390
-        }
-      },
-      {
-        "number": 10,
-        "par": 4,
-        "distance": {
-          "white": 480,
-          "yellow": 430,
-          "blue": 400,
-          "red": 390
-        }
-      },
-      {
-        "number": 11,
-        "par": 3,
-        "distance": {
-          "white": 480,
-          "yellow": 430,
-          "blue": 400,
-          "red": 390
-        }
-      },
-      {
-        "number": 12,
-        "par": 4,
-        "distance": {
-          "white": 480,
-          "yellow": 430,
-          "blue": 400,
-          "red": 390
-        }
-      },
-      {
-        "number": 13,
-        "par": 5,
-        "distance": {
-          "white": 480,
-          "yellow": 430,
-          "blue": 400,
-          "red": 390
-        }
-      },
-      {
-        "number": 14,
-        "par": 4,
-        "distance": {
-          "white": 480,
-          "yellow": 430,
-          "blue": 400,
-          "red": 390
-        }
-      },
-      {
-        "number": 15,
-        "par": 3,
-        "distance": {
-          "white": 480,
-          "yellow": 430,
-          "blue": 400,
-          "red": 390
-        }
-      },
-      {
-        "number": 16,
-        "par": 4,
-        "distance": {
-          "white": 480,
-          "yellow": 430,
-          "blue": 400,
-          "red": 390
-        }
-      },
-      {
-        "number": 17,
-        "par": 4,
-        "distance": {
-          "white": 480,
-          "yellow": 430,
-          "blue": 400,
-          "red": 390
-        }
-      },
-      {
-        "number": 18,
-        "par": 5,
-        "distance": {
-          "white": 480,
-          "yellow": 430,
-          "blue": 400,
-          "red": 390
-        }
+          "white": 5500,
+          "yellow": 5200,
+          "blue": 4550,
+          "red": 4350
+        },
+        "imgUrl": "https://api.blika.is/static/img/golf/Golfkl%C3%BAbburinn%20Keilir.webp",
+        "par": 71,
+        "holes": [
+          {
+            "number": 1,
+            "par": 5,
+            "handicap": 12,
+            "distance": {
+              "white": 480,
+              "yellow": 430,
+              "blue": 400,
+              "red": 390
+            }
+          },
+          {
+            "number": 2,
+            "par": 4,
+            "handicap": 8,
+            "distance": {
+              "white": 380,
+              "yellow": 350,
+              "blue": 320,
+              "red": 300
+            }
+          },
+          {
+            "number": 3,
+            "par": 3,
+            "handicap": 18,
+            "distance": {
+              "white": 180,
+              "yellow": 160,
+              "blue": 140,
+              "red": 130
+            }
+          },
+          {
+            "number": 4,
+            "par": 4,
+            "handicap": 4,
+            "distance": {
+              "white": 420,
+              "yellow": 390,
+              "blue": 360,
+              "red": 330
+            }
+          },
+          {
+            "number": 5,
+            "par": 4,
+            "handicap": 14,
+            "distance": {
+              "white": 390,
+              "yellow": 360,
+              "blue": 330,
+              "red": 300
+            }
+          },
+          {
+            "number": 6,
+            "par": 5,
+            "handicap": 10,
+            "distance": {
+              "white": 520,
+              "yellow": 490,
+              "blue": 460,
+              "red": 430
+            }
+          },
+          {
+            "number": 7,
+            "par": 3,
+            "handicap": 16,
+            "distance": {
+              "white": 200,
+              "yellow": 180,
+              "blue": 160,
+              "red": 150
+            }
+          },
+          {
+            "number": 8,
+            "par": 4,
+            "handicap": 2,
+            "distance": {
+              "white": 410,
+              "yellow": 380,
+              "blue": 350,
+              "red": 320
+            }
+          },
+          {
+            "number": 9,
+            "par": 4,
+            "handicap": 6,
+            "distance": {
+              "white": 370,
+              "yellow": 340,
+              "blue": 310,
+              "red": 280
+            }
+          },
+          {
+            "number": 10,
+            "par": 4,
+            "handicap": 13,
+            "distance": {
+              "white": 385,
+              "yellow": 355,
+              "blue": 325,
+              "red": 295
+            }
+          },
+          {
+            "number": 11,
+            "par": 3,
+            "handicap": 11,
+            "distance": {
+              "white": 160,
+              "yellow": 140,
+              "blue": 120,
+              "red": 110
+            }
+          },
+          {
+            "number": 12,
+            "par": 4,
+            "handicap": 5,
+            "distance": {
+              "white": 420,
+              "yellow": 390,
+              "blue": 360,
+              "red": 330
+            }
+          },
+          {
+            "number": 13,
+            "par": 5,
+            "handicap": 1,
+            "distance": {
+              "white": 510,
+              "yellow": 480,
+              "blue": 450,
+              "red": 420
+            }
+          },
+          {
+            "number": 14,
+            "par": 4,
+            "handicap": 15,
+            "distance": {
+              "white": 390,
+              "yellow": 360,
+              "blue": 330,
+              "red": 300
+            }
+          },
+          {
+            "number": 15,
+            "par": 3,
+            "handicap": 9,
+            "distance": {
+              "white": 190,
+              "yellow": 170,
+              "blue": 150,
+              "red": 130
+            }
+          },
+          {
+            "number": 16,
+            "par": 4,
+            "handicap": 7,
+            "distance": {
+              "white": 410,
+              "yellow": 380,
+              "blue": 350,
+              "red": 320
+            }
+          },
+          {
+            "number": 17,
+            "par": 4,
+            "handicap": 3,
+            "distance": {
+              "white": 400,
+              "yellow": 370,
+              "blue": 340,
+              "red": 310
+            }
+          },
+          {
+            "number": 18,
+            "par": 5,
+            "handicap": 17,
+            "distance": {
+              "white": 540,
+              "yellow": 510,
+              "blue": 480,
+              "red": 450
+            }
+          }
+        ]
       }
     ]
   }

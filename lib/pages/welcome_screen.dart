@@ -1,49 +1,76 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:score_card/routes/app_routes.dart';
 import 'package:score_card/widgets/welcome_button.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   WelcomeScreen({super.key});
 
+  @override
+  _WelcomeScreenState createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
   final String imagePath = 'assets/images/';
 
-  void _courseSelectNav(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.courseSelectScreen);
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _precacheImages();
+  }
+
+  void _precacheImages() {
+    precacheImage(AssetImage('${imagePath}skor_logo.png'), context);
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final safeAreaPadding = MediaQuery.of(context).padding;
+
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('${imagePath}welcome_background.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: SizedBox(
+        width: size.width,
+        height: size.height,
+        child: Stack(
           children: [
-            const Column(
-              children: [
-                SizedBox(),
-              ],
-            ),
-            Stack(children: [
-              Image.asset(
-                '${imagePath}vecctor.png',
+            Positioned.fill(
+              child: Image.asset(
+                '${imagePath}golf_background.jpeg',
                 fit: BoxFit.cover,
-                width: double.infinity,
               ),
-              Positioned(
-                child: Center(
+            ),
+            Positioned.fill(
+              child: Container(
+                color: Colors.black12,
+              ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(height: safeAreaPadding.top),
+                Center(
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Image.asset('assets/images/logo.png'),
-                      const SizedBox(
-                        height: 175,
+                      SizedBox(
+                        width: 300,
+                        height: 250,
+                        child: Image.asset(
+                          'assets/images/logo_res.png',
+                          fit: BoxFit.contain,
+                          frameBuilder: (BuildContext context, Widget child,
+                              int? frame, bool wasSynchronouslyLoaded) {
+                            if (wasSynchronouslyLoaded) {
+                              return child;
+                            }
+                            return AnimatedOpacity(
+                              opacity: frame == null ? 0 : 1,
+                              duration: const Duration(seconds: 1),
+                              child: child,
+                            );
+                          },
+                        ),
                       ),
                       WelcomeScreenButton(
                         text: 'Hefja Hring',
@@ -52,9 +79,7 @@ class WelcomeScreen extends StatelessWidget {
                               context, AppRoutes.courseSelectScreen);
                         },
                       ),
-                      const SizedBox(
-                        height: 25,
-                      ),
+                      SizedBox(height: size.height * 0.03),
                       WelcomeScreenButton(
                         text: 'Mínir Hringir',
                         onPressed: () {
@@ -65,8 +90,9 @@ class WelcomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
-            ]),
+                SizedBox(height: safeAreaPadding.bottom),
+              ],
+            ),
           ],
         ),
       ),
