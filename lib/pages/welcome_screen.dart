@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:score_card/routes/app_routes.dart';
+import 'package:score_card/theme/theme_helper.dart';
 import 'package:score_card/widgets/welcome_button.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -57,7 +58,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         width: size.width * 0.7,
                         height: size.height * 0.2,
                         child: Image.asset(
-                          'assets/images/logo_res.png',
+                          'assets/images/logo-res.png',
                           fit: BoxFit.contain,
                           frameBuilder: (BuildContext context, Widget child,
                               int? frame, bool wasSynchronouslyLoaded) {
@@ -74,6 +75,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       ),
                       SizedBox(height: size.height * 0.2),
                       WelcomeScreenButton(
+                        textColor: Colors.white,
+                        color: theme.colorScheme.primary,
                         text: 'Hefja Hring',
                         onPressed: () {
                           Navigator.pushNamed(
@@ -82,6 +85,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       ),
                       SizedBox(height: 15),
                       WelcomeScreenButton(
+                        textColor: Colors.black,
+                        color: Color.fromARGB(150, 233, 233, 233),
                         text: 'Mínir Hringir',
                         onPressed: () {
                           Navigator.pushNamed(

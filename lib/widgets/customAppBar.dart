@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final String title;
+  final String? title;
   final VoidCallback? onPressed;
   final Widget? action;
   final Widget? leadAction;
@@ -21,10 +21,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       foregroundColor: Color(0XFF3270A2),
-      title: Text(
-        title,
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-      ),
+      title: SizedBox(
+          height: 150,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Image.asset('assets/images/skor_logo.png'),
+          )),
       backgroundColor: Theme.of(context).primaryColor,
       actions: action != null ? [action!] : null,
       leading: leadAction != null ? leadAction : null,

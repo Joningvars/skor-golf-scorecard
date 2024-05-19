@@ -319,8 +319,8 @@ class AddPlayerButton extends StatelessWidget {
         height: 60,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white,
-              backgroundColor: theme.colorScheme.secondary),
+            foregroundColor: Colors.white,
+          ),
           onPressed: () {
             Navigator.push(
               context,

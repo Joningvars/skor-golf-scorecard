@@ -248,7 +248,7 @@ class ScorecardScreen extends StatelessWidget {
 
     return SizedBox(
       width: width,
-      height: isPlayerTile ? 40 : 40,
+      height: isPlayerTile ? 38 : 38,
       child: Container(
         decoration: BoxDecoration(
             border: Border.all(color: Colors.black, width: 0.05),

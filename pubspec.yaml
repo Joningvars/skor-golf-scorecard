@@ -38,6 +38,14 @@ dependencies:
   transparent_image: ^2.0.1
   google_fonts: ^6.2.1
   shared_preferences: ^2.2.3
+  flutter_native_splash: ^2.4.0
+
+flutter_native_splash:
+  color: "#13334c"
+  image: assets/images/splash_screen.png
+  android: true
+  ios: true
+  fullscreen: true
 
 dev_dependencies:
   flutter_test:
@@ -69,7 +77,8 @@ flutter:
     - assets/images/golf_background.jpeg
     - assets/images/vector.png
     - assets/images/skor_logo.png
-    - assets/images/logo_res.png
+    - assets/images/logo-res.png
+    - assets/images/splash_screen.png
     - lib/data/dummy.json
 
 

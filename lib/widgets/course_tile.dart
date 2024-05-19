@@ -34,13 +34,13 @@ class CourseTile extends StatelessWidget {
           ),
           const Positioned(
             bottom: 0,
-            top: 120,
+            top: 150,
             right: 0,
             left: 00,
             child: CardHighlight(),
           ),
           Positioned(
-            top: 130,
+            top: 160,
             bottom: 10,
             right: 10,
             left: 250,
@@ -50,7 +50,7 @@ class CourseTile extends StatelessWidget {
           ),
           // Tee lengths
           Positioned(
-            top: 130,
+            top: 160,
             bottom: 10,
             right: 10,
             left: 10,
@@ -131,7 +131,7 @@ class TeeLength extends StatelessWidget {
         Icon(
           Icons.sports_golf_rounded,
           color: color,
-          size: 18,
+          size: 20,
         ),
         Text(
           '${tee}m',
@@ -156,7 +156,7 @@ class CardBackgroundImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 170,
+      height: 200,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(13),
       ),
@@ -241,7 +241,7 @@ class CardShader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 170,
+      height: 200,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(13),
           color: const Color.fromARGB(26, 0, 0, 0)),

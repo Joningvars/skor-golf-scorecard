@@ -25,10 +25,12 @@ class _CourseSelectScreenState extends State<CourseSelectScreen> {
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Color(0XFF3270A2),
-        title: const Text(
-          'Velja völl',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
+        title: SizedBox(
+            height: 150,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: Image.asset('assets/images/skor_logo.png'),
+            )),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: FutureBuilder<List<GolfCourse>>(
