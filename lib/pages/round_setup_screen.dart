@@ -91,6 +91,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
         context,
         MaterialPageRoute(
           builder: (context) => HoleDetailPage(
+            course: widget.course,
             holes: widget.course.holes,
             currentHoleIndex: 0,
             players: players,

@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
 import 'package:score_card/models/player.dart';
 import 'package:score_card/pages/round_setup_screen.dart';
@@ -13,9 +14,11 @@ class HoleDetailPage extends StatelessWidget {
   final int selectedTee;
   final List<Player> players;
   int currentHoleIndex;
+  final GolfCourse course;
 
   HoleDetailPage({
     required this.holes,
+    required this.course,
     required this.selectedTee,
     required this.players,
     this.currentHoleIndex = 0,
@@ -27,6 +30,7 @@ class HoleDetailPage extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (context) => HoleDetailPage(
+            course: course,
             holes: holes,
             selectedTee: selectedTee,
             players: players,
@@ -39,6 +43,7 @@ class HoleDetailPage extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (context) => ScorecardScreen(
+            course: course,
             players: players,
             holes: holes,
           ),
