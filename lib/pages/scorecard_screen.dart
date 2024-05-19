@@ -139,21 +139,20 @@ class ScorecardScreen extends StatelessWidget {
   }
 
   Widget _buildBack9Length() {
-    int totalLength9 =
-        holes.skip(9).fold(0, (prev, hole) => prev + hole.yellowTee);
+    int totalLength18 = holes.fold(0, (prev, hole) => prev + hole.yellowTee);
     return Container(
       child: Row(
         children: [
           for (var i = 9; i < 18; i++)
             _buildCell('${holes[i].yellowTee}', width: 50, isPlayerTile: false),
-          _buildCell('${totalLength9}', width: 50, isPlayerTile: false),
+          _buildCell(totalLength18.toString(), width: 50, isPlayerTile: false),
         ],
       ),
     );
   }
 
   Widget _buildBack9Par() {
-    int totalPar9 = holes.skip(9).fold(0, (prev, hole) => prev + hole.par);
+    int totalPar9 = holes.fold(0, (prev, hole) => prev + hole.par);
     return Container(
       child: Row(
         children: [
