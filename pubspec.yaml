@@ -39,6 +39,7 @@ dependencies:
   google_fonts: ^6.2.1
   shared_preferences: ^2.2.3
   flutter_native_splash: ^2.4.0
+  intl: ^0.19.0
 
 flutter_native_splash:
   color: "#13334c"
@@ -78,6 +79,7 @@ flutter:
     - assets/images/vector.png
     - assets/images/skor_logo.png
     - assets/images/logo-res.png
+    - assets/images/1hola.png
     - assets/images/splash_screen.png
     - lib/data/dummy.json
 

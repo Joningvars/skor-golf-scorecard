@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
 import 'package:score_card/models/player.dart';
@@ -9,30 +10,77 @@ class ScorecardScreen extends StatelessWidget {
   final List<Hole> holes;
   final GolfCourse course;
 
+//   Color.fromARGB(255, 33, 109, 168)
+// Colors.grey.shade300
+// Colors.grey
+
   ScorecardScreen(
       {required this.players, required this.holes, required this.course});
 
   @override
   Widget build(BuildContext context) {
+    Orientation currentOrientation = MediaQuery.of(context).orientation;
+
+    var now = DateTime.now();
+    var formatter = DateFormat('yyyy-MM-dd');
+    String formattedDate = formatter.format(now);
+
     return Scaffold(
       backgroundColor: theme.primaryColor,
       appBar: AppBar(
         backgroundColor: theme.primaryColor,
-        title: Row(
-          children: [
-            Column(
-              children: [
-                // Text('${course.clubName}(${course.name})',
-                //     style: TextStyle(color: Colors.white, fontSize: 12)),
-              ],
-            ),
-            SizedBox(
-                height: 200,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: Image.asset('assets/images/skor_logo.png'),
-                )),
-          ],
+        title: Container(
+          height: 50,
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (currentOrientation == Orientation.landscape)
+                      Text(
+                        formattedDate,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 12),
+                      ),
+                    Text('${course.clubName}(${course.name})',
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 15)),
+                    Row(
+                      children: [
+                        const Text('ÖRN',
+                            style:
+                                TextStyle(color: Colors.green, fontSize: 10)),
+                        const SizedBox(width: 5),
+                        const Text('FUGL',
+                            style: const TextStyle(
+                                color: Colors.red, fontSize: 10)),
+                        const SizedBox(width: 5),
+                        const Text('PAR',
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 33, 109, 168),
+                                fontSize: 10)),
+                        const SizedBox(width: 5),
+                        Text('SKOLLI',
+                            style: TextStyle(
+                                color: Colors.grey.shade300, fontSize: 10)),
+                        const SizedBox(width: 5),
+                        const Text('2x SKOLLI',
+                            style: TextStyle(color: Colors.grey, fontSize: 10)),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                  height: 150,
+                  width: 120,
+                  child: Image.asset(
+                    'assets/images/skor_logo.png',
+                    fit: BoxFit.cover,
+                  )),
+            ],
+          ),
         ),
       ),
       body: SafeArea(
@@ -209,6 +257,8 @@ class ScorecardScreen extends StatelessWidget {
 
   Widget _buildPlayerBack9(Player player) {
     List<int> back9Scores = player.strokes.skip(9).toList();
+    int totalScore = player.strokes.reduce((sum, score) => sum + score);
+
     int totalScore9 = back9Scores.fold(0, (prev, score) => prev + score);
 
     List<int> back9Pars = holes.skip(9).map((hole) => hole.par).toList();
@@ -225,7 +275,7 @@ class ScorecardScreen extends StatelessWidget {
               par: back9Pars[i],
             ),
           _buildCell(
-            totalScore9.toString(),
+            totalScore.toString(),
             width: 50,
             isPlayerTile: true,
             fontSize: 30,
@@ -235,15 +285,35 @@ class ScorecardScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCell(String text,
-      {double width = 50,
-      bool isPlayerTile = false,
-      double fontSize = 14,
-      int? score,
-      int? par,
-      Color tileColor = const Color(0XFF195482)}) {
+  Widget _buildCell(
+    String text, {
+    double width = 50,
+    bool isPlayerTile = false,
+    double fontSize = 14,
+    int? score,
+    int? par,
+    Color tileColor = const Color(0XFF195482),
+  }) {
+    Color _calculateColor(int score, int par) {
+      if (score == par - 2) {
+        return Colors.green;
+      } else if (score == par - 1) {
+        return Colors.red;
+      } else if (score == par) {
+        return const Color.fromARGB(255, 33, 109, 168);
+      } else if (score == par + 1) {
+        return Colors.grey.shade300;
+      } else {
+        return Colors.grey;
+      }
+    }
+
+    Color textColor = Colors.white;
+
     if (isPlayerTile && score != null && par != null) {
       tileColor = _calculateColor(score, par);
+
+      textColor = Colors.black;
     }
 
     return SizedBox(
@@ -251,13 +321,14 @@ class ScorecardScreen extends StatelessWidget {
       height: isPlayerTile ? 38 : 38,
       child: Container(
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.black, width: 0.05),
-            color: tileColor),
+          border: Border.all(color: Colors.black, width: 0.05),
+          color: tileColor,
+        ),
         alignment: Alignment.center,
         child: Text(
           text,
           style: TextStyle(
-            color: isPlayerTile ? Colors.black : Colors.white,
+            color: textColor,
             fontWeight: FontWeight.bold,
             fontSize: fontSize,
             overflow: TextOverflow.ellipsis,
@@ -265,19 +336,5 @@ class ScorecardScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Color _calculateColor(int score, int par) {
-    if (score == par - 2) {
-      return Colors.green;
-    } else if (score == par - 1) {
-      return Colors.red;
-    } else if (score == par) {
-      return const Color.fromARGB(255, 33, 109, 168);
-    } else if (score == par + 1) {
-      return Colors.grey.shade100;
-    } else {
-      return Colors.grey;
-    }
   }
 }

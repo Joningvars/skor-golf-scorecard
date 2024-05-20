@@ -106,106 +106,121 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(title: 'Velja teig'),
-      body: Stack(
-        children: [
-          const BackgroundBlob(),
-          Positioned.fill(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    CustomTeeButton(
-                      text: '${widget.course.whiteTee.toString()} m',
-                      color: Colors.white,
-                      onPressed: () {
-                        _navigateToHoleDetailPage(widget.course.whiteTee);
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    CustomTeeButton(
-                      text: '${widget.course.yellowTee.toString()} m',
-                      color: Colors.yellow,
-                      onPressed: () {
-                        _navigateToHoleDetailPage(widget.course.yellowTee);
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    CustomTeeButton(
-                      text: '${widget.course.blueTee.toString()} m',
-                      color: Colors.blue,
-                      onPressed: () {
-                        _navigateToHoleDetailPage(widget.course.blueTee);
-                      },
-                    ),
-                    const SizedBox(height: 10),
-                    CustomTeeButton(
-                      text: '${widget.course.redTee.toString()} m',
-                      color: Colors.red,
-                      onPressed: () {
-                        _navigateToHoleDetailPage(widget.course.redTee);
-                      },
-                    ),
-                    const SizedBox(height: 100),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Text(
-                        'Golfarar',
-                        style: TextStyle(color: Colors.white, fontSize: 30),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+                theme.colorScheme.secondary,
+                theme.primaryColor,
+                theme.primaryColor,
+              ]),
+        ),
+        child: Stack(
+          children: [
+            // const BackgroundBlob(),
+            Positioned.fill(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CustomTeeButton(
+                        text: '${widget.course.whiteTee.toString()} m',
+                        color: Colors.white,
+                        onPressed: () {
+                          _navigateToHoleDetailPage(widget.course.whiteTee);
+                        },
                       ),
-                    ),
-                    const SizedBox(height: 20),
+                      const SizedBox(height: 10),
+                      CustomTeeButton(
+                        text: '${widget.course.yellowTee.toString()} m',
+                        color: Colors.yellow,
+                        onPressed: () {
+                          _navigateToHoleDetailPage(widget.course.yellowTee);
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      CustomTeeButton(
+                        text: '${widget.course.blueTee.toString()} m',
+                        color: Colors.blue,
+                        onPressed: () {
+                          _navigateToHoleDetailPage(widget.course.blueTee);
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      CustomTeeButton(
+                        text: '${widget.course.redTee.toString()} m',
+                        color: Colors.red,
+                        onPressed: () {
+                          _navigateToHoleDetailPage(widget.course.redTee);
+                        },
+                      ),
+                      const SizedBox(height: 150),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Text(
+                          'Golfarar',
+                          style: TextStyle(color: Colors.white, fontSize: 25),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
 
-                    // Render buttons for each player
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        for (int i = 0; i < 4; i++)
-                          if (i < players.length)
-                            PlayerButton(
-                              player: players[i],
-                              onDelete: () {
-                                _deletePlayer(players[i]);
-                              },
-                              onEdit: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => AddPlayerScreen(
-                                      course: widget.course,
-                                      onAddPlayer: (firstName, lastName, tee) {
-                                        setState(() {
-                                          players[i] = Player(
-                                            firstName: firstName,
-                                            lastName: lastName,
-                                            strokes: players[i].strokes,
-                                            selectedTee: players[i].selectedTee,
-                                          );
-                                          _savePlayers();
-                                        });
-                                      },
-                                      initialPlayer: players[i],
-                                      onDeletePlayer: () =>
-                                          _deletePlayer(players[i]),
+                      // Render buttons for each player
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          for (int i = 0; i < 4; i++)
+                            if (i < players.length)
+                              PlayerButton(
+                                player: players[i],
+                                onDelete: () {
+                                  _deletePlayer(players[i]);
+                                },
+                                onEdit: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AddPlayerScreen(
+                                        course: widget.course,
+                                        onAddPlayer:
+                                            (firstName, lastName, tee) {
+                                          setState(() {
+                                            players[i] = Player(
+                                              firstName: firstName,
+                                              lastName: lastName,
+                                              strokes: players[i].strokes,
+                                              selectedTee:
+                                                  players[i].selectedTee,
+                                            );
+                                            _savePlayers();
+                                          });
+                                        },
+                                        initialPlayer: players[i],
+                                        onDeletePlayer: () =>
+                                            _deletePlayer(players[i]),
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                            )
-                          else
-                            AddPlayerButton(
-                              course: widget.course,
-                              onAddPlayer: _addPlayer,
-                            ),
-                      ],
-                    ),
-                  ],
+                                  );
+                                },
+                              )
+                            else
+                              AddPlayerButton(
+                                course: widget.course,
+                                onAddPlayer: _addPlayer,
+                              ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -225,37 +240,31 @@ class CustomTeeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Ink(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Theme.of(context).colorScheme.primary,
-      ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(10),
-        onTap: onPressed,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          width: 300,
-          height: 80,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.sports_golf_rounded,
-                size: 60,
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+          elevation: 3, backgroundColor: theme.colorScheme.secondary),
+      onPressed: onPressed,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        height: 70,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.sports_golf_rounded,
+              size: 60,
+              color: color,
+            ),
+            const SizedBox(width: 20),
+            Text(
+              '$text',
+              style: TextStyle(
                 color: color,
+                fontSize: 35,
+                fontWeight: FontWeight.bold,
               ),
-              const SizedBox(width: 20),
-              Text(
-                '$text',
-                style: TextStyle(
-                  color: color,
-                  fontSize: 35,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -281,8 +290,8 @@ class PlayerButton extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            width: 60,
-            height: 60,
+            width: 65,
+            height: 65,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,

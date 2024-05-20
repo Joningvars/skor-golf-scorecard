@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
@@ -7,7 +5,6 @@ import 'package:score_card/models/player.dart';
 import 'package:score_card/pages/round_setup_screen.dart';
 import 'package:score_card/pages/scorecard_screen.dart';
 import 'package:score_card/theme/theme_helper.dart';
-import 'package:score_card/widgets/background_blob.dart';
 import 'package:score_card/widgets/customAppBar.dart';
 
 class HoleDetailPage extends StatelessWidget {
@@ -61,72 +58,175 @@ class HoleDetailPage extends StatelessWidget {
     }
   }
 
+  void _onItemTapped(int index, BuildContext context) {
+    if (index == 0) {
+      _navigateToPrevHole(context);
+    } else if (index == 1) {
+      _navigateToNextHole(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Hole currentHole = holes[currentHoleIndex];
 
     return Scaffold(
+      backgroundColor: theme.primaryColor,
       appBar: CustomAppBar(
-        title: 'Hola ${currentHole.number}',
+        title: '',
         action: IconButton(
-          icon: const Icon(Icons.arrow_forward_ios),
+          icon: const Icon(
+            Icons.arrow_forward_ios,
+            color: Color(0XFF3270A2),
+          ),
           onPressed: () => _navigateToNextHole(context),
         ),
         leadAction: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Color(0XFF3270A2),
+          ),
           onPressed: () => _navigateToPrevHole(context),
         ),
       ),
-      body: Stack(
-        children: [
-          const BackgroundBlob(),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+                theme.colorScheme.secondary,
+                theme.primaryColor,
+                theme.primaryColor,
+              ]),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    ' ${currentHole.number}',
+                    style: const TextStyle(
+                      fontSize: 100,
+                      color: Color.fromARGB(255, 198, 208, 219),
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        Shadow(
+                          offset: Offset(3.0, 2.0),
+                          blurRadius: 5.0,
+                          color: Color.fromARGB(82, 7, 19, 29),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Column(
+                    children: [
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Icon(
+                        Icons.golf_course,
+                        size: 50,
+                        color: Color.fromARGB(255, 31, 95, 147),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SizedBox(height: 30),
+                      Text(
+                        'Par ${currentHole.par}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Color.fromARGB(255, 198, 208, 219),
+                          shadows: [
+                            Shadow(
+                              offset: Offset(3.0, 2.0),
+                              blurRadius: 3.0,
+                              color: Color.fromARGB(82, 7, 19, 29),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        '${currentHole.yellowTee} m',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                          color: Color.fromARGB(255, 198, 208, 219),
+                          shadows: [
+                            Shadow(
+                              offset: Offset(3.0, 2.0),
+                              blurRadius: 5.0,
+                              color: Color.fromARGB(82, 7, 19, 29),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        'FGJ ${currentHole.handicap}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10,
+                          color: Colors.grey,
+                          shadows: [
+                            Shadow(
+                              offset: Offset(3.0, 2.0),
+                              blurRadius: 5.0,
+                              color: Color.fromARGB(82, 15, 39, 58),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 120),
+
+              //setja mynd herna
+              Divider(
+                color: theme.colorScheme.secondary.withOpacity(0.3),
+                thickness: 2,
+              ),
+
+              if (players.isNotEmpty)
+                Column(
                   children: [
-                    Text('Par: ${currentHole.par}'),
-                    Text('Lengd: ${currentHole.yellowTee} m'),
-                    const SizedBox(height: 16),
-                    if (players.isNotEmpty)
+                    for (int i = 0; i < players.length; i++)
                       Column(
                         children: [
-                          for (int i = 0; i < players.length; i++)
-                            Column(
-                              children: [
-                                const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    PlayerButton(
-                                      player: players[i],
-                                      onDelete: () {},
-                                      onEdit: () {},
-                                    ),
-                                    const Spacer(),
-                                    CustomCounter(
-                                      player: players[i],
-                                      holeIndex: currentHoleIndex,
-                                      holes: holes,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              PlayerButton(
+                                player: players[i],
+                                onDelete: () {},
+                                onEdit: () {},
+                              ),
+                              Spacer(),
+                              CustomCounter(
+                                player: players[i],
+                                holeIndex: currentHoleIndex,
+                                holes: holes,
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                   ],
                 ),
-              ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -137,11 +237,12 @@ class CustomCounter extends StatefulWidget {
   final int holeIndex;
   final List<Hole> holes;
 
-  CustomCounter(
-      {super.key,
-      required this.player,
-      required this.holeIndex,
-      required this.holes});
+  CustomCounter({
+    Key? key,
+    required this.player,
+    required this.holeIndex,
+    required this.holes,
+  }) : super(key: key);
 
   @override
   State<CustomCounter> createState() => _CustomCounterState();
@@ -149,6 +250,7 @@ class CustomCounter extends StatefulWidget {
 
 class _CustomCounterState extends State<CustomCounter> {
   late int strokeCount;
+  bool scoreDocumented = false;
 
   @override
   void initState() {
@@ -157,7 +259,7 @@ class _CustomCounterState extends State<CustomCounter> {
       widget.player.strokes.addAll(
         List<int>.filled(
           widget.holeIndex - widget.player.strokes.length + 1,
-          widget.holes[widget.holeIndex].par,
+          0,
         ),
       );
     }
@@ -226,6 +328,14 @@ class _CustomCounterState extends State<CustomCounter> {
     return scoreText;
   }
 
+  void _documentScore() {
+    setState(() {
+      scoreDocumented = true;
+      strokeCount = widget.holes[widget.holeIndex].par;
+      widget.player.strokes[widget.holeIndex] = strokeCount;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -233,23 +343,26 @@ class _CustomCounterState extends State<CustomCounter> {
       child: Container(
         padding: const EdgeInsets.all(3),
         decoration: BoxDecoration(
+          border:
+              Border.all(color: theme.colorScheme.secondary.withOpacity(0.7)),
           borderRadius: BorderRadius.circular(8),
-          color: Theme.of(context).colorScheme.primary,
+          color: const Color(0XFF3270A2),
         ),
         child: Stack(
           children: [
             Row(
               children: [
-                InkWell(
-                  onTap: () {
-                    _updateStrokeCount(-1);
-                  },
-                  child: const Icon(
-                    Icons.remove,
-                    color: Colors.white,
-                    size: 35,
+                if (scoreDocumented)
+                  InkWell(
+                    onTap: () {
+                      _updateStrokeCount(-1);
+                    },
+                    child: const Icon(
+                      Icons.remove,
+                      color: Colors.white,
+                      size: 35,
+                    ),
                   ),
-                ),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 3),
                   padding: const EdgeInsets.symmetric(horizontal: 3),
@@ -258,7 +371,7 @@ class _CustomCounterState extends State<CustomCounter> {
                     color: Colors.white,
                   ),
                   child: SizedBox(
-                    width: 52,
+                    width: 60,
                     height: 60,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -292,16 +405,26 @@ class _CustomCounterState extends State<CustomCounter> {
                     ),
                   ),
                 ),
-                InkWell(
-                  onTap: () {
-                    _updateStrokeCount(1);
-                  },
-                  child: const Icon(
-                    Icons.add,
-                    color: Colors.white,
-                    size: 35,
+                if (scoreDocumented)
+                  InkWell(
+                    onTap: () {
+                      _updateStrokeCount(1);
+                    },
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 35,
+                    ),
                   ),
-                ),
+                if (!scoreDocumented)
+                  InkWell(
+                    onTap: _documentScore,
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                      size: 35,
+                    ),
+                  ),
               ],
             ),
             const SizedBox(height: 3),
