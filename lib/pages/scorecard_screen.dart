@@ -29,6 +29,7 @@ class ScorecardScreen extends StatelessWidget {
       backgroundColor: theme.primaryColor,
       appBar: AppBar(
         backgroundColor: theme.primaryColor,
+        foregroundColor: Colors.white,
         title: Container(
           height: 50,
           child: Row(
@@ -83,34 +84,46 @@ class ScorecardScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // FRONT 9
-                  _buildFront9holes(),
-                  _buildFront9Par(),
-                  _buildFront9Length(),
-                  _buildFront9Handicap(),
-                  for (var player in players) _buildPlayerFront9(player),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // BACK 9
-                  _buildBack9Holes(),
-                  _buildBack9Par(),
-                  _buildBack9Length(),
-                  _buildBack9Handicap(),
-                  for (var player in players) _buildPlayerBack9(player),
-                ],
-              ),
-            ],
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [
+                theme.colorScheme.secondary,
+                theme.primaryColor,
+                theme.primaryColor,
+              ]),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // FRONT 9
+                    _buildFront9holes(),
+                    _buildFront9Par(),
+                    _buildFront9Length(),
+                    _buildFront9Handicap(),
+                    for (var player in players) _buildPlayerFront9(player),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // BACK 9
+                    _buildBack9Holes(),
+                    _buildBack9Par(),
+                    _buildBack9Length(),
+                    _buildBack9Handicap(),
+                    for (var player in players) _buildPlayerBack9(player),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

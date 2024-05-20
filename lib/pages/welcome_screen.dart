@@ -49,13 +49,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(height: safeAreaPadding.top),
+                SizedBox(height: safeAreaPadding.top * 5),
                 Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(
-                        width: size.width * 0.7,
+                        width: size.width,
                         height: size.height * 0.2,
                         child: Image.asset(
                           'assets/images/logo-res.png',

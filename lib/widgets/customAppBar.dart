@@ -20,12 +20,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      foregroundColor: Color(0XFF3270A2),
+      foregroundColor: Colors.white,
       title: SizedBox(
           height: 150,
           child: Padding(
             padding: const EdgeInsets.only(top: 10.0),
-            child: Image.asset('assets/images/skor_logo.png'),
+            child: Image.asset(
+              'assets/images/skor_logo.png',
+            ),
           )),
       backgroundColor: Theme.of(context).primaryColor,
       actions: action != null ? [action!] : null,

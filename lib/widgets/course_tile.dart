@@ -158,10 +158,10 @@ class CardBackgroundImage extends StatelessWidget {
     return Container(
       height: 200,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(13),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(13),
+        borderRadius: BorderRadius.circular(12),
         child: FadeInImage.memoryNetwork(
           placeholder: kTransparentImage,
           image: imageUrl,

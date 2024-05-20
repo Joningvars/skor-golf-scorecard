@@ -69,6 +69,7 @@ class HoleDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Hole currentHole = holes[currentHoleIndex];
+    final theme = Theme.of(context);
 
     return Scaffold(
       backgroundColor: theme.primaryColor,
@@ -77,14 +78,12 @@ class HoleDetailPage extends StatelessWidget {
         action: IconButton(
           icon: const Icon(
             Icons.arrow_forward_ios,
-            color: Color(0XFF3270A2),
           ),
           onPressed: () => _navigateToNextHole(context),
         ),
         leadAction: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios,
-            color: Color(0XFF3270A2),
           ),
           onPressed: () => _navigateToPrevHole(context),
         ),
@@ -92,142 +91,145 @@ class HoleDetailPage extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              colors: [
-                theme.colorScheme.secondary,
-                theme.primaryColor,
-                theme.primaryColor,
-              ]),
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              theme.colorScheme.secondary,
+              theme.primaryColor,
+              theme.primaryColor,
+            ],
+          ),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    ' ${currentHole.number}',
-                    style: const TextStyle(
-                      fontSize: 100,
-                      color: Color.fromARGB(255, 198, 208, 219),
-                      fontWeight: FontWeight.bold,
-                      shadows: [
-                        Shadow(
-                          offset: Offset(3.0, 2.0),
-                          blurRadius: 5.0,
-                          color: Color.fromARGB(82, 7, 19, 29),
-                        ),
-                      ],
-                    ),
+          child: OrientationBuilder(
+            builder: (context, orientation) {
+              return orientation == Orientation.landscape
+                  ? SingleChildScrollView(
+                      child: _buildContent(currentHole, theme),
+                    )
+                  : _buildContent(currentHole, theme);
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildContent(Hole currentHole, ThemeData theme) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            const SizedBox(
+              width: 40,
+              child: Icon(
+                Icons.golf_course_rounded,
+                color: Color.fromARGB(82, 7, 19, 29),
+                size: 90,
+              ),
+            ),
+            Text(
+              ' ${currentHole.number}',
+              style: const TextStyle(
+                fontSize: 146,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                shadows: [
+                  Shadow(
+                    offset: Offset(5.0, 5.0),
+                    blurRadius: 5.0,
+                    color: Color.fromARGB(82, 7, 19, 29),
                   ),
-                  const Column(
-                    children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Icon(
-                        Icons.golf_course,
-                        size: 50,
-                        color: Color.fromARGB(255, 31, 95, 147),
+                ],
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Par ${currentHole.par}',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                    color: Color.fromARGB(255, 211, 221, 232),
+                    shadows: [
+                      Shadow(
+                        offset: Offset(3.0, 2.0),
+                        blurRadius: 3.0,
+                        color: Color.fromARGB(82, 7, 19, 29),
                       ),
                     ],
                   ),
-                  const Spacer(),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                ),
+                Text(
+                  '${currentHole.yellowTee} m',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                    color: Color(0XFF3270A2),
+                    shadows: [
+                      Shadow(
+                        offset: Offset(3.0, 2.0),
+                        blurRadius: 5.0,
+                        color: Color.fromARGB(82, 7, 19, 29),
+                      ),
+                    ],
+                  ),
+                ),
+                Text(
+                  'FGJ ${currentHole.handicap}',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.grey,
+                    shadows: [
+                      Shadow(
+                        offset: Offset(3.0, 2.0),
+                        blurRadius: 5.0,
+                        color: Color.fromARGB(82, 15, 39, 58),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const SizedBox(height: 100),
+        const Divider(
+          color: Color.fromARGB(82, 15, 39, 58),
+          thickness: 4,
+        ),
+        if (players.isNotEmpty)
+          Column(
+            children: players.map((player) {
+              return Column(
+                children: [
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(height: 30),
-                      Text(
-                        'Par ${currentHole.par}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Color.fromARGB(255, 198, 208, 219),
-                          shadows: [
-                            Shadow(
-                              offset: Offset(3.0, 2.0),
-                              blurRadius: 3.0,
-                              color: Color.fromARGB(82, 7, 19, 29),
-                            ),
-                          ],
-                        ),
+                      PlayerButton(
+                        player: player,
+                        onDelete: () {},
+                        onEdit: () {},
                       ),
-                      Text(
-                        '${currentHole.yellowTee} m',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                          color: Color.fromARGB(255, 198, 208, 219),
-                          shadows: [
-                            Shadow(
-                              offset: Offset(3.0, 2.0),
-                              blurRadius: 5.0,
-                              color: Color.fromARGB(82, 7, 19, 29),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        'FGJ ${currentHole.handicap}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 10,
-                          color: Colors.grey,
-                          shadows: [
-                            Shadow(
-                              offset: Offset(3.0, 2.0),
-                              blurRadius: 5.0,
-                              color: Color.fromARGB(82, 15, 39, 58),
-                            ),
-                          ],
-                        ),
+                      const Spacer(),
+                      CustomCounter(
+                        player: player,
+                        holeIndex: currentHoleIndex,
+                        holes: holes,
                       ),
                     ],
                   ),
                 ],
-              ),
-              SizedBox(height: 120),
-
-              //setja mynd herna
-              Divider(
-                color: theme.colorScheme.secondary.withOpacity(0.3),
-                thickness: 2,
-              ),
-
-              if (players.isNotEmpty)
-                Column(
-                  children: [
-                    for (int i = 0; i < players.length; i++)
-                      Column(
-                        children: [
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              PlayerButton(
-                                player: players[i],
-                                onDelete: () {},
-                                onEdit: () {},
-                              ),
-                              Spacer(),
-                              CustomCounter(
-                                player: players[i],
-                                holeIndex: currentHoleIndex,
-                                holes: holes,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                  ],
-                ),
-            ],
+              );
+            }).toList(),
           ),
-        ),
-      ),
+      ],
     );
   }
 }
@@ -368,7 +370,7 @@ class _CustomCounterState extends State<CustomCounter> {
                   padding: const EdgeInsets.symmetric(horizontal: 3),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(3),
-                    color: Colors.white,
+                    color: Colors.grey.shade200,
                   ),
                   child: SizedBox(
                     width: 60,
