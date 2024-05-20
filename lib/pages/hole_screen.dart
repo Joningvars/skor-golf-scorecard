@@ -4,7 +4,6 @@ import 'package:score_card/models/hole.dart';
 import 'package:score_card/models/player.dart';
 import 'package:score_card/pages/round_setup_screen.dart';
 import 'package:score_card/pages/scorecard_screen.dart';
-import 'package:score_card/theme/theme_helper.dart';
 import 'package:score_card/widgets/customAppBar.dart';
 
 class HoleDetailPage extends StatelessWidget {
@@ -252,7 +251,7 @@ class CustomCounter extends StatefulWidget {
 
 class _CustomCounterState extends State<CustomCounter> {
   late int strokeCount;
-  bool scoreDocumented = false;
+  bool showCounter = false;
 
   @override
   void initState() {
@@ -291,35 +290,35 @@ class _CustomCounterState extends State<CustomCounter> {
 
   String _displayScoreText() {
     int score = widget.player.strokes[widget.holeIndex];
-    int par = widget.holes[widget.holeIndex].par - 1;
+    int par = widget.holes[widget.holeIndex].par;
     int relativeScore = score - par;
     String scoreText = '';
 
     if (widget.holeIndex >= 0 && widget.holeIndex < widget.holes.length) {
       switch (relativeScore) {
-        case -2:
+        case -3:
           scoreText = 'ALBATROSS';
           break;
-        case -1:
+        case -2:
           scoreText = 'ÖRN';
           break;
-        case 0:
+        case -1:
           scoreText = 'FUGL';
           break;
-        case 1:
+        case 0:
           scoreText = 'PAR';
           break;
-        case 2:
+        case 1:
           scoreText = 'SKOLLI';
           break;
-        case 3:
+        case 2:
           scoreText = '2X SKOLLI';
           break;
-        case 4:
+        case 3:
           scoreText = '3X SKOLLI';
           break;
         default:
-          if (relativeScore < -2) {
+          if (relativeScore < -3) {
             scoreText = 'ÁS';
           } else {
             scoreText = 'ANNAÐ';
@@ -330,9 +329,9 @@ class _CustomCounterState extends State<CustomCounter> {
     return scoreText;
   }
 
-  void _documentScore() {
+  void _showCounter() {
     setState(() {
-      scoreDocumented = true;
+      showCounter = true;
       strokeCount = widget.holes[widget.holeIndex].par;
       widget.player.strokes[widget.holeIndex] = strokeCount;
     });
@@ -340,21 +339,21 @@ class _CustomCounterState extends State<CustomCounter> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 60,
-      child: Container(
-        padding: const EdgeInsets.all(3),
-        decoration: BoxDecoration(
-          border:
-              Border.all(color: theme.colorScheme.secondary.withOpacity(0.7)),
-          borderRadius: BorderRadius.circular(8),
-          color: const Color(0XFF3270A2),
-        ),
-        child: Stack(
-          children: [
-            Row(
-              children: [
-                if (scoreDocumented)
+    final theme = Theme.of(context);
+
+    return showCounter
+        ? SizedBox(
+            height: 60,
+            child: Container(
+              padding: const EdgeInsets.all(3),
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: theme.colorScheme.secondary.withOpacity(0.7)),
+                borderRadius: BorderRadius.circular(8),
+                color: const Color(0XFF3270A2),
+              ),
+              child: Row(
+                children: [
                   InkWell(
                     onTap: () {
                       _updateStrokeCount(-1);
@@ -365,49 +364,48 @@ class _CustomCounterState extends State<CustomCounter> {
                       size: 35,
                     ),
                   ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 3),
-                  padding: const EdgeInsets.symmetric(horizontal: 3),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(3),
-                    color: Colors.grey.shade200,
-                  ),
-                  child: SizedBox(
-                    width: 60,
-                    height: 60,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: double.infinity,
-                          child: Text(
-                            textAlign: TextAlign.center,
-                            _displayScoreText(),
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 8,
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 3),
+                    padding: const EdgeInsets.symmetric(horizontal: 3),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(3),
+                      color: Colors.grey.shade200,
+                    ),
+                    child: SizedBox(
+                      width: 60,
+                      height: 60,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            child: Text(
+                              textAlign: TextAlign.center,
+                              _displayScoreText(),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 8,
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: Text(
-                            textAlign: TextAlign.center,
-                            strokeCount.toString(),
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 27,
-                              fontWeight: FontWeight.bold,
+                          SizedBox(
+                            width: double.infinity,
+                            child: Text(
+                              textAlign: TextAlign.center,
+                              strokeCount.toString(),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 27,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                if (scoreDocumented)
                   InkWell(
                     onTap: () {
                       _updateStrokeCount(1);
@@ -418,21 +416,13 @@ class _CustomCounterState extends State<CustomCounter> {
                       size: 35,
                     ),
                   ),
-                if (!scoreDocumented)
-                  InkWell(
-                    onTap: _documentScore,
-                    child: const Icon(
-                      Icons.add,
-                      color: Colors.white,
-                      size: 35,
-                    ),
-                  ),
-              ],
+                ],
+              ),
             ),
-            const SizedBox(height: 3),
-          ],
-        ),
-      ),
-    );
+          )
+        : IconButton(
+            icon: const Icon(Icons.add, color: Colors.white, size: 35),
+            onPressed: _showCounter,
+          );
   }
 }
