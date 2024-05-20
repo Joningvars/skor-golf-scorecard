@@ -32,7 +32,7 @@ class WelcomeScreenButton extends StatelessWidget {
           ),
           style: ElevatedButton.styleFrom(
             backgroundColor: color,
-            fixedSize: Size(250, 60),
+            fixedSize: Size(230, 60),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),

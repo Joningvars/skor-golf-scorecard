@@ -5,7 +5,6 @@ import 'package:score_card/models/player.dart';
 import 'package:score_card/pages/add_player_screen.dart';
 import 'package:score_card/pages/hole_screen.dart';
 import 'package:score_card/theme/theme_helper.dart';
-import 'package:score_card/widgets/background_blob.dart';
 import 'package:score_card/widgets/customAppBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -159,7 +158,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                           _navigateToHoleDetailPage(widget.course.redTee);
                         },
                       ),
-                      const SizedBox(height: 150),
+                      const SizedBox(height: 120),
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         child: Text(
@@ -167,7 +166,10 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                           style: TextStyle(color: Colors.white, fontSize: 25),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const Divider(
+                        color: Color.fromARGB(82, 15, 39, 58),
+                        thickness: 4,
+                      ),
 
                       // Render buttons for each player
                       Row(
