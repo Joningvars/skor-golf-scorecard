@@ -1,25 +1,59 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
 import 'package:score_card/models/player.dart';
+import 'package:score_card/models/round.dart';
+import 'package:score_card/routes/app_routes.dart';
 import 'package:score_card/theme/theme_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class ScorecardScreen extends StatelessWidget {
   final List<Player> players;
   final List<Hole> holes;
   final GolfCourse course;
 
-//   Color.fromARGB(255, 33, 109, 168)
-// Colors.grey.shade300
-// Colors.grey
-
-  ScorecardScreen(
-      {required this.players, required this.holes, required this.course});
+  const ScorecardScreen(
+      {super.key,
+      required this.players,
+      required this.holes,
+      required this.course});
 
   @override
   Widget build(BuildContext context) {
     Orientation currentOrientation = MediaQuery.of(context).orientation;
+
+    Future<void> _saveRoundAndNavigate() async {
+      // Create new round to save
+      String roundId = Uuid().v4(); // Generate a unique ID
+
+      Round round = Round(
+        golfcourse: course,
+        players: players,
+        holes: holes,
+        id: roundId,
+      );
+
+      // Convert to JSON
+      String roundJson = json.encode(round.toJson());
+
+      // Get existing saved rounds from SharedPreferences
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      List<String>? savedRoundJsonList =
+          prefs.getStringList('savedRounds') ?? [];
+
+      // Add the new round JSON to the list
+      savedRoundJsonList.add(roundJson);
+
+      // Save the updated list back to SharedPreferences
+      await prefs.setStringList('savedRounds', savedRoundJsonList);
+
+      // Navigate to the new screen
+      Navigator.popUntil(context, ModalRoute.withName(AppRoutes.initialRoute));
+    }
 
     var now = DateTime.now();
     var formatter = DateFormat('yyyy-MM-dd');
@@ -28,6 +62,14 @@ class ScorecardScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: theme.primaryColor,
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              _saveRoundAndNavigate();
+            },
+            icon: Icon(Icons.home),
+          ),
+        ],
         backgroundColor: theme.primaryColor,
         foregroundColor: Colors.white,
         title: Container(

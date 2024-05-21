@@ -24,4 +24,39 @@ class GolfCourse {
     required this.par,
     required this.holes,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'clubName': clubName,
+      'imgUrl': imgUrl,
+      'location': location,
+      'yellowTee': yellowTee,
+      'blueTee': blueTee,
+      'redTee': redTee,
+      'whiteTee': whiteTee,
+      'name': name,
+      'par': par,
+      'holes': holes.map((hole) => hole.toJson()).toList(),
+    };
+  }
+
+  factory GolfCourse.fromJson(Map<String, dynamic> json) {
+    // Parse holes list from json
+    List<dynamic> holesJson = json['holes'];
+    List<Hole> parsedHoles =
+        holesJson.map((holeJson) => Hole.fromJson(holeJson)).toList();
+
+    return GolfCourse(
+      clubName: json['clubName'],
+      imgUrl: json['imgUrl'],
+      location: json['location'],
+      yellowTee: json['yellowTee'],
+      blueTee: json['blueTee'],
+      redTee: json['redTee'],
+      whiteTee: json['whiteTee'],
+      name: json['name'],
+      par: json['par'],
+      holes: parsedHoles,
+    );
+  }
 }

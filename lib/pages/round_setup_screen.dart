@@ -171,7 +171,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                         thickness: 4,
                       ),
 
-                      // Render buttons for each player
+                      // render buttons for every player
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

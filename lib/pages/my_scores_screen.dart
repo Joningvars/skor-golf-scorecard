@@ -1,13 +1,94 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class MyScoresScreen extends StatelessWidget {
-  const MyScoresScreen({super.key});
+import 'package:flutter/material.dart';
+import 'package:score_card/models/round.dart';
+import 'package:score_card/widgets/customAppBar.dart';
+import 'package:score_card/widgets/savedRoundTile.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class MyScoresScreen extends StatefulWidget {
+  const MyScoresScreen({Key? key}) : super(key: key);
+
+  @override
+  _MyScoresScreenState createState() => _MyScoresScreenState();
+}
+
+class _MyScoresScreenState extends State<MyScoresScreen> {
+  List<Round> savedRounds = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadRounds();
+  }
+
+  Future<void> _loadRounds() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? roundJsonStrings = prefs.getStringList('savedRounds');
+    if (roundJsonStrings != null) {
+      setState(() {
+        savedRounds = roundJsonStrings
+            .map((jsonString) => Round.fromJson(json.decode(jsonString)))
+            .toList();
+      });
+    }
+  }
+
+  Future<void> _deleteRound(int index) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? roundJsonStrings = prefs.getStringList('savedRounds');
+    if (roundJsonStrings != null) {
+      roundJsonStrings.removeAt(index);
+      await prefs.setStringList('savedRounds', roundJsonStrings);
+      setState(() {
+        savedRounds.removeAt(index);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('My Scores Screen'),
+    final theme = Theme.of(context);
+
+    return Scaffold(
+      appBar: CustomAppBar(title: 'Vistaðir hringir'),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              theme.colorScheme.secondary,
+              theme.primaryColor,
+              theme.primaryColor,
+            ],
+          ),
+        ),
+        child: savedRounds.isNotEmpty
+            ? ListView.builder(
+                itemCount: savedRounds.length,
+                itemBuilder: (context, index) {
+                  return Dismissible(
+                    key: Key(savedRounds[index].id),
+                    direction: DismissDirection.endToStart,
+                    onDismissed: (_) => _deleteRound(index),
+                    background: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerRight,
+                      padding: EdgeInsets.only(right: 20),
+                      child: Icon(Icons.delete, color: Colors.white),
+                    ),
+                    child: SavedRoundTile(round: savedRounds[index]),
+                  );
+                },
+              )
+            : Center(
+                child: Text(
+                  'Engir hringir vistaðir...',
+                  style: TextStyle(
+                      color: theme.colorScheme.secondary, fontSize: 20),
+                ),
+              ),
       ),
     );
   }
