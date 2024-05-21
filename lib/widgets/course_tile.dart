@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/pages/round_setup_screen.dart';
 
@@ -93,6 +94,8 @@ class CardButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
+        HapticFeedback.lightImpact();
+
         Navigator.push(
           context,
           MaterialPageRoute(

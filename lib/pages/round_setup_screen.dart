@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/player.dart';
 import 'package:score_card/pages/add_player_screen.dart';
@@ -131,6 +132,8 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                         text: '${widget.course.whiteTee.toString()} m',
                         color: Colors.white,
                         onPressed: () {
+                          HapticFeedback.lightImpact();
+
                           _navigateToHoleDetailPage(widget.course.whiteTee);
                         },
                       ),
@@ -139,6 +142,8 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                         text: '${widget.course.yellowTee.toString()} m',
                         color: Colors.yellow,
                         onPressed: () {
+                          HapticFeedback.lightImpact();
+
                           _navigateToHoleDetailPage(widget.course.yellowTee);
                         },
                       ),
@@ -147,6 +152,8 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                         text: '${widget.course.blueTee.toString()} m',
                         color: Colors.blue,
                         onPressed: () {
+                          HapticFeedback.lightImpact();
+
                           _navigateToHoleDetailPage(widget.course.blueTee);
                         },
                       ),
@@ -155,6 +162,8 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                         text: '${widget.course.redTee.toString()} m',
                         color: Colors.red,
                         onPressed: () {
+                          HapticFeedback.lightImpact();
+
                           _navigateToHoleDetailPage(widget.course.redTee);
                         },
                       ),
@@ -180,9 +189,11 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                               PlayerButton(
                                 player: players[i],
                                 onDelete: () {
+                                  HapticFeedback.lightImpact();
                                   _deletePlayer(players[i]);
                                 },
                                 onEdit: () {
+                                  HapticFeedback.lightImpact();
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -244,7 +255,9 @@ class CustomTeeButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-          elevation: 3, backgroundColor: theme.colorScheme.secondary),
+          elevation: 5,
+          backgroundColor: theme.colorScheme.secondary,
+          shadowColor: Colors.black),
       onPressed: onPressed,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -296,8 +309,9 @@ class PlayerButton extends StatelessWidget {
             height: 65,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-              ),
+                  foregroundColor: Colors.white,
+                  elevation: 3,
+                  shadowColor: Colors.black),
               onPressed: onEdit,
               child: Text(
                 '${player.initials}',
@@ -326,13 +340,16 @@ class AddPlayerButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: SizedBox(
-        width: 60,
-        height: 60,
+        width: 40,
+        height: 40,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-          ),
+              backgroundColor: theme.colorScheme.secondary,
+              foregroundColor: Colors.white,
+              elevation: 2,
+              shadowColor: Colors.black),
           onPressed: () {
+            HapticFeedback.selectionClick();
             Navigator.push(
               context,
               MaterialPageRoute(

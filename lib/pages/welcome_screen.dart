@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:score_card/routes/app_routes.dart';
 import 'package:score_card/theme/theme_helper.dart';
 import 'package:score_card/widgets/welcome_button.dart';
@@ -57,20 +58,32 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       SizedBox(
                         width: size.width,
                         height: size.height * 0.2,
-                        child: Image.asset(
-                          'assets/images/logo-res.png',
-                          fit: BoxFit.contain,
-                          frameBuilder: (BuildContext context, Widget child,
-                              int? frame, bool wasSynchronouslyLoaded) {
-                            if (wasSynchronouslyLoaded) {
-                              return child;
-                            }
-                            return AnimatedOpacity(
-                              opacity: frame == null ? 0 : 1,
-                              duration: const Duration(seconds: 1),
-                              child: child,
-                            );
-                          },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.3),
+                                spreadRadius: 10,
+                                blurRadius: 100,
+                                offset: Offset(0, 0),
+                              ),
+                            ],
+                          ),
+                          child: Image.asset(
+                            'assets/images/logo-res.png',
+                            fit: BoxFit.contain,
+                            frameBuilder: (BuildContext context, Widget child,
+                                int? frame, bool wasSynchronouslyLoaded) {
+                              if (wasSynchronouslyLoaded) {
+                                return child;
+                              }
+                              return AnimatedOpacity(
+                                opacity: frame == null ? 0 : 1,
+                                duration: const Duration(seconds: 1),
+                                child: child,
+                              );
+                            },
+                          ),
                         ),
                       ),
                       SizedBox(height: size.height * 0.2),
@@ -79,6 +92,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         color: theme.colorScheme.primary,
                         text: 'Hefja Hring',
                         onPressed: () {
+                          HapticFeedback.lightImpact();
                           Navigator.pushNamed(
                               context, AppRoutes.courseSelectScreen);
                         },
@@ -89,6 +103,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         color: Color.fromARGB(150, 233, 233, 233),
                         text: 'Mínir Hringir',
                         onPressed: () {
+                          HapticFeedback.lightImpact();
+
                           Navigator.pushNamed(
                               context, AppRoutes.myScoresScreen);
                         },

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/round.dart';
 import 'package:score_card/pages/round_setup_screen.dart';
+import 'package:score_card/pages/scorecard_screen.dart';
 
 import 'package:transparent_image/transparent_image.dart';
 
@@ -45,11 +47,12 @@ class SavedRoundTile extends StatelessWidget {
                   totalStrokes.toString(),
                   style: TextStyle(
                     fontSize: 60,
+                    fontWeight: FontWeight.w200,
                     color: Colors.white,
                     shadows: <Shadow>[
                       Shadow(
                         offset: const Offset(1, 3),
-                        blurRadius: 30,
+                        blurRadius: 10,
                         color: Theme.of(context).colorScheme.primary,
                       ),
                       Shadow(
@@ -76,6 +79,7 @@ class SavedRoundTile extends StatelessWidget {
             left: 250,
             child: SizedBox(
               child: CardButton(
+                round: round,
                 course: round.golfcourse,
               ),
             ),
@@ -115,21 +119,23 @@ class SavedRoundTile extends StatelessWidget {
 
 class CardButton extends StatelessWidget {
   final GolfCourse course;
+  final Round round;
 
-  const CardButton({
-    Key? key,
-    required this.course,
-  }) : super(key: key);
+  const CardButton({Key? key, required this.course, required this.round})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
+        HapticFeedback.selectionClick();
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => RoundSetupScreen(
-              course: course,
+            builder: (context) => ScorecardScreen(
+              course: round.golfcourse,
+              players: round.players,
+              holes: round.holes,
             ),
           ),
         );

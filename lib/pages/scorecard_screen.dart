@@ -28,7 +28,7 @@ class ScorecardScreen extends StatelessWidget {
 
     Future<void> _saveRoundAndNavigate() async {
       // Create new round to save
-      String roundId = Uuid().v4(); // Generate a unique ID
+      String roundId = const Uuid().v4(); //unique id
 
       Round round = Round(
         golfcourse: course,
@@ -37,21 +37,21 @@ class ScorecardScreen extends StatelessWidget {
         id: roundId,
       );
 
-      // Convert to JSON
+      // json convert
       String roundJson = json.encode(round.toJson());
 
-      // Get existing saved rounds from SharedPreferences
+      // GET saved rounds
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       List<String>? savedRoundJsonList =
           prefs.getStringList('savedRounds') ?? [];
 
-      // Add the new round JSON to the list
+      // add new round to list
       savedRoundJsonList.add(roundJson);
 
-      // Save the updated list back to SharedPreferences
+      // save list
       await prefs.setStringList('savedRounds', savedRoundJsonList);
 
-      // Navigate to the new screen
+      // nav to new screen
       Navigator.popUntil(context, ModalRoute.withName(AppRoutes.initialRoute));
     }
 
@@ -60,114 +60,254 @@ class ScorecardScreen extends StatelessWidget {
     String formattedDate = formatter.format(now);
 
     return Scaffold(
-      backgroundColor: theme.primaryColor,
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () {
-              _saveRoundAndNavigate();
-            },
-            icon: Icon(Icons.home),
-          ),
-        ],
         backgroundColor: theme.primaryColor,
-        foregroundColor: Colors.white,
-        title: Container(
-          height: 50,
-          child: Row(
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  AppRoutes.initialRoute,
+                  (route) => false,
+                );
+              },
+              icon: const Icon(Icons.home),
+            ),
+            IconButton(
+              onPressed: () {
+                _saveRoundAndNavigate();
+              },
+              icon: const Icon(Icons.save_alt_rounded),
+            ),
+          ],
+          backgroundColor: theme.primaryColor,
+          foregroundColor: Colors.white,
+          title: Row(
             children: [
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     if (currentOrientation == Orientation.landscape)
                       Text(
                         formattedDate,
                         style:
                             const TextStyle(color: Colors.white, fontSize: 12),
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    Text('${course.clubName}(${course.name})',
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 15)),
-                    Row(
-                      children: [
-                        const Text('ÖRN',
-                            style:
-                                TextStyle(color: Colors.green, fontSize: 10)),
-                        const SizedBox(width: 5),
-                        const Text('FUGL',
-                            style: const TextStyle(
-                                color: Colors.red, fontSize: 10)),
-                        const SizedBox(width: 5),
-                        const Text('PAR',
+                    Text(
+                      '${course.clubName} (${course.name})',
+                      style: const TextStyle(color: Colors.white, fontSize: 15),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          const Text(
+                            'ÖRN',
+                            style: TextStyle(color: Colors.green, fontSize: 10),
+                          ),
+                          const SizedBox(width: 5),
+                          const Text(
+                            'FUGL',
+                            style: TextStyle(color: Colors.red, fontSize: 10),
+                          ),
+                          const SizedBox(width: 5),
+                          const Text(
+                            'PAR',
                             style: TextStyle(
-                                color: Color.fromARGB(255, 33, 109, 168),
-                                fontSize: 10)),
-                        const SizedBox(width: 5),
-                        Text('SKOLLI',
+                              color: Color.fromARGB(255, 33, 109, 168),
+                              fontSize: 10,
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            'SKOLLI',
                             style: TextStyle(
-                                color: Colors.grey.shade300, fontSize: 10)),
-                        const SizedBox(width: 5),
-                        const Text('2x SKOLLI',
-                            style: TextStyle(color: Colors.grey, fontSize: 10)),
-                      ],
+                                color: Colors.grey.shade300, fontSize: 10),
+                          ),
+                          const SizedBox(width: 5),
+                          const Text(
+                            '2x SKOLLI',
+                            style: TextStyle(color: Colors.grey, fontSize: 10),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
               SizedBox(
-                  height: 150,
-                  width: 120,
-                  child: Image.asset(
-                    'assets/images/skor_logo.png',
-                    fit: BoxFit.cover,
-                  )),
+                height: 100,
+                child: Image.asset(
+                  'assets/images/skor_logo.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
             ],
           ),
         ),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
               colors: [
                 theme.colorScheme.secondary,
                 theme.primaryColor,
                 theme.primaryColor,
-              ]),
-        ),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // FRONT 9
-                    _buildFront9holes(),
-                    _buildFront9Par(),
-                    _buildFront9Length(),
-                    _buildFront9Handicap(),
-                    for (var player in players) _buildPlayerFront9(player),
-                  ],
+              ],
+            ),
+          ),
+          child: SafeArea(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                if (currentOrientation == Orientation.landscape) {
+                  // Landscape layout
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildFront9holes(),
+                            _buildFront9Par(),
+                            _buildFront9Length(),
+                            _buildFront9Handicap(),
+                            for (var player in players)
+                              _buildPlayerFront9(player),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildBack9Holes(),
+                            _buildBack9Par(),
+                            _buildBack9Length(),
+                            _buildBack9Handicap(),
+                            for (var player in players)
+                              _buildPlayerBack9(player),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  // Portrait layout
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Nafn:',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            const Text(
+                              'Högg:',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                        for (var player in players)
+                          Row(
+                            children: [
+                              Text(
+                                '${player.firstName} ${player.lastName}'
+                                    .toUpperCase(),
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white70,
+                                  fontWeight: FontWeight.w400,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(1, 1),
+                                      blurRadius: 10,
+                                      color: Colors.black,
+                                    ),
+                                    Shadow(
+                                      blurRadius: 30,
+                                      color: Colors.black26,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const Spacer(),
+                              _buildPlayerTotalStrokes(player),
+                            ],
+                          ),
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _buildFront9holes(),
+                                  _buildFront9Par(),
+                                  _buildFront9Length(),
+                                  _buildFront9Handicap(),
+                                  for (var player in players)
+                                    _buildPlayerFront9(player),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _buildBack9Holes(),
+                                  _buildBack9Par(),
+                                  _buildBack9Length(),
+                                  _buildBack9Handicap(),
+                                  for (var player in players)
+                                    _buildPlayerBack9(player),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
+        ));
+  }
+
+  Widget _buildPlayerTotalStrokes(Player player) {
+    int totalStrokes = player.strokes.fold(0, (sum, stroke) => sum + stroke);
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Text(
+            '$totalStrokes',
+            style: const TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              shadows: <Shadow>[
+                Shadow(
+                  offset: const Offset(1, 1),
+                  blurRadius: 10,
+                  color: Colors.black,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // BACK 9
-                    _buildBack9Holes(),
-                    _buildBack9Par(),
-                    _buildBack9Length(),
-                    _buildBack9Handicap(),
-                    for (var player in players) _buildPlayerBack9(player),
-                  ],
+                Shadow(
+                  blurRadius: 30,
+                  color: Colors.black26,
                 ),
               ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -313,8 +453,6 @@ class ScorecardScreen extends StatelessWidget {
   Widget _buildPlayerBack9(Player player) {
     List<int> back9Scores = player.strokes.skip(9).toList();
     int totalScore = player.strokes.reduce((sum, score) => sum + score);
-
-    int totalScore9 = back9Scores.fold(0, (prev, score) => prev + score);
 
     List<int> back9Pars = holes.skip(9).map((hole) => hole.par).toList();
 

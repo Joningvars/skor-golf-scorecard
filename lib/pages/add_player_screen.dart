@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/player.dart';
 import 'package:score_card/theme/theme_helper.dart';
@@ -45,6 +46,8 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
+                HapticFeedback.lightImpact();
+
                 Navigator.of(context).pop();
               },
               child: Text(
@@ -54,6 +57,8 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
             ),
             TextButton(
               onPressed: () async {
+                HapticFeedback.lightImpact();
+
                 final SharedPreferences prefs =
                     await SharedPreferences.getInstance();
                 final List<String>? playerJsonList =
@@ -149,6 +154,8 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8))),
                       onPressed: () {
+                        HapticFeedback.lightImpact();
+
                         if (_formKey.currentState!.validate()) {
                           widget.onAddPlayer(
                             _firstNameController.text,

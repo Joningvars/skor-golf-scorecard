@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_icon_shadow/flutter_icon_shadow.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
 import 'package:score_card/models/player.dart';
@@ -78,13 +80,19 @@ class HoleDetailPage extends StatelessWidget {
           icon: const Icon(
             Icons.arrow_forward_ios,
           ),
-          onPressed: () => _navigateToNextHole(context),
+          onPressed: () {
+            HapticFeedback.selectionClick();
+            _navigateToNextHole(context);
+          },
         ),
         leadAction: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios,
           ),
-          onPressed: () => _navigateToPrevHole(context),
+          onPressed: () {
+            HapticFeedback.selectionClick();
+            _navigateToPrevHole(context);
+          },
         ),
       ),
       body: Container(
@@ -122,14 +130,32 @@ class HoleDetailPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            const SizedBox(
-              width: 40,
-              child: Icon(
-                Icons.golf_course_rounded,
-                color: Color.fromARGB(82, 7, 19, 29),
-                size: 90,
+            const Stack(children: [
+              Positioned(
+                top: 4,
+                left: 4,
+                right: 0,
+                bottom: 0,
+                child: SizedBox(
+                  width: 40,
+                  child: IconShadow(
+                    Icon(
+                      Icons.golf_course_rounded,
+                      color: Color.fromARGB(121, 12, 32, 48),
+                      size: 90,
+                    ),
+                  ),
+                ),
               ),
-            ),
+              SizedBox(
+                width: 40,
+                child: const Icon(
+                  Icons.golf_course_rounded,
+                  color: Color(0XFF195482),
+                  size: 90,
+                ),
+              ),
+            ]),
             Text(
               ' ${currentHole.number}',
               style: const TextStyle(
@@ -138,8 +164,8 @@ class HoleDetailPage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 shadows: [
                   Shadow(
-                    offset: Offset(5.0, 5.0),
-                    blurRadius: 5.0,
+                    offset: Offset(8.0, 8.0),
+                    blurRadius: 0,
                     color: Color.fromARGB(82, 7, 19, 29),
                   ),
                 ],
@@ -268,6 +294,7 @@ class _CustomCounterState extends State<CustomCounter> {
   }
 
   void _updateStrokeCount(int change) {
+    HapticFeedback.lightImpact(); // Add haptic feedback
     setState(() {
       strokeCount += change;
       if (strokeCount < 1) {
@@ -330,6 +357,7 @@ class _CustomCounterState extends State<CustomCounter> {
   }
 
   void _showCounter() {
+    HapticFeedback.selectionClick();
     setState(() {
       showCounter = true;
       strokeCount = widget.holes[widget.holeIndex].par;
@@ -343,19 +371,26 @@ class _CustomCounterState extends State<CustomCounter> {
 
     return showCounter
         ? SizedBox(
-            height: 60,
+            height: 65,
             child: Container(
               padding: const EdgeInsets.all(3),
               decoration: BoxDecoration(
-                border: Border.all(
-                    color: theme.colorScheme.secondary.withOpacity(0.7)),
                 borderRadius: BorderRadius.circular(8),
                 color: const Color(0XFF3270A2),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 0,
+                    blurRadius: 5,
+                    offset: Offset(3, 3),
+                  ),
+                ],
               ),
               child: Row(
                 children: [
                   InkWell(
                     onTap: () {
+                      HapticFeedback.selectionClick();
                       _updateStrokeCount(-1);
                     },
                     child: const Icon(
@@ -408,6 +443,7 @@ class _CustomCounterState extends State<CustomCounter> {
                   ),
                   InkWell(
                     onTap: () {
+                      HapticFeedback.selectionClick();
                       _updateStrokeCount(1);
                     },
                     child: const Icon(
@@ -422,7 +458,10 @@ class _CustomCounterState extends State<CustomCounter> {
           )
         : IconButton(
             icon: const Icon(Icons.add, color: Colors.white, size: 35),
-            onPressed: _showCounter,
+            onPressed: () {
+              HapticFeedback.lightImpact();
+              _showCounter();
+            },
           );
   }
 }

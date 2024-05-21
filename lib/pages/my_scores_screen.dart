@@ -84,9 +84,11 @@ class _MyScoresScreenState extends State<MyScoresScreen> {
               )
             : Center(
                 child: Text(
-                  'Engir hringir vistaðir...',
+                  'Engir vistaðir hringir...',
                   style: TextStyle(
-                      color: theme.colorScheme.secondary, fontSize: 20),
+                      color: theme.colorScheme.secondary,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500),
                 ),
               ),
       ),
