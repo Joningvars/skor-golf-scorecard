@@ -4,6 +4,7 @@ import 'package:score_card/models/course.dart';
 import 'package:score_card/models/round.dart';
 import 'package:score_card/pages/round_setup_screen.dart';
 import 'package:score_card/pages/scorecard_screen.dart';
+import 'package:score_card/widgets/relative_score.dart';
 
 import 'package:transparent_image/transparent_image.dart';
 
@@ -21,6 +22,9 @@ class SavedRoundTile extends StatelessWidget {
         round.players.isNotEmpty && round.players[0].strokes != null
             ? round.players[0].strokes.fold(0, (prev, score) => prev + score)
             : 0;
+
+    int totalPar = round.holes.fold(0, (sum, hole) => sum + hole.par);
+    int relativeScore = totalStrokes - totalPar;
 
     return Card(
       elevation: 4,
@@ -42,11 +46,11 @@ class SavedRoundTile extends StatelessWidget {
                     smallerShadowText(text: round.golfcourse.location),
                   ],
                 ),
-                SizedBox(width: 30),
+                const SizedBox(width: 30),
                 Text(
                   totalStrokes.toString(),
                   style: TextStyle(
-                    fontSize: 60,
+                    fontSize: 45,
                     fontWeight: FontWeight.w200,
                     color: Colors.white,
                     shadows: <Shadow>[
@@ -60,6 +64,16 @@ class SavedRoundTile extends StatelessWidget {
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ],
+                  ),
+                ),
+                Text(
+                  relativeScore > 0
+                      ? '+$relativeScore'
+                      : (relativeScore == 0 ? 'E' : '$relativeScore'),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
                   ),
                 ),
               ],

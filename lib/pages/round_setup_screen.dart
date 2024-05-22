@@ -129,7 +129,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       CustomTeeButton(
-                        text: '${widget.course.whiteTee.toString()} m',
+                        text: '${widget.course.whiteTee.toString()}',
                         color: Colors.white,
                         onPressed: () {
                           HapticFeedback.lightImpact();
@@ -139,7 +139,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                       ),
                       const SizedBox(height: 10),
                       CustomTeeButton(
-                        text: '${widget.course.yellowTee.toString()} m',
+                        text: '${widget.course.yellowTee.toString()}',
                         color: Colors.yellow,
                         onPressed: () {
                           HapticFeedback.lightImpact();
@@ -149,7 +149,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                       ),
                       const SizedBox(height: 10),
                       CustomTeeButton(
-                        text: '${widget.course.blueTee.toString()} m',
+                        text: '${widget.course.blueTee.toString()}',
                         color: Colors.blue,
                         onPressed: () {
                           HapticFeedback.lightImpact();
@@ -159,7 +159,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                       ),
                       const SizedBox(height: 10),
                       CustomTeeButton(
-                        text: '${widget.course.redTee.toString()} m',
+                        text: '${widget.course.redTee.toString()}',
                         color: Colors.red,
                         onPressed: () {
                           HapticFeedback.lightImpact();
@@ -270,7 +270,6 @@ class CustomTeeButton extends StatelessWidget {
               size: 60,
               color: color,
             ),
-            const SizedBox(width: 20),
             Text(
               '$text',
               style: TextStyle(

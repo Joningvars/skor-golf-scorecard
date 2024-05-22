@@ -7,6 +7,7 @@ import 'package:score_card/models/player.dart';
 import 'package:score_card/pages/round_setup_screen.dart';
 import 'package:score_card/pages/scorecard_screen.dart';
 import 'package:score_card/widgets/customAppBar.dart';
+import 'package:score_card/widgets/relative_score.dart';
 
 class HoleDetailPage extends StatelessWidget {
   final List<Hole> holes;
@@ -237,10 +238,20 @@ class HoleDetailPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      PlayerButton(
-                        player: player,
-                        onDelete: () {},
-                        onEdit: () {},
+                      Stack(
+                        children: [
+                          PlayerButton(
+                            player: player,
+                            onDelete: () {},
+                            onEdit: () {},
+                          ),
+                          Positioned(
+                              top: 5,
+                              left: 45,
+                              right: 0,
+                              bottom: 0,
+                              child: RelativeScoreWidget(player: player)),
+                        ],
                       ),
                       const Spacer(),
                       CustomCounter(
@@ -293,8 +304,8 @@ class _CustomCounterState extends State<CustomCounter> {
     strokeCount = widget.player.strokes[widget.holeIndex];
   }
 
-  void _updateStrokeCount(int change) {
-    HapticFeedback.lightImpact(); // Add haptic feedback
+  void _updateStrokeCount(int change, Player player) {
+    HapticFeedback.lightImpact();
     setState(() {
       strokeCount += change;
       if (strokeCount < 1) {
@@ -303,15 +314,14 @@ class _CustomCounterState extends State<CustomCounter> {
         strokeCount = 10;
       }
 
-      if (widget.player.strokes.length > widget.holeIndex) {
-        widget.player.strokes[widget.holeIndex] = strokeCount;
-      } else {
-        widget.player.strokes.addAll(List.filled(
-          widget.holeIndex - widget.player.strokes.length,
-          widget.holes[widget.holeIndex].par,
-        ));
-        widget.player.strokes.add(strokeCount);
-      }
+      int score = strokeCount;
+      int par = widget.holes[widget.holeIndex].par;
+      int relativeScore = score - par;
+
+      player.relativeScore -= player.strokes[widget.holeIndex] - par;
+
+      player.strokes[widget.holeIndex] = strokeCount;
+      player.relativeScore += relativeScore;
     });
   }
 
@@ -391,7 +401,7 @@ class _CustomCounterState extends State<CustomCounter> {
                   InkWell(
                     onTap: () {
                       HapticFeedback.selectionClick();
-                      _updateStrokeCount(-1);
+                      _updateStrokeCount(-1, widget.player);
                     },
                     child: const Icon(
                       Icons.remove,
@@ -444,7 +454,7 @@ class _CustomCounterState extends State<CustomCounter> {
                   InkWell(
                     onTap: () {
                       HapticFeedback.selectionClick();
-                      _updateStrokeCount(1);
+                      _updateStrokeCount(1, widget.player);
                     },
                     child: const Icon(
                       Icons.add,

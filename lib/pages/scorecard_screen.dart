@@ -24,17 +24,30 @@ class ScorecardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool hasBack9Score =
+        players[0].strokes.sublist(9, 18).any((stroke) => stroke != 0);
     Orientation currentOrientation = MediaQuery.of(context).orientation;
 
     Future<void> _saveRoundAndNavigate() async {
-      // Create new round to save
-      String roundId = const Uuid().v4(); //unique id
+      // Calculate total strokes for the player
+      int totalStrokes =
+          players[0].strokes.fold(0, (sum, stroke) => sum + stroke);
 
+      // Calculate total par for the course
+      int totalPar = holes.fold(0, (sum, hole) => sum + hole.par);
+
+      // Calculate total relative score
+      int totalRelativeScore = totalStrokes - totalPar;
+
+      // Create new round to save
+      String roundId = Uuid().v4(); //unique id
       Round round = Round(
         golfcourse: course,
         players: players,
         holes: holes,
         id: roundId,
+        totalRelativeScore:
+            totalRelativeScore, // Include totalRelativeScore in Round
       );
 
       // json convert
@@ -150,6 +163,7 @@ class ScorecardScreen extends StatelessWidget {
           ),
         ),
         body: Container(
+          width: double.infinity,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
@@ -171,7 +185,8 @@ class ScorecardScreen extends StatelessWidget {
                     child: Row(
                       children: [
                         Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             _buildFront9holes(),
                             _buildFront9Par(),
@@ -182,7 +197,8 @@ class ScorecardScreen extends StatelessWidget {
                           ],
                         ),
                         Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             _buildBack9Holes(),
                             _buildBack9Par(),
@@ -200,7 +216,7 @@ class ScorecardScreen extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -223,7 +239,7 @@ class ScorecardScreen extends StatelessWidget {
                                     .toUpperCase(),
                                 style: const TextStyle(
                                   fontSize: 20,
-                                  color: Colors.white70,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.w400,
                                   shadows: <Shadow>[
                                     Shadow(
@@ -257,17 +273,18 @@ class ScorecardScreen extends StatelessWidget {
                                     _buildPlayerFront9(player),
                                 ],
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _buildBack9Holes(),
-                                  _buildBack9Par(),
-                                  _buildBack9Length(),
-                                  _buildBack9Handicap(),
-                                  for (var player in players)
-                                    _buildPlayerBack9(player),
-                                ],
-                              ),
+                              if (hasBack9Score)
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    _buildBack9Holes(),
+                                    _buildBack9Par(),
+                                    _buildBack9Length(),
+                                    _buildBack9Handicap(),
+                                    for (var player in players)
+                                      _buildPlayerBack9(player),
+                                  ],
+                                ),
                             ],
                           ),
                         ),
@@ -451,6 +468,11 @@ class ScorecardScreen extends StatelessWidget {
   }
 
   Widget _buildPlayerBack9(Player player) {
+    if (player.strokes.length < 18) {
+      //error handle if not enough strokes
+      return SizedBox();
+    }
+
     List<int> back9Scores = player.strokes.skip(9).toList();
     int totalScore = player.strokes.reduce((sum, score) => sum + score);
 

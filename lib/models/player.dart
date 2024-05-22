@@ -4,10 +4,12 @@ class Player {
   String initials;
   List<int> strokes = List.generate(18, (i) => 0);
   int selectedTee;
+  int relativeScore;
 
   Player({
     required this.firstName,
     required this.lastName,
+    this.relativeScore = 0,
     required this.strokes,
     required this.selectedTee,
     this.initials = '',
