@@ -16,11 +16,12 @@ class ScorecardScreen extends StatelessWidget {
   final List<Hole> holes;
   final GolfCourse course;
 
-  const ScorecardScreen(
-      {super.key,
-      required this.players,
-      required this.holes,
-      required this.course});
+  const ScorecardScreen({
+    super.key,
+    required this.players,
+    required this.holes,
+    required this.course,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,26 +29,18 @@ class ScorecardScreen extends StatelessWidget {
         players[0].strokes.sublist(9, 18).any((stroke) => stroke != 0);
     Orientation currentOrientation = MediaQuery.of(context).orientation;
 
-    Future<void> _saveRoundAndNavigate() async {
-      // Calculate total strokes for the player
+    Future<void> _saveRound(BuildContext context) async {
       int totalStrokes =
           players[0].strokes.fold(0, (sum, stroke) => sum + stroke);
-
-      // Calculate total par for the course
       int totalPar = holes.fold(0, (sum, hole) => sum + hole.par);
-
-      // Calculate total relative score
       int totalRelativeScore = totalStrokes - totalPar;
-
-      // Create new round to save
-      String roundId = Uuid().v4(); //unique id
+      String roundId = const Uuid().v4(); // unique id
       Round round = Round(
         golfcourse: course,
         players: players,
         holes: holes,
         id: roundId,
-        totalRelativeScore:
-            totalRelativeScore, // Include totalRelativeScore in Round
+        totalRelativeScore: totalRelativeScore,
       );
 
       // json convert
@@ -64,8 +57,11 @@ class ScorecardScreen extends StatelessWidget {
       // save list
       await prefs.setStringList('savedRounds', savedRoundJsonList);
 
-      // nav to new screen
-      Navigator.popUntil(context, ModalRoute.withName(AppRoutes.initialRoute));
+      // Check if the widget is still mounted before navigating
+      if (context.mounted) {
+        Navigator.popUntil(
+            context, ModalRoute.withName(AppRoutes.initialRoute));
+      }
     }
 
     var now = DateTime.now();
@@ -73,229 +69,228 @@ class ScorecardScreen extends StatelessWidget {
     String formattedDate = formatter.format(now);
 
     return Scaffold(
+      backgroundColor: theme.primaryColor,
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.initialRoute,
+                (route) => false,
+              );
+            },
+            icon: const Icon(Icons.home),
+          ),
+          IconButton(
+            onPressed: () {
+              _saveRound(context);
+            },
+            icon: const Icon(Icons.save_alt_rounded),
+          ),
+        ],
         backgroundColor: theme.primaryColor,
-        appBar: AppBar(
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  AppRoutes.initialRoute,
-                  (route) => false,
-                );
-              },
-              icon: const Icon(Icons.home),
-            ),
-            IconButton(
-              onPressed: () {
-                _saveRoundAndNavigate();
-              },
-              icon: const Icon(Icons.save_alt_rounded),
-            ),
-          ],
-          backgroundColor: theme.primaryColor,
-          foregroundColor: Colors.white,
-          title: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (currentOrientation == Orientation.landscape)
-                      Text(
-                        formattedDate,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 12),
-                        overflow: TextOverflow.ellipsis,
-                      ),
+        foregroundColor: Colors.white,
+        title: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (currentOrientation == Orientation.landscape)
                     Text(
-                      '${course.clubName} (${course.name})',
-                      style: const TextStyle(color: Colors.white, fontSize: 15),
+                      formattedDate,
+                      style: const TextStyle(color: Colors.white, fontSize: 12),
                       overflow: TextOverflow.ellipsis,
                     ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          const Text(
-                            'ÖRN',
-                            style: TextStyle(color: Colors.green, fontSize: 10),
-                          ),
-                          const SizedBox(width: 5),
-                          const Text(
-                            'FUGL',
-                            style: TextStyle(color: Colors.red, fontSize: 10),
-                          ),
-                          const SizedBox(width: 5),
-                          const Text(
-                            'PAR',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 33, 109, 168),
-                              fontSize: 10,
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            'SKOLLI',
-                            style: TextStyle(
-                                color: Colors.grey.shade300, fontSize: 10),
-                          ),
-                          const SizedBox(width: 5),
-                          const Text(
-                            '2x SKOLLI',
-                            style: TextStyle(color: Colors.grey, fontSize: 10),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 100,
-                child: Image.asset(
-                  'assets/images/skor_logo.png',
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ],
-          ),
-        ),
-        body: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.bottomCenter,
-              end: Alignment.topCenter,
-              colors: [
-                theme.colorScheme.secondary,
-                theme.primaryColor,
-                theme.primaryColor,
-              ],
-            ),
-          ),
-          child: SafeArea(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                if (currentOrientation == Orientation.landscape) {
-                  // Landscape layout
-                  return SingleChildScrollView(
+                  Text(
+                    '${course.clubName} (${course.name})',
+                    style: const TextStyle(color: Colors.white, fontSize: 15),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            _buildFront9holes(),
-                            _buildFront9Par(),
-                            _buildFront9Length(),
-                            _buildFront9Handicap(),
-                            for (var player in players)
-                              _buildPlayerFront9(player),
-                          ],
+                        const Text(
+                          'ÖRN',
+                          style: TextStyle(color: Colors.green, fontSize: 10),
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            _buildBack9Holes(),
-                            _buildBack9Par(),
-                            _buildBack9Length(),
-                            _buildBack9Handicap(),
-                            for (var player in players)
-                              _buildPlayerBack9(player),
-                          ],
+                        const SizedBox(width: 5),
+                        const Text(
+                          'FUGL',
+                          style: TextStyle(color: Colors.red, fontSize: 10),
+                        ),
+                        const SizedBox(width: 5),
+                        const Text(
+                          'PAR',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 33, 109, 168),
+                            fontSize: 10,
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          'SKOLLI',
+                          style: TextStyle(
+                              color: Colors.grey.shade300, fontSize: 10),
+                        ),
+                        const SizedBox(width: 5),
+                        const Text(
+                          '2x SKOLLI',
+                          style: TextStyle(color: Colors.grey, fontSize: 10),
                         ),
                       ],
                     ),
-                  );
-                } else {
-                  // Portrait layout
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 100,
+              child: Image.asset(
+                'assets/images/skor_logo.png',
+                fit: BoxFit.contain,
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              theme.colorScheme.secondary,
+              theme.primaryColor,
+              theme.primaryColor,
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              if (currentOrientation == Orientation.landscape) {
+                // Landscape layout
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          _buildFront9holes(),
+                          _buildFront9Par(),
+                          _buildFront9Length(),
+                          _buildFront9Handicap(),
+                          for (var player in players)
+                            _buildPlayerFront9(player),
+                        ],
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          _buildBack9Holes(),
+                          _buildBack9Par(),
+                          _buildBack9Length(),
+                          _buildBack9Handicap(),
+                          for (var player in players) _buildPlayerBack9(player),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                // Portrait layout
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Nafn:',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            'Högg:',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                      for (var player in players)
+                        Row(
                           children: [
                             Text(
-                              'Nafn:',
-                              style: TextStyle(color: Colors.white),
+                              '${player.firstName} ${player.lastName}'
+                                  .toUpperCase(),
+                              style: const TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w400,
+                                shadows: <Shadow>[
+                                  Shadow(
+                                    offset: Offset(1, 1),
+                                    blurRadius: 10,
+                                    color: Colors.black,
+                                  ),
+                                  Shadow(
+                                    blurRadius: 30,
+                                    color: Colors.black26,
+                                  ),
+                                ],
+                              ),
                             ),
-                            const Text(
-                              'Högg:',
-                              style: TextStyle(color: Colors.white),
-                            ),
+                            const Spacer(),
+                            _buildPlayerTotalStrokes(player),
                           ],
                         ),
-                        for (var player in players)
-                          Row(
-                            children: [
-                              Text(
-                                '${player.firstName} ${player.lastName}'
-                                    .toUpperCase(),
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                  shadows: <Shadow>[
-                                    Shadow(
-                                      offset: Offset(1, 1),
-                                      blurRadius: 10,
-                                      color: Colors.black,
-                                    ),
-                                    Shadow(
-                                      blurRadius: 30,
-                                      color: Colors.black26,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const Spacer(),
-                              _buildPlayerTotalStrokes(player),
-                            ],
-                          ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildFront9holes(),
+                                _buildFront9Par(),
+                                _buildFront9Length(),
+                                _buildFront9Handicap(),
+                                for (var player in players)
+                                  _buildPlayerFront9(player),
+                              ],
+                            ),
+                            if (hasBack9Score)
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  _buildFront9holes(),
-                                  _buildFront9Par(),
-                                  _buildFront9Length(),
-                                  _buildFront9Handicap(),
+                                  _buildBack9Holes(),
+                                  _buildBack9Par(),
+                                  _buildBack9Length(),
+                                  _buildBack9Handicap(),
                                   for (var player in players)
-                                    _buildPlayerFront9(player),
+                                    _buildPlayerBack9(player),
                                 ],
                               ),
-                              if (hasBack9Score)
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    _buildBack9Holes(),
-                                    _buildBack9Par(),
-                                    _buildBack9Length(),
-                                    _buildBack9Handicap(),
-                                    for (var player in players)
-                                      _buildPlayerBack9(player),
-                                  ],
-                                ),
-                            ],
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
-                  );
-                }
-              },
-            ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            },
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget _buildPlayerTotalStrokes(Player player) {
@@ -313,7 +308,7 @@ class ScorecardScreen extends StatelessWidget {
               color: Colors.white,
               shadows: <Shadow>[
                 Shadow(
-                  offset: const Offset(1, 1),
+                  offset: Offset(1, 1),
                   blurRadius: 10,
                   color: Colors.black,
                 ),
@@ -329,110 +324,94 @@ class ScorecardScreen extends StatelessWidget {
     );
   }
 
-  // RONT 9
+  // FRONT 9
   Widget _buildFront9holes() {
-    return Container(
-      child: Row(
-        children: [
-          _buildCell('Hola', width: 100),
-          for (var holeNumber = 1; holeNumber <= 9; holeNumber++)
-            _buildCell('$holeNumber', width: 50, isPlayerTile: false),
-          _buildCell('ÚT', width: 50, isPlayerTile: false),
-        ],
-      ),
+    return Row(
+      children: [
+        _buildCell('Hola', width: 100),
+        for (var holeNumber = 1; holeNumber <= 9; holeNumber++)
+          _buildCell('$holeNumber', width: 50, isPlayerTile: false),
+        _buildCell('ÚT', width: 50, isPlayerTile: false),
+      ],
     );
   }
 
   Widget _buildFront9Length() {
     int totalLength9 =
         holes.take(9).fold(0, (prev, hole) => prev + hole.yellowTee);
-    return Container(
-      child: Row(
-        children: [
-          _buildCell('Gulur(M)', width: 100),
-          for (var i = 0; i < 9; i++)
-            _buildCell('${holes[i].yellowTee}', width: 50, isPlayerTile: false),
-          _buildCell('${totalLength9}', width: 50, isPlayerTile: false),
-        ],
-      ),
+    return Row(
+      children: [
+        _buildCell('Gulur(M)', width: 100),
+        for (var i = 0; i < 9; i++)
+          _buildCell('${holes[i].yellowTee}', width: 50, isPlayerTile: false),
+        _buildCell('$totalLength9', width: 50, isPlayerTile: false),
+      ],
     );
   }
 
   Widget _buildFront9Par() {
     int totalPar9 = holes.take(9).fold(0, (prev, hole) => prev + hole.par);
-    return Container(
-      child: Row(
-        children: [
-          _buildCell('Par', width: 100),
-          for (var i = 0; i < 9; i++)
-            _buildCell('${holes[i].par}', width: 50, isPlayerTile: false),
-          _buildCell(totalPar9.toString(), width: 50, isPlayerTile: false),
-        ],
-      ),
+    return Row(
+      children: [
+        _buildCell('Par', width: 100),
+        for (var i = 0; i < 9; i++)
+          _buildCell('${holes[i].par}', width: 50, isPlayerTile: false),
+        _buildCell(totalPar9.toString(), width: 50, isPlayerTile: false),
+      ],
     );
   }
 
   Widget _buildFront9Handicap() {
-    return Container(
-      child: Row(
-        children: [
-          _buildCell('Forgjöf', width: 100),
-          for (var i = 0; i < 9; i++)
-            _buildCell('${holes[i].handicap}', width: 50, isPlayerTile: false),
-          _buildCell('', width: 50, isPlayerTile: false),
-        ],
-      ),
+    return Row(
+      children: [
+        _buildCell('Forgjöf', width: 100),
+        for (var i = 0; i < 9; i++)
+          _buildCell('${holes[i].handicap}', width: 50, isPlayerTile: false),
+        _buildCell('', width: 50, isPlayerTile: false),
+      ],
     );
   }
 
   // BACK 9
   Widget _buildBack9Holes() {
-    return Container(
-      child: Row(
-        children: [
-          for (var holeNumber = 10; holeNumber <= 18; holeNumber++)
-            _buildCell('$holeNumber', width: 50, isPlayerTile: false),
-          _buildCell(''),
-        ],
-      ),
+    return Row(
+      children: [
+        for (var holeNumber = 10; holeNumber <= 18; holeNumber++)
+          _buildCell('$holeNumber', width: 50, isPlayerTile: false),
+        _buildCell(''),
+      ],
     );
   }
 
   Widget _buildBack9Length() {
     int totalLength18 = holes.fold(0, (prev, hole) => prev + hole.yellowTee);
-    return Container(
-      child: Row(
-        children: [
-          for (var i = 9; i < 18; i++)
-            _buildCell('${holes[i].yellowTee}', width: 50, isPlayerTile: false),
-          _buildCell(totalLength18.toString(), width: 50, isPlayerTile: false),
-        ],
-      ),
+    return Row(
+      children: [
+        for (var i = 9; i < 18; i++)
+          _buildCell('${holes[i].yellowTee}', width: 50, isPlayerTile: false),
+        _buildCell(totalLength18.toString(), width: 50, isPlayerTile: false),
+      ],
     );
   }
 
   Widget _buildBack9Par() {
     int totalPar9 = holes.fold(0, (prev, hole) => prev + hole.par);
-    return Container(
-      child: Row(
-        children: [
-          for (var i = 9; i < 18; i++)
-            _buildCell('${holes[i].par}', width: 50, isPlayerTile: false),
-          _buildCell(totalPar9.toString(), width: 50, isPlayerTile: false),
-        ],
-      ),
+    return Row(
+      children: [
+        for (var i = 9; i < 18; i++)
+          _buildCell('${holes[i].par}', width: 50, isPlayerTile: false),
+        _buildCell(totalPar9.toString(), width: 50, isPlayerTile: false),
+      ],
     );
   }
 
   Widget _buildBack9Handicap() {
-    return Container(
-      child: Row(
-        children: [
-          for (var i = 9; i < 18; i++)
-            _buildCell('${holes[i].handicap}', width: 50, isPlayerTile: false),
-          _buildCell('', width: 50, isPlayerTile: false),
-        ],
-      ),
+    return Row(
+      children: [
+        for (var i = 9; i < 18; i++)
+          _buildCell('${holes[i].handicap}', width: 50, isPlayerTile: false),
+        _buildCell('', width: 50, isPlayerTile: false),
+      ],
     );
   }
 
@@ -441,36 +420,34 @@ class ScorecardScreen extends StatelessWidget {
         player.strokes.take(9).fold(0, (prev, score) => prev + score);
     List<int> pars = holes.take(9).map((hole) => hole.par).toList();
 
-    return Container(
-      child: Row(
-        children: [
+    return Row(
+      children: [
+        _buildCell(
+          player.initials,
+          width: 100,
+        ),
+        for (var i = 0; i < 9; i++)
           _buildCell(
-            player.initials,
-            width: 100,
-          ),
-          for (var i = 0; i < 9; i++)
-            _buildCell(
-              player.strokes[i].toString(),
-              width: 50,
-              isPlayerTile: true,
-              score: player.strokes[i],
-              par: pars[i],
-            ),
-          _buildCell(
-            totalScore9.toString(),
+            player.strokes[i].toString(),
             width: 50,
             isPlayerTile: true,
-            fontSize: 30,
+            score: player.strokes[i],
+            par: pars[i],
           ),
-        ],
-      ),
+        _buildCell(
+          totalScore9.toString(),
+          width: 50,
+          isPlayerTile: true,
+          fontSize: 30,
+        ),
+      ],
     );
   }
 
   Widget _buildPlayerBack9(Player player) {
     if (player.strokes.length < 18) {
       //error handle if not enough strokes
-      return SizedBox();
+      return const SizedBox();
     }
 
     List<int> back9Scores = player.strokes.skip(9).toList();
@@ -478,25 +455,23 @@ class ScorecardScreen extends StatelessWidget {
 
     List<int> back9Pars = holes.skip(9).map((hole) => hole.par).toList();
 
-    return Container(
-      child: Row(
-        children: [
-          for (int i = 0; i < back9Scores.length; i++)
-            _buildCell(
-              back9Scores[i].toString(),
-              width: 50,
-              isPlayerTile: true,
-              score: back9Scores[i],
-              par: back9Pars[i],
-            ),
+    return Row(
+      children: [
+        for (int i = 0; i < back9Scores.length; i++)
           _buildCell(
-            totalScore.toString(),
+            back9Scores[i].toString(),
             width: 50,
             isPlayerTile: true,
-            fontSize: 30,
+            score: back9Scores[i],
+            par: back9Pars[i],
           ),
-        ],
-      ),
+        _buildCell(
+          totalScore.toString(),
+          width: 50,
+          isPlayerTile: true,
+          fontSize: 30,
+        ),
+      ],
     );
   }
 

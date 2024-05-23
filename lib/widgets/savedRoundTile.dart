@@ -2,26 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/round.dart';
-import 'package:score_card/pages/round_setup_screen.dart';
 import 'package:score_card/pages/scorecard_screen.dart';
-import 'package:score_card/widgets/relative_score.dart';
-
 import 'package:transparent_image/transparent_image.dart';
 
 class SavedRoundTile extends StatelessWidget {
   final Round round;
 
   const SavedRoundTile({
-    Key? key,
+    super.key,
     required this.round,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    int totalStrokes =
-        round.players.isNotEmpty && round.players[0].strokes != null
-            ? round.players[0].strokes.fold(0, (prev, score) => prev + score)
-            : 0;
+    int totalStrokes = round.players.isNotEmpty
+        ? round.players[0].strokes.fold(0, (prev, score) => prev + score)
+        : 0;
 
     int totalPar = round.holes.fold(0, (sum, hole) => sum + hole.par);
     int relativeScore = totalStrokes - totalPar;
@@ -135,8 +131,7 @@ class CardButton extends StatelessWidget {
   final GolfCourse course;
   final Round round;
 
-  const CardButton({Key? key, required this.course, required this.round})
-      : super(key: key);
+  const CardButton({super.key, required this.course, required this.round});
 
   @override
   Widget build(BuildContext context) {

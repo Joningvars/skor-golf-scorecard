@@ -50,8 +50,6 @@ Future<List<GolfCourse>> getCourseData() async {
     // return course list
     return golfCourses;
   } catch (e) {
-    print('Error: $e');
-
     // return empty list in case of error
     return [];
   }

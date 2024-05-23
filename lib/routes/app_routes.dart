@@ -15,9 +15,9 @@ class AppRoutes {
   static const String roundSetupScreen = '/example_screen';
 
   static Map<String, WidgetBuilder> routes = {
-    myScoresScreen: (context) => MyScoresScreen(),
+    myScoresScreen: (context) => const MyScoresScreen(),
     welcomeScreen: (context) => WelcomeScreen(),
-    courseSelectScreen: (context) => CourseSelectScreen(),
+    courseSelectScreen: (context) => const CourseSelectScreen(),
     initialRoute: (context) => WelcomeScreen(),
   };
 }

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:score_card/data/course_data_loader.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/theme/theme_helper.dart';
 import 'package:score_card/widgets/course_tile.dart';
 
 class CourseSelectScreen extends StatefulWidget {
-  const CourseSelectScreen({Key? key}) : super(key: key);
+  const CourseSelectScreen({super.key});
 
   @override
   _CourseSelectScreenState createState() => _CourseSelectScreenState();
@@ -36,7 +35,7 @@ class _CourseSelectScreenState extends State<CourseSelectScreen> {
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
-            icon: Icon(Icons.search),
+            icon: const Icon(Icons.search),
             onPressed: () {
               showSearch(context: context, delegate: CustomSearchDelegate());
             },
@@ -59,7 +58,7 @@ class _CourseSelectScreenState extends State<CourseSelectScreen> {
             future: _coursesFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: const CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else {
@@ -79,9 +78,9 @@ class _CourseSelectScreenState extends State<CourseSelectScreen> {
 
 class CourseCardBuilder extends StatelessWidget {
   const CourseCardBuilder({
-    Key? key,
+    super.key,
     required this.courses,
-  }) : super(key: key);
+  });
 
   final List<GolfCourse> courses;
 
@@ -104,7 +103,7 @@ class CustomSearchDelegate extends SearchDelegate {
   List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
         onPressed: () {
           query = '';
         },
@@ -146,12 +145,12 @@ class CustomSearchDelegate extends SearchDelegate {
           title: RichText(
             text: TextSpan(
               text: suggestionList[index].name.substring(0, query.length),
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  color: Colors.black, fontWeight: FontWeight.bold),
               children: [
                 TextSpan(
                   text: suggestionList[index].name.substring(query.length),
-                  style: TextStyle(color: Colors.grey),
+                  style: const TextStyle(color: Colors.grey),
                 ),
               ],
             ),

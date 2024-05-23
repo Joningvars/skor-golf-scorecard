@@ -34,7 +34,8 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
   final _formKey = GlobalKey<FormState>();
 
   void _deletePlayer() async {
-    showDialog(
+    final theme = Theme.of(context);
+    final shouldDelete = await showDialog<bool>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -42,13 +43,12 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
             'Eyða golfara',
             style: TextStyle(color: theme.primaryColor),
           ),
-          content: const Text('viltu eyða golfara?'),
+          content: const Text('Viltu eyða golfara?'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 HapticFeedback.lightImpact();
-
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(false);
               },
               child: Text(
                 'Hætta við',
@@ -56,34 +56,9 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
               ),
             ),
             TextButton(
-              onPressed: () async {
+              onPressed: () {
                 HapticFeedback.lightImpact();
-
-                final SharedPreferences prefs =
-                    await SharedPreferences.getInstance();
-                final List<String>? playerJsonList =
-                    prefs.getStringList('players');
-                if (playerJsonList != null) {
-                  List<Player> players = playerJsonList
-                      .map((jsonString) =>
-                          Player.fromJson(json.decode(jsonString)))
-                      .toList();
-
-                  players.remove(widget.initialPlayer);
-
-                  final List<String> updatedPlayerJsonList = players
-                      .map((player) => json.encode(player.toJson()))
-                      .toList();
-
-                  await prefs.setStringList('players', updatedPlayerJsonList);
-                }
-
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-
-                if (widget.onDeletePlayer != null) {
-                  widget.onDeletePlayer!();
-                }
+                Navigator.of(context).pop(true);
               },
               child: const Text(
                 'Eyða',
@@ -94,6 +69,31 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
         );
       },
     );
+
+    if (shouldDelete == true && mounted) {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final List<String>? playerJsonList = prefs.getStringList('players');
+      if (playerJsonList != null) {
+        List<Player> players = playerJsonList
+            .map((jsonString) => Player.fromJson(json.decode(jsonString)))
+            .toList();
+
+        players.remove(widget.initialPlayer);
+
+        final List<String> updatedPlayerJsonList =
+            players.map((player) => json.encode(player.toJson())).toList();
+
+        await prefs.setStringList('players', updatedPlayerJsonList);
+
+        if (mounted) {
+          Navigator.of(context).pop();
+
+          if (widget.onDeletePlayer != null) {
+            widget.onDeletePlayer!();
+          }
+        }
+      }
+    }
   }
 
   @override

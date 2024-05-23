@@ -6,10 +6,10 @@ class TeeSelectDropdown extends StatefulWidget {
   final void Function(int)? onItemSelected;
 
   const TeeSelectDropdown({
-    Key? key,
+    super.key,
     required this.course,
     this.onItemSelected,
-  }) : super(key: key);
+  });
 
   @override
   State<TeeSelectDropdown> createState() => _TeeSelectDropdownState();

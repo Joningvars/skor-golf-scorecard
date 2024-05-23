@@ -19,7 +19,6 @@ class Player {
 
   void addStrokes(int holeNumber, int strokes) {
     if (holeNumber < 1 || holeNumber > 18) {
-      print('Hole number is not between 1 and 18');
       return;
     }
 

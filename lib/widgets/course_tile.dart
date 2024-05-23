@@ -9,9 +9,9 @@ class CourseTile extends StatelessWidget {
   final GolfCourse course;
 
   const CourseTile({
-    Key? key,
+    super.key,
     required this.course,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -136,8 +136,9 @@ class TeeLength extends StatelessWidget {
           color: color,
           size: 20,
         ),
+        SizedBox(width: 5),
         Text(
-          '${tee}m',
+          '${tee}',
           style: const TextStyle(
               color: Color.fromARGB(255, 226, 226, 226),
               fontSize: 10,

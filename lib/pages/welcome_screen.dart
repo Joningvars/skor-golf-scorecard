@@ -1,29 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:score_card/routes/app_routes.dart';
 import 'package:score_card/theme/theme_helper.dart';
 import 'package:score_card/widgets/welcome_button.dart';
 
-class WelcomeScreen extends StatefulWidget {
-  WelcomeScreen({super.key});
+class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
 
-  @override
-  _WelcomeScreenState createState() => _WelcomeScreenState();
-}
-
-class _WelcomeScreenState extends State<WelcomeScreen> {
   final String imagePath = 'assets/images/';
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _precacheImages();
-  }
-
-  void _precacheImages() {
-    precacheImage(AssetImage('${imagePath}skor_logo.png'), context);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +49,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                 color: Colors.black.withOpacity(0.3),
                                 spreadRadius: 10,
                                 blurRadius: 100,
-                                offset: Offset(0, 0),
+                                offset: const Offset(0, 0),
                               ),
                             ],
                           ),
@@ -97,10 +81,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               context, AppRoutes.courseSelectScreen);
                         },
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       WelcomeScreenButton(
                         textColor: Colors.black,
-                        color: Color.fromARGB(150, 233, 233, 233),
+                        color: const Color.fromARGB(150, 233, 233, 233),
                         text: 'Mínir Hringir',
                         onPressed: () {
                           HapticFeedback.lightImpact();

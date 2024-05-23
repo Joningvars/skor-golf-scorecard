@@ -10,7 +10,7 @@ import 'package:score_card/widgets/customAppBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RoundSetupScreen extends StatefulWidget {
-  RoundSetupScreen({super.key, required this.course});
+  const RoundSetupScreen({super.key, required this.course});
   final GolfCourse course;
 
   @override
@@ -65,26 +65,6 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
     _savePlayers();
   }
 
-  void _navigateToAddPlayerScreen() async {
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AddPlayerScreen(
-          course: widget.course,
-          onAddPlayer: _addPlayer,
-        ),
-      ),
-    );
-
-    if (result != null) {
-      String firstName = result['firstName'];
-      String lastName = result['lastName'];
-      int tee = result['tee'];
-
-      _addPlayer(firstName, lastName, tee);
-    }
-  }
-
   void _navigateToHoleDetailPage(int tee) {
     if (players.isNotEmpty) {
       Navigator.push(
@@ -129,7 +109,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       CustomTeeButton(
-                        text: '${widget.course.whiteTee.toString()}',
+                        text: widget.course.whiteTee.toString(),
                         color: Colors.white,
                         onPressed: () {
                           HapticFeedback.lightImpact();
@@ -139,7 +119,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                       ),
                       const SizedBox(height: 10),
                       CustomTeeButton(
-                        text: '${widget.course.yellowTee.toString()}',
+                        text: widget.course.yellowTee.toString(),
                         color: Colors.yellow,
                         onPressed: () {
                           HapticFeedback.lightImpact();
@@ -149,7 +129,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                       ),
                       const SizedBox(height: 10),
                       CustomTeeButton(
-                        text: '${widget.course.blueTee.toString()}',
+                        text: widget.course.blueTee.toString(),
                         color: Colors.blue,
                         onPressed: () {
                           HapticFeedback.lightImpact();
@@ -159,7 +139,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                       ),
                       const SizedBox(height: 10),
                       CustomTeeButton(
-                        text: '${widget.course.redTee.toString()}',
+                        text: widget.course.redTee.toString(),
                         color: Colors.red,
                         onPressed: () {
                           HapticFeedback.lightImpact();
@@ -241,11 +221,11 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
 
 class CustomTeeButton extends StatelessWidget {
   const CustomTeeButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.text,
     required this.color,
-  }) : super(key: key);
+  });
 
   final VoidCallback onPressed;
   final Color color;
@@ -271,7 +251,7 @@ class CustomTeeButton extends StatelessWidget {
               color: color,
             ),
             Text(
-              '$text',
+              text,
               style: TextStyle(
                 color: color,
                 fontSize: 35,
@@ -291,11 +271,11 @@ class PlayerButton extends StatelessWidget {
   final VoidCallback onEdit;
 
   const PlayerButton({
-    Key? key,
+    super.key,
     required this.player,
     required this.onDelete,
     required this.onEdit,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -313,8 +293,8 @@ class PlayerButton extends StatelessWidget {
                   shadowColor: Colors.black),
               onPressed: onEdit,
               child: Text(
-                '${player.initials}',
-                style: TextStyle(fontSize: 20),
+                player.initials,
+                style: const TextStyle(fontSize: 20),
               ),
             ),
           ),
@@ -359,7 +339,7 @@ class AddPlayerButton extends StatelessWidget {
               ),
             );
           },
-          child: Icon(
+          child: const Icon(
             Icons.add,
             color: Colors.white,
           ),

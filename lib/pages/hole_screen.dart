@@ -13,10 +13,11 @@ class HoleDetailPage extends StatelessWidget {
   final List<Hole> holes;
   final int selectedTee;
   final List<Player> players;
-  int currentHoleIndex;
+  final int currentHoleIndex;
   final GolfCourse course;
 
-  HoleDetailPage({
+  const HoleDetailPage({
+    super.key,
     required this.holes,
     required this.course,
     required this.selectedTee,
@@ -57,14 +58,6 @@ class HoleDetailPage extends StatelessWidget {
       Navigator.pop(context);
     } else {
       Navigator.pop(context); // pops if no previous hole
-    }
-  }
-
-  void _onItemTapped(int index, BuildContext context) {
-    if (index == 0) {
-      _navigateToPrevHole(context);
-    } else if (index == 1) {
-      _navigateToNextHole(context);
     }
   }
 
@@ -150,7 +143,7 @@ class HoleDetailPage extends StatelessWidget {
               ),
               SizedBox(
                 width: 40,
-                child: const Icon(
+                child: Icon(
                   Icons.golf_course_rounded,
                   color: Color(0XFF195482),
                   size: 90,
@@ -246,11 +239,12 @@ class HoleDetailPage extends StatelessWidget {
                             onEdit: () {},
                           ),
                           Positioned(
-                              top: 5,
-                              left: 45,
-                              right: 0,
-                              bottom: 0,
-                              child: RelativeScoreWidget(player: player)),
+                            top: 10,
+                            left: 48,
+                            right: 0,
+                            bottom: 0,
+                            child: RelativeScoreWidget(player: player),
+                          ),
                         ],
                       ),
                       const Spacer(),
@@ -275,12 +269,12 @@ class CustomCounter extends StatefulWidget {
   final int holeIndex;
   final List<Hole> holes;
 
-  CustomCounter({
-    Key? key,
+  const CustomCounter({
+    super.key,
     required this.player,
     required this.holeIndex,
     required this.holes,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomCounter> createState() => _CustomCounterState();
@@ -377,8 +371,6 @@ class _CustomCounterState extends State<CustomCounter> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return showCounter
         ? SizedBox(
             height: 65,
@@ -392,7 +384,7 @@ class _CustomCounterState extends State<CustomCounter> {
                     color: Colors.black.withOpacity(0.1),
                     spreadRadius: 0,
                     blurRadius: 5,
-                    offset: Offset(3, 3),
+                    offset: const Offset(3, 3),
                   ),
                 ],
               ),

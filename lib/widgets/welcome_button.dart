@@ -4,16 +4,15 @@ import 'package:score_card/theme/theme_helper.dart';
 class WelcomeScreenButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
-  Color? color;
-  Color? textColor;
+  final Color? color;
+  final Color? textColor;
 
-  WelcomeScreenButton(
-      {Key? key,
+  const WelcomeScreenButton(
+      {super.key,
       required this.text,
       required this.onPressed,
       required this.textColor,
-      required this.color})
-      : super(key: key);
+      required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +24,17 @@ class WelcomeScreenButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         child: ElevatedButton(
           onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: color,
+            fixedSize: const Size(230, 60),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
           child: Text(
             text,
             style: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.bold, color: textColor),
-          ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: color,
-            fixedSize: Size(230, 60),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
           ),
         ),
       ),

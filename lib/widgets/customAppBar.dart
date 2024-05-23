@@ -7,15 +7,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leadAction;
 
   const CustomAppBar(
-      {Key? key,
+      {super.key,
       required this.title,
       this.onPressed,
       this.action,
-      this.leadAction})
-      : super(key: key);
+      this.leadAction});
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +30,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           )),
       backgroundColor: Theme.of(context).primaryColor,
       actions: action != null ? [action!] : null,
-      leading: leadAction != null ? leadAction : null,
+      leading: leadAction,
     );
   }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -7,7 +9,7 @@ import 'package:score_card/widgets/savedRoundTile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyScoresScreen extends StatefulWidget {
-  const MyScoresScreen({Key? key}) : super(key: key);
+  const MyScoresScreen({super.key});
 
   @override
   _MyScoresScreenState createState() => _MyScoresScreenState();
@@ -51,7 +53,7 @@ class _MyScoresScreenState extends State<MyScoresScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: CustomAppBar(title: 'Vistaðir hringir'),
+      appBar: const CustomAppBar(title: 'Vistaðir hringir'),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -75,8 +77,8 @@ class _MyScoresScreenState extends State<MyScoresScreen> {
                     background: Container(
                       color: Colors.red,
                       alignment: Alignment.centerRight,
-                      padding: EdgeInsets.only(right: 20),
-                      child: Icon(Icons.delete, color: Colors.white),
+                      padding: const EdgeInsets.only(right: 20),
+                      child: const Icon(Icons.delete, color: Colors.white),
                     ),
                     child: SavedRoundTile(round: savedRounds[index]),
                   );
