@@ -7,17 +7,19 @@ var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   ThemeHelper().changeTheme('primary');
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
       title: 'skor',
       debugShowCheckedModeBanner: false,
-      home: WelcomeScreen(),
+      home: const WelcomeScreen(),
       initialRoute: AppRoutes.initialRoute,
       routes: AppRoutes.routes,
     );

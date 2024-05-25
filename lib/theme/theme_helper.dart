@@ -1,6 +1,5 @@
 // ignore_for_file: duplicate_ignore
 
-import 'dart:ui';
 import 'package:flutter/material.dart';
 
 String _appTheme = "lightCode";
@@ -11,16 +10,16 @@ ThemeData get theme => ThemeHelper().themeData();
 
 // ignore_for_file: must_be_immutable
 class ThemeHelper {
-  Map<String, LightCodeColors> _supportedCustomColor = {
+  final Map<String, LightCodeColors> _supportedCustomColor = {
     'lightCode': LightCodeColors()
   };
 
-  Map<String, ColorScheme> _supportedColorScheme = {
+  final Map<String, ColorScheme> _supportedColorScheme = {
     'lightCode': ColorSchemes.lightCodeColorScheme
   };
 
-  void changeTheme(String _newTheme) {
-    _appTheme = _newTheme;
+  void changeTheme(String newTheme) {
+    _appTheme = newTheme;
   }
 
   LightCodeColors _getThemeColors() {
@@ -113,7 +112,7 @@ class TextThemes {
 
 class ColorSchemes {
   static const lightCodeColorScheme = ColorScheme.light(
-    primary: const Color(0XFF13334C),
+    primary: Color(0XFF13334C),
     primaryContainer: Color(0XFF949494),
     secondary: Color(0XFF195482),
     onPrimary: Color(0XFFFFFFFF),
@@ -135,7 +134,7 @@ class LightCodeColors {
 // LightBlue
   Color get lightBlueA700 => const Color(0XFF009BF3);
 // background white
-  Color get background => Color.fromARGB(255, 252, 252, 249);
+  Color get background => const Color.fromARGB(255, 252, 252, 249);
 // Red
   Color get redA700 => const Color(0XFFFF0C0C);
   Color get redA70001 => const Color(0XFFFF0000);

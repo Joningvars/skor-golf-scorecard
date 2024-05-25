@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_icon_shadow/flutter_icon_shadow.dart';
@@ -39,30 +41,6 @@ class _HoleDetailPageState extends State<HoleDetailPage> {
   void dispose() {
     _pageController.dispose();
     super.dispose();
-  }
-
-  Future<bool> _onWillPop() async {
-    return false;
-  }
-
-  void _navigateToNextHole() {
-    if (_pageController.page!.toInt() < widget.holes.length - 1) {
-      _pageController.nextPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.ease,
-      );
-    }
-  }
-
-  void _navigateToPrevHole() {
-    if (_pageController.page!.toInt() > 0) {
-      _pageController.previousPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.ease,
-      );
-    } else {
-      Navigator.pop(context);
-    }
   }
 
   @override
@@ -266,10 +244,10 @@ class HoleDetail extends StatelessWidget {
                             onDelete: () {},
                             onEdit: () {},
                           ),
-                          RelativeScoreWidget(player: player),
+                          // RelativeScoreWidget(player: player),
                         ],
                       ),
-                      const Spacer(),
+                      // const Spacer(),
                       CustomCounter(
                         player: player,
                         holeIndex: currentHoleIndex,
@@ -323,6 +301,9 @@ class _CustomCounterState extends State<CustomCounter> {
       );
     }
     strokeCount = widget.player.strokes[widget.holeIndex];
+    if (strokeCount > 0) {
+      showCounter = true;
+    }
   }
 
   void _updateStrokeCount(int change, Player player) {
@@ -340,7 +321,6 @@ class _CustomCounterState extends State<CustomCounter> {
       int relativeScore = score - par;
 
       player.relativeScore -= player.strokes[widget.holeIndex] - par;
-
       player.strokes[widget.holeIndex] = strokeCount;
       player.relativeScore += relativeScore;
     });
@@ -417,104 +397,121 @@ class _CustomCounterState extends State<CustomCounter> {
       showCounter = true;
       strokeCount = widget.holes[widget.holeIndex].par;
       widget.player.strokes[widget.holeIndex] = strokeCount;
+      _updateStrokeCount(0, widget.player);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return showCounter
-        ? SizedBox(
-            height: 65,
-            child: Container(
-              padding: const EdgeInsets.all(3),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: _getBackgroundColor(),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    spreadRadius: 0,
-                    blurRadius: 5,
-                    offset: const Offset(3, 3),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      HapticFeedback.selectionClick();
-                      _updateStrokeCount(-1, widget.player);
-                    },
-                    child: const Icon(
-                      Icons.remove,
-                      color: Colors.white,
-                      size: 35,
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 3),
-                    padding: const EdgeInsets.symmetric(horizontal: 3),
+        ? Expanded(
+            child: Row(
+              children: [
+                RelativeScoreWidget(player: widget.player),
+                const Spacer(),
+                SizedBox(
+                  height: 65,
+                  child: Container(
+                    padding: const EdgeInsets.all(3),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(3),
-                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(8),
+                      color: _getBackgroundColor(),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          spreadRadius: 0,
+                          blurRadius: 5,
+                          offset: const Offset(3, 3),
+                        ),
+                      ],
                     ),
-                    child: SizedBox(
-                      width: 60,
-                      height: 60,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: double.infinity,
-                            child: Text(
-                              textAlign: TextAlign.center,
-                              _displayScoreText(),
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 8,
-                              ),
+                    child: Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            HapticFeedback.selectionClick();
+                            _updateStrokeCount(-1, widget.player);
+                          },
+                          child: const Icon(
+                            Icons.remove,
+                            color: Colors.white,
+                            size: 35,
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 3),
+                          padding: const EdgeInsets.symmetric(horizontal: 3),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(3),
+                            color: Colors.grey.shade200,
+                          ),
+                          child: SizedBox(
+                            width: 60,
+                            height: 60,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: Text(
+                                    textAlign: TextAlign.center,
+                                    _displayScoreText(),
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 8,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: Text(
+                                    textAlign: TextAlign.center,
+                                    strokeCount.toString(),
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 27,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          SizedBox(
-                            width: double.infinity,
-                            child: Text(
-                              textAlign: TextAlign.center,
-                              strokeCount.toString(),
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 27,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            HapticFeedback.selectionClick();
+                            _updateStrokeCount(1, widget.player);
+                          },
+                          child: const Icon(
+                            Icons.add,
+                            color: Colors.white,
+                            size: 35,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                  InkWell(
-                    onTap: () {
-                      HapticFeedback.selectionClick();
-                      _updateStrokeCount(1, widget.player);
-                    },
-                    child: const Icon(
-                      Icons.add,
-                      color: Colors.white,
-                      size: 35,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           )
-        : IconButton(
-            icon: const Icon(Icons.add, color: Colors.white, size: 35),
-            onPressed: () {
-              HapticFeedback.lightImpact();
-              _showCounter();
-            },
+        : Expanded(
+            child: Row(
+              children: [
+                RelativeScoreWidget(player: widget.player),
+                const Spacer(),
+                IconButton(
+                  icon: const Icon(Icons.add, color: Colors.white, size: 35),
+                  onPressed: () {
+                    HapticFeedback.lightImpact();
+                    _showCounter();
+                  },
+                ),
+              ],
+            ),
           );
   }
 }

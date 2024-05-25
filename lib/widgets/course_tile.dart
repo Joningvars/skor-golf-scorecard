@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:score_card/models/course.dart';
@@ -86,9 +88,9 @@ class CardButton extends StatelessWidget {
   final GolfCourse course;
 
   const CardButton({
-    Key? key,
+    super.key,
     required this.course,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -130,15 +132,15 @@ class TeeLength extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Icon(
           Icons.sports_golf_rounded,
           color: color,
           size: 20,
         ),
-        SizedBox(width: 5),
         Text(
-          '${tee}',
+          '${tee[0]}.${tee[1]}km',
           style: const TextStyle(
               color: Color.fromARGB(255, 226, 226, 226),
               fontSize: 10,

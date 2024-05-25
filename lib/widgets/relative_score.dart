@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:score_card/models/player.dart';
 
@@ -29,13 +31,16 @@ class _RelativeScoreWidgetState extends State<RelativeScoreWidget> {
       return displayScore;
     }
 
-    return Text(
-      displayText(),
-      textAlign: TextAlign.left,
-      style: const TextStyle(
-        color: Colors.grey,
-        fontSize: 12,
-        fontWeight: FontWeight.bold,
+    return SizedBox(
+      width: 25,
+      child: Text(
+        displayText(),
+        textAlign: TextAlign.left,
+        style: const TextStyle(
+          color: Colors.grey,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

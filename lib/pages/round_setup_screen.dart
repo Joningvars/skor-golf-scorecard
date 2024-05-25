@@ -6,7 +6,7 @@ import 'package:score_card/models/player.dart';
 import 'package:score_card/pages/add_player_screen.dart';
 import 'package:score_card/pages/hole_screen.dart';
 import 'package:score_card/theme/theme_helper.dart';
-import 'package:score_card/widgets/customAppBar.dart';
+import 'package:score_card/widgets/custom_appbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RoundSetupScreen extends StatefulWidget {

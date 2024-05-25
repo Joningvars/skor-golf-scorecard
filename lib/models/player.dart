@@ -1,10 +1,12 @@
+import 'package:score_card/models/hole.dart';
+
 class Player {
   final String firstName;
   final String lastName;
   String initials;
   List<int> strokes = List.generate(18, (i) => 0);
   int selectedTee;
-  int relativeScore;
+  int relativeScore = 0;
 
   Player({
     required this.firstName,
@@ -17,12 +19,18 @@ class Player {
     calculateInitials();
   }
 
-  void addStrokes(int holeNumber, int strokes) {
+  void addStrokes(int holeNumber, int strokes, int holePar) {
     if (holeNumber < 1 || holeNumber > 18) {
       return;
     }
 
+    int currentStrokes = this.strokes[holeNumber - 1];
+    if (currentStrokes > 0) {
+      relativeScore -= (currentStrokes - holePar);
+    }
+
     this.strokes[holeNumber - 1] = strokes;
+    relativeScore += (strokes - holePar);
   }
 
   void calculateInitials() {
@@ -33,12 +41,25 @@ class Player {
     initials = words.map((word) => word[0]).join().toUpperCase();
   }
 
+  void calculateRelativeScore(List<Hole> holes) {
+    relativeScore = 0;
+    for (int i = 0; i < strokes.length; i++) {
+      relativeScore += (strokes[i] - holes[i].par);
+    }
+  }
+
+  void resetScores() {
+    strokes = List.generate(18, (i) => 0);
+    relativeScore = 0;
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'firstName': firstName,
       'lastName': lastName,
       'strokes': strokes,
       'selectedTee': selectedTee,
+      'relativeScore': relativeScore,
     };
   }
 
@@ -48,6 +69,7 @@ class Player {
       lastName: json['lastName'],
       strokes: List<int>.from(json['strokes'] ?? []),
       selectedTee: json['selectedTee'],
+      relativeScore: json['relativeScore'] ?? 0,
     );
   }
 }

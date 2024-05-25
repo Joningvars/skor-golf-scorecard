@@ -29,7 +29,7 @@ class ScorecardScreen extends StatelessWidget {
         players[0].strokes.sublist(9, 18).any((stroke) => stroke != 0);
     Orientation currentOrientation = MediaQuery.of(context).orientation;
 
-    Future<void> _saveRound(BuildContext context) async {
+    Future<void> saveRound(BuildContext context) async {
       int totalStrokes =
           players[0].strokes.fold(0, (sum, stroke) => sum + stroke);
       int totalPar = holes.fold(0, (sum, hole) => sum + hole.par);
@@ -57,6 +57,11 @@ class ScorecardScreen extends StatelessWidget {
       // save list
       await prefs.setStringList('savedRounds', savedRoundJsonList);
 
+      for (var player in players) {
+        player.resetScores();
+      }
+
+      // Check if the widget is still mounted before navigating
       if (context.mounted) {
         Navigator.popUntil(
             context, ModalRoute.withName(AppRoutes.initialRoute));
@@ -73,6 +78,9 @@ class ScorecardScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
+              for (var player in players) {
+                player.resetScores();
+              }
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 AppRoutes.initialRoute,
@@ -83,7 +91,7 @@ class ScorecardScreen extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {
-              _saveRound(context);
+              saveRound(context);
             },
             icon: const Icon(Icons.save_alt_rounded),
           ),
@@ -424,6 +432,7 @@ class ScorecardScreen extends StatelessWidget {
         _buildCell(
           player.initials,
           width: 100,
+          isPlayerTile: true,
         ),
         for (var i = 0; i < 9; i++)
           _buildCell(
@@ -483,7 +492,7 @@ class ScorecardScreen extends StatelessWidget {
     int? par,
     Color tileColor = const Color(0XFF195482),
   }) {
-    Color _calculateColor(int score, int par) {
+    Color calculateColor(int score, int par) {
       if (score == par - 2) {
         return Colors.green;
       } else if (score == par - 1) {
@@ -500,29 +509,27 @@ class ScorecardScreen extends StatelessWidget {
     Color textColor = Colors.white;
 
     if (isPlayerTile && score != null && par != null) {
-      tileColor = _calculateColor(score, par);
+      tileColor = calculateColor(score, par);
 
       textColor = Colors.black;
     }
 
     return SizedBox(
       width: width,
-      height: isPlayerTile ? 38 : 38,
+      height: isPlayerTile ? 50 : 25,
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(color: Colors.black, width: 0.05),
           color: tileColor,
         ),
         alignment: Alignment.center,
-        child: FittedBox(
-          child: Text(
-            text,
-            style: TextStyle(
-              color: textColor,
-              fontWeight: FontWeight.bold,
-              fontSize: fontSize,
-              overflow: TextOverflow.ellipsis,
-            ),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: textColor,
+            fontWeight: FontWeight.bold,
+            fontSize: fontSize,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ),

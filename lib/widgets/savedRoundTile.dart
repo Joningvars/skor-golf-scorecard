@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, camel_case_types
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:score_card/models/course.dart';
@@ -74,7 +76,7 @@ class SavedRoundTile extends StatelessWidget {
                     fontSize: 10,
                     shadows: <Shadow>[
                       Shadow(
-                        offset: const Offset(1, 1),
+                        offset: Offset(1, 1),
                         blurRadius: 4,
                         color: Colors.black54,
                       ),
