@@ -43,23 +43,25 @@ class SavedRoundTile extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(width: 30),
-                Text(
-                  totalStrokes.toString(),
-                  style: TextStyle(
-                    fontSize: 45,
-                    fontWeight: FontWeight.w200,
-                    color: Colors.white,
-                    shadows: <Shadow>[
-                      Shadow(
-                        offset: const Offset(1, 3),
-                        blurRadius: 10,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      Shadow(
-                        blurRadius: 30,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ],
+                FittedBox(
+                  child: Text(
+                    totalStrokes.toString(),
+                    style: const TextStyle(
+                      fontSize: 35,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white,
+                      shadows: <Shadow>[
+                        Shadow(
+                          offset: Offset(1, 1),
+                          blurRadius: 5,
+                          color: Colors.black45,
+                        ),
+                        Shadow(
+                          blurRadius: 30,
+                          color: Colors.black54,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 Text(
@@ -69,7 +71,18 @@ class SavedRoundTile extends StatelessWidget {
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 15,
+                    fontSize: 10,
+                    shadows: <Shadow>[
+                      Shadow(
+                        offset: const Offset(1, 1),
+                        blurRadius: 4,
+                        color: Colors.black54,
+                      ),
+                      Shadow(
+                        blurRadius: 30,
+                        color: Colors.black54,
+                      ),
+                    ],
                   ),
                 ),
               ],

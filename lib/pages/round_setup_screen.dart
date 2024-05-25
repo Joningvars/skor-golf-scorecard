@@ -73,7 +73,6 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
           builder: (context) => HoleDetailPage(
             course: widget.course,
             holes: widget.course.holes,
-            currentHoleIndex: 0,
             players: players,
             selectedTee: tee,
           ),

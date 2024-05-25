@@ -31,8 +31,9 @@ class _RelativeScoreWidgetState extends State<RelativeScoreWidget> {
 
     return Text(
       displayText(),
+      textAlign: TextAlign.left,
       style: const TextStyle(
-        color: Color.fromARGB(255, 24, 66, 97),
+        color: Colors.grey,
         fontSize: 12,
         fontWeight: FontWeight.bold,
       ),

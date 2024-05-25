@@ -57,7 +57,6 @@ class ScorecardScreen extends StatelessWidget {
       // save list
       await prefs.setStringList('savedRounds', savedRoundJsonList);
 
-      // Check if the widget is still mounted before navigating
       if (context.mounted) {
         Navigator.popUntil(
             context, ModalRoute.withName(AppRoutes.initialRoute));
@@ -515,13 +514,15 @@ class ScorecardScreen extends StatelessWidget {
           color: tileColor,
         ),
         alignment: Alignment.center,
-        child: Text(
-          text,
-          style: TextStyle(
-            color: textColor,
-            fontWeight: FontWeight.bold,
-            fontSize: fontSize,
-            overflow: TextOverflow.ellipsis,
+        child: FittedBox(
+          child: Text(
+            text,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: fontSize,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ),
       ),

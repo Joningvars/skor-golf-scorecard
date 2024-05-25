@@ -6,14 +6,12 @@ import 'package:score_card/models/hole.dart';
 import 'package:score_card/models/player.dart';
 import 'package:score_card/pages/round_setup_screen.dart';
 import 'package:score_card/pages/scorecard_screen.dart';
-import 'package:score_card/widgets/customAppBar.dart';
 import 'package:score_card/widgets/relative_score.dart';
 
-class HoleDetailPage extends StatelessWidget {
+class HoleDetailPage extends StatefulWidget {
   final List<Hole> holes;
   final int selectedTee;
   final List<Player> players;
-  final int currentHoleIndex;
   final GolfCourse course;
 
   const HoleDetailPage({
@@ -22,104 +20,135 @@ class HoleDetailPage extends StatelessWidget {
     required this.course,
     required this.selectedTee,
     required this.players,
-    this.currentHoleIndex = 0,
   });
 
-  void _navigateToNextHole(BuildContext context) {
-    if (currentHoleIndex < holes.length - 1) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HoleDetailPage(
-            course: course,
-            holes: holes,
-            selectedTee: selectedTee,
-            players: players,
-            currentHoleIndex: currentHoleIndex + 1,
-          ),
-        ),
-      );
-    } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ScorecardScreen(
-            course: course,
-            players: players,
-            holes: holes,
-          ),
-        ),
+  @override
+  _HoleDetailPageState createState() => _HoleDetailPageState();
+}
+
+class _HoleDetailPageState extends State<HoleDetailPage> {
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: 0);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  Future<bool> _onWillPop() async {
+    return false;
+  }
+
+  void _navigateToNextHole() {
+    if (_pageController.page!.toInt() < widget.holes.length - 1) {
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.ease,
       );
     }
   }
 
-  void _navigateToPrevHole(BuildContext context) {
-    if (currentHoleIndex > 0) {
-      Navigator.pop(context);
+  void _navigateToPrevHole() {
+    if (_pageController.page!.toInt() > 0) {
+      _pageController.previousPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.ease,
+      );
     } else {
-      Navigator.pop(context); // pops if no previous hole
+      Navigator.pop(context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    Hole currentHole = holes[currentHoleIndex];
-    final theme = Theme.of(context);
-
     return Scaffold(
-      backgroundColor: theme.primaryColor,
-      appBar: CustomAppBar(
-        title: '',
-        action: IconButton(
-          icon: const Icon(
-            Icons.arrow_forward_ios,
-          ),
-          onPressed: () {
-            HapticFeedback.selectionClick();
-            _navigateToNextHole(context);
-          },
-        ),
-        leadAction: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-          ),
-          onPressed: () {
-            HapticFeedback.selectionClick();
-            _navigateToPrevHole(context);
-          },
+      backgroundColor: Theme.of(context).primaryColor,
+      body: PageView.builder(
+        controller: _pageController,
+        itemCount: widget.holes.length + 1,
+        itemBuilder: (context, index) {
+          if (index < widget.holes.length) {
+            return HoleDetail(
+              currentHole: widget.holes[index],
+              currentHoleIndex: index,
+              totalHoles: widget.holes.length,
+              course: widget.course,
+              players: widget.players,
+            );
+          } else {
+            return ScorecardScreen(
+              players: widget.players,
+              holes: widget.holes,
+              course: widget.course,
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+
+class HoleDetail extends StatelessWidget {
+  final Hole currentHole;
+  final int currentHoleIndex;
+  final int totalHoles;
+  final GolfCourse course;
+  final List<Player> players;
+
+  const HoleDetail({
+    super.key,
+    required this.currentHole,
+    required this.currentHoleIndex,
+    required this.totalHoles,
+    required this.course,
+    required this.players,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+          colors: [
+            theme.colorScheme.secondary,
+            theme.primaryColor,
+            theme.primaryColor,
+          ],
         ),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            colors: [
-              theme.colorScheme.secondary,
-              theme.primaryColor,
-              theme.primaryColor,
-            ],
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
-          child: OrientationBuilder(
-            builder: (context, orientation) {
-              return orientation == Orientation.landscape
-                  ? SingleChildScrollView(
-                      child: _buildContent(currentHole, theme),
-                    )
-                  : _buildContent(currentHole, theme);
-            },
-          ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+        child: OrientationBuilder(
+          builder: (context, orientation) {
+            return orientation == Orientation.landscape
+                ? SingleChildScrollView(
+                    child: _buildContent(currentHole, theme, context),
+                  )
+                : _buildContent(currentHole, theme, context);
+          },
         ),
       ),
     );
   }
 
-  Widget _buildContent(Hole currentHole, ThemeData theme) {
+  Widget _buildContent(
+      Hole currentHole, ThemeData theme, BuildContext context) {
     return Column(
       children: [
+        SizedBox(
+            height: 130,
+            child: Image.asset(
+              'assets/images/skor_logo.png',
+            )),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -217,7 +246,7 @@ class HoleDetailPage extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 100),
+        const SizedBox(height: 50),
         const Divider(
           color: Color.fromARGB(82, 15, 39, 58),
           thickness: 4,
@@ -229,29 +258,22 @@ class HoleDetailPage extends StatelessWidget {
                 children: [
                   const SizedBox(height: 10),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Stack(
+                      Row(
                         children: [
                           PlayerButton(
                             player: player,
                             onDelete: () {},
                             onEdit: () {},
                           ),
-                          Positioned(
-                            top: 10,
-                            left: 48,
-                            right: 0,
-                            bottom: 0,
-                            child: RelativeScoreWidget(player: player),
-                          ),
+                          RelativeScoreWidget(player: player),
                         ],
                       ),
                       const Spacer(),
                       CustomCounter(
                         player: player,
                         holeIndex: currentHoleIndex,
-                        holes: holes,
+                        holes: course.holes,
                       ),
                     ],
                   ),
@@ -259,6 +281,11 @@ class HoleDetailPage extends StatelessWidget {
               );
             }).toList(),
           ),
+        const Icon(
+          Icons.swipe,
+          color: Color.fromARGB(255, 27, 91, 141),
+          size: 40,
+        ),
       ],
     );
   }
@@ -360,6 +387,30 @@ class _CustomCounterState extends State<CustomCounter> {
     return scoreText;
   }
 
+  Color _getBackgroundColor() {
+    int score = widget.player.strokes[widget.holeIndex];
+    int par = widget.holes[widget.holeIndex].par;
+    int relativeScore = score - par;
+
+    if (relativeScore < -2) {
+      return Colors.orange.shade400;
+    } else if (relativeScore == -2) {
+      return Colors.green.shade400;
+    } else if (relativeScore == -1) {
+      return Colors.red.shade400;
+    } else if (relativeScore == 0) {
+      return const Color(0XFF3270A2);
+    } else if (relativeScore == 1) {
+      return Colors.grey;
+    } else if (relativeScore == 2) {
+      return Colors.grey.shade700;
+    } else if (relativeScore > 2) {
+      return Colors.grey.shade900;
+    } else {
+      return const Color(0XFF3270A2);
+    }
+  }
+
   void _showCounter() {
     HapticFeedback.selectionClick();
     setState(() {
@@ -378,7 +429,7 @@ class _CustomCounterState extends State<CustomCounter> {
               padding: const EdgeInsets.all(3),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: const Color(0XFF3270A2),
+                color: _getBackgroundColor(),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
