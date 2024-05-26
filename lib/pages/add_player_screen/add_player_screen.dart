@@ -6,7 +6,7 @@ import 'package:score_card/models/course.dart';
 import 'package:score_card/models/player.dart';
 import 'package:score_card/theme/theme_helper.dart';
 import 'package:score_card/widgets/custom_appbar.dart';
-import 'package:score_card/widgets/tee_select_dropdown.dart';
+import 'package:score_card/pages/round_setup_screen/tee_select_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddPlayerScreen extends StatefulWidget {

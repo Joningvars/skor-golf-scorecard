@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:score_card/pages/welcome_screen.dart';
+import 'package:score_card/pages/welcome_screen/welcome_screen.dart';
 import 'package:score_card/routes/app_routes.dart';
 import 'package:score_card/theme/theme_helper.dart';
 

@@ -6,8 +6,8 @@ import 'package:flutter_icon_shadow/flutter_icon_shadow.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
 import 'package:score_card/models/player.dart';
-import 'package:score_card/pages/round_setup_screen.dart';
-import 'package:score_card/pages/scorecard_screen.dart';
+import 'package:score_card/pages/round_setup_screen/round_setup_screen.dart';
+import 'package:score_card/pages/scorecard_screen/scorecard_screen.dart';
 import 'package:score_card/widgets/relative_score.dart';
 
 class HoleDetailPage extends StatefulWidget {

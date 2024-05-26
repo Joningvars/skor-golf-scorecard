@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:score_card/pages/course_select_screen.dart';
-import 'package:score_card/pages/my_scores_screen.dart';
-import 'package:score_card/pages/welcome_screen.dart';
+import 'package:score_card/pages/course_select_screen/course_select_screen.dart';
+import 'package:score_card/pages/my_scores_screen/my_scores_screen.dart';
+import 'package:score_card/pages/welcome_screen/welcome_screen.dart';
 
 class AppRoutes {
   static const String myScoresScreen = '/my_scores_screen';

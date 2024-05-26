@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:score_card/data/course_data_loader.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/theme/theme_helper.dart';
-import 'package:score_card/widgets/course_tile.dart';
+import 'package:score_card/pages/course_select_screen/course_tile.dart';
 
 class CourseSelectScreen extends StatefulWidget {
   const CourseSelectScreen({super.key});

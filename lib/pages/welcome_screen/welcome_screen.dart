@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:score_card/routes/app_routes.dart';
 import 'package:score_card/theme/theme_helper.dart';
-import 'package:score_card/widgets/welcome_button.dart';
+import 'package:score_card/pages/welcome_screen/welcome_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});

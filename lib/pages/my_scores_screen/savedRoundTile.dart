@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/round.dart';
-import 'package:score_card/pages/scorecard_screen.dart';
+import 'package:score_card/pages/scorecard_screen/scorecard_screen.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class SavedRoundTile extends StatelessWidget {
