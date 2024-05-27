@@ -39,7 +39,9 @@ class SavedRoundTile extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ShadowText(text: round.golfcourse.clubName),
+                    SizedBox(
+                        width: 210,
+                        child: ShadowText(text: round.golfcourse.clubName)),
                     ShadowText(text: '(${round.golfcourse.name})'),
                     smallerShadowText(text: round.golfcourse.location),
                   ],
@@ -49,7 +51,7 @@ class SavedRoundTile extends StatelessWidget {
                   child: Text(
                     totalStrokes.toString(),
                     style: const TextStyle(
-                      fontSize: 35,
+                      fontSize: 30,
                       fontWeight: FontWeight.w400,
                       color: Colors.white,
                       shadows: <Shadow>[
@@ -279,6 +281,7 @@ class ShadowText extends StatelessWidget {
       text,
       style: Theme.of(context).primaryTextTheme.titleLarge!.copyWith(
         fontWeight: FontWeight.bold,
+        fontSize: 20,
         shadows: <Shadow>[
           Shadow(
             offset: const Offset(1, 3),

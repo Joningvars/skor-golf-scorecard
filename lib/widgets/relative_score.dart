@@ -32,7 +32,7 @@ class _RelativeScoreWidgetState extends State<RelativeScoreWidget> {
     }
 
     return SizedBox(
-      width: 25,
+      width: 40,
       child: Text(
         displayText(),
         textAlign: TextAlign.left,

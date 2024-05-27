@@ -8,6 +8,7 @@ Widget buildCell(
   int? score,
   int? par,
   Color tileColor = const Color(0XFF195482),
+  int? relativeScore,
 }) {
   Color calculateColor(int score, int par) {
     if (score == par - 2) {
@@ -27,7 +28,6 @@ Widget buildCell(
 
   if (isPlayerTile && score != null && par != null) {
     tileColor = calculateColor(score, par);
-
     textColor = Colors.black;
   }
 
@@ -39,15 +39,34 @@ Widget buildCell(
         border: Border.all(color: Colors.black, width: 0.05),
         color: tileColor,
       ),
-      alignment: Alignment.center,
-      child: Text(
-        text,
-        style: TextStyle(
-          color: textColor,
-          fontWeight: FontWeight.bold,
-          fontSize: fontSize,
-          overflow: TextOverflow.ellipsis,
-        ),
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              text,
+              style: TextStyle(
+                color: textColor,
+                fontWeight: FontWeight.bold,
+                fontSize: fontSize,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+          if (relativeScore != null)
+            Positioned(
+              right: 2,
+              top: 1,
+              child: Text(
+                relativeScore > 0 ? '+$relativeScore' : '$relativeScore',
+                style: const TextStyle(
+                  color: Colors.white70,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 10,
+                ),
+              ),
+            ),
+        ],
       ),
     ),
   );

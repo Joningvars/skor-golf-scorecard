@@ -5,6 +5,9 @@ import 'package:score_card/models/course.dart';
 import 'package:score_card/models/player.dart';
 import 'package:score_card/pages/add_player_screen/add_player_screen.dart';
 import 'package:score_card/pages/hole_screen/hole_screen.dart';
+import 'package:score_card/pages/round_setup_screen/add_player_button.dart';
+import 'package:score_card/pages/round_setup_screen/custom_tee_button.dart';
+import 'package:score_card/pages/round_setup_screen/player_button.dart';
 import 'package:score_card/theme/theme_helper.dart';
 import 'package:score_card/widgets/custom_appbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -220,136 +223,6 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class CustomTeeButton extends StatelessWidget {
-  const CustomTeeButton({
-    super.key,
-    required this.onPressed,
-    required this.text,
-    required this.color,
-  });
-
-  final VoidCallback onPressed;
-  final Color color;
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-          elevation: 5,
-          backgroundColor: theme.colorScheme.secondary,
-          shadowColor: Colors.black),
-      onPressed: onPressed,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
-        height: 70,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.sports_golf_rounded,
-              size: 60,
-              color: color,
-            ),
-            Text(
-              text,
-              style: TextStyle(
-                color: color,
-                fontSize: 35,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class PlayerButton extends StatelessWidget {
-  final Player player;
-  final VoidCallback onDelete;
-  final VoidCallback onEdit;
-
-  const PlayerButton({
-    super.key,
-    required this.player,
-    required this.onDelete,
-    required this.onEdit,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: Column(
-        children: [
-          SizedBox(
-            width: 65,
-            height: 65,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  elevation: 3,
-                  shadowColor: Colors.black),
-              onPressed: onEdit,
-              child: Text(
-                player.initials,
-                style: const TextStyle(fontSize: 20),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class AddPlayerButton extends StatelessWidget {
-  final GolfCourse course;
-  final Function(String, String, int) onAddPlayer;
-
-  const AddPlayerButton({
-    super.key,
-    required this.course,
-    required this.onAddPlayer,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      child: SizedBox(
-        width: 40,
-        height: 40,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              backgroundColor: theme.colorScheme.secondary,
-              foregroundColor: Colors.white,
-              elevation: 2,
-              shadowColor: Colors.black),
-          onPressed: () {
-            HapticFeedback.selectionClick();
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AddPlayerScreen(
-                  course: course,
-                  onAddPlayer: onAddPlayer,
-                ),
-              ),
-            );
-          },
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
         ),
       ),
     );

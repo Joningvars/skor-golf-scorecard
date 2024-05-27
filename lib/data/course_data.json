@@ -643,10 +643,10 @@
     "course": "Mýrin",
     "location": "Kópavogur, Iceland",
     "distance": {
-      "white": 2367,
-      "yellow": 2062,
-      "blue": 1690,
-      "red": 1690
+      "white": 23,
+      "yellow": 20,
+      "blue": 16,
+      "red": 16
     },
     "imgUrl": "https://cdn.sanity.io/images/arkm1m4f/production/f82f4823922e074d6c9691c747dccf9009791f09-3748x3640.jpg",
     "par": 34,
@@ -741,6 +741,105 @@
       },
       {
         "number": 9,
+        "par": 3,
+        "handicap": 13,
+        "distance": {
+          "white": 130,
+          "yellow": 121,
+          "blue": 118,
+          "red": 118
+        }
+      },
+      {
+        "number": 10,
+        "par": 4,
+        "handicap": 3,
+        "distance": {
+          "white": 336,
+          "yellow": 283,
+          "blue": 228,
+          "red": 228
+        }
+      },
+      {
+        "number": 11,
+        "par": 3,
+        "handicap": 17,
+        "distance": {
+          "white": 125,
+          "yellow": 104,
+          "blue": 95,
+          "red": 95
+        }
+      },
+      {
+        "number": 12,
+        "par": 4,
+        "handicap": 7,
+        "distance": {
+          "white": 293,
+          "yellow": 254,
+          "blue": 204,
+          "red": 204
+        }
+      },
+      {
+        "number": 13,
+        "par": 3,
+        "handicap": 11,
+        "distance": {
+          "white": 139,
+          "yellow": 123,
+          "blue": 115,
+          "red": 115
+        }
+      },
+      {
+        "number": 14,
+        "par": 4,
+        "handicap": 15,
+        "distance": {
+          "white": 347,
+          "yellow": 339,
+          "blue": 290,
+          "red": 290
+        }
+      },
+      {
+        "number": 15,
+        "par": 4,
+        "handicap": 1,
+        "distance": {
+          "white": 325,
+          "yellow": 276,
+          "blue": 200,
+          "red": 200
+        }
+      },
+      {
+        "number": 16,
+        "par": 5,
+        "handicap": 9,
+        "distance": {
+          "white": 368,
+          "yellow": 318,
+          "blue": 248,
+          "red": 248
+        }
+      },
+      {
+        "number": 17,
+        "par": 4,
+        "handicap": 5,
+        "distance": {
+          "white": 304,
+          "yellow": 244,
+          "blue": 192,
+          "red": 192
+        }
+      },
+      {
+        "number": 18,
         "par": 3,
         "handicap": 13,
         "distance": {
@@ -2461,10 +2560,10 @@
     "course": "Svarfhólsvöllur",
     "location": "Selfoss, Iceland",
     "distance": {
-      "white": 52,
-      "yellow": 52,
-      "blue": 42,
-      "red": 42
+      "white": 26,
+      "yellow": 26,
+      "blue": 21,
+      "red": 21
     },
     "imgUrl": "https://gosgolf.is/wp-content/uploads/2018/09/4-og-5-braut-1024x794.jpg",
     "par": 35,

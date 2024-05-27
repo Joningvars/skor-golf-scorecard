@@ -149,7 +149,11 @@ class ScorecardScreen extends StatelessWidget {
                     children: [
                       Front9Widget(players: players, holes: holes),
                       if (hasBack9Score && holes.length > 9)
-                        Back9Widget(players: players, holes: holes),
+                        Back9Widget(
+                          players: players,
+                          holes: holes,
+                          course: course,
+                        ),
                     ],
                   ),
                 );
@@ -190,14 +194,14 @@ class ScorecardScreen extends StatelessWidget {
                                     color: Colors.black,
                                   ),
                                   Shadow(
-                                    blurRadius: 30,
-                                    color: Colors.black26,
+                                    blurRadius: 10,
+                                    color: Colors.black12,
                                   ),
                                 ],
                               ),
                             ),
                             const Spacer(),
-                            buildPlayerTotalStrokes(player),
+                            buildPlayerTotalStrokes(player, course),
                           ],
                         ),
                       SingleChildScrollView(
@@ -224,7 +228,7 @@ class ScorecardScreen extends StatelessWidget {
                                   buildBack9Length(holes),
                                   buildBack9Handicap(holes),
                                   for (var player in players)
-                                    buildPlayerBack9(player, holes),
+                                    buildPlayerBack9(player, holes, course),
                                 ],
                               ),
                           ],

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
 import 'package:score_card/models/player.dart';
 import 'package:score_card/pages/scorecard_screen/cell_builder.dart';
 
-Widget buildPlayerTotalStrokes(Player player) {
+Widget buildPlayerTotalStrokes(Player player, GolfCourse course) {
   int totalStrokes = player.strokes.fold(0, (sum, stroke) => sum + stroke);
+  int totalPar = course.holes.fold(0, (sum, hole) => sum + hole.par);
+  int relativeScore = totalStrokes - totalPar;
 
   return Padding(
     padding: const EdgeInsets.all(8.0),
@@ -20,14 +23,29 @@ Widget buildPlayerTotalStrokes(Player player) {
               Shadow(
                 offset: Offset(1, 1),
                 blurRadius: 10,
-                color: Colors.black,
+                color: Colors.black26,
               ),
               Shadow(
-                blurRadius: 30,
-                color: Colors.black26,
+                blurRadius: 10,
+                color: Colors.black12,
               ),
             ],
           ),
+        ),
+        Column(
+          children: [
+            Text(
+              relativeScore > 0
+                  ? '+$relativeScore'
+                  : (relativeScore == 0 ? 'E' : '$relativeScore'),
+              style: const TextStyle(
+                color: Colors.white70,
+                fontWeight: FontWeight.bold,
+                fontSize: 10,
+              ),
+            ),
+            const SizedBox(height: 30),
+          ],
         ),
       ],
     ),
@@ -38,6 +56,8 @@ Widget buildPlayerFront9(Player player, List<Hole> holes) {
   int totalScore9 =
       player.strokes.take(9).fold(0, (prev, score) => prev + score);
   List<int> pars = holes.take(9).map((hole) => hole.par).toList();
+  int totalPar9 = pars.fold(0, (sum, par) => sum + par);
+  int relativeScore9 = totalScore9 - totalPar9;
 
   return Row(
     children: [
@@ -59,21 +79,26 @@ Widget buildPlayerFront9(Player player, List<Hole> holes) {
         width: 50,
         isPlayerTile: true,
         fontSize: 30,
+        relativeScore: relativeScore9,
       ),
     ],
   );
 }
 
-Widget buildPlayerBack9(Player player, List<Hole> holes) {
+Widget buildPlayerBack9(Player player, List<Hole> holes, GolfCourse course) {
   if (player.strokes.length < 18) {
-    //error handle if not enough strokes
     return const SizedBox();
   }
 
   List<int> back9Scores = player.strokes.skip(9).toList();
-  int totalScore = player.strokes.reduce((sum, score) => sum + score);
-
+  int totalScoreBack9 = back9Scores.fold(0, (sum, score) => sum + score);
   List<int> back9Pars = holes.skip(9).map((hole) => hole.par).toList();
+  int totalParBack9 = back9Pars.fold(0, (sum, par) => sum + par);
+  int relativeScoreBack9 = totalScoreBack9 - totalParBack9;
+
+  int totalScore18 = player.strokes.fold(0, (sum, score) => sum + score);
+  int totalPar18 = course.holes.fold(0, (sum, hole) => sum + hole.par);
+  int relativeScore18 = totalScore18 - totalPar18;
 
   return Row(
     children: [
@@ -86,10 +111,11 @@ Widget buildPlayerBack9(Player player, List<Hole> holes) {
           par: back9Pars[i],
         ),
       buildCell(
-        totalScore.toString(),
+        totalScore18.toString(),
         width: 50,
         isPlayerTile: true,
         fontSize: 30,
+        relativeScore: relativeScore18,
       ),
     ],
   );
