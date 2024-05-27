@@ -37,16 +37,16 @@ class CourseTile extends StatelessWidget {
           ),
           const Positioned(
             bottom: 0,
-            top: 150,
+            top: 140,
             right: 0,
             left: 00,
             child: CardHighlight(),
           ),
           Positioned(
-            top: 160,
+            top: 150,
             bottom: 10,
             right: 10,
-            left: 250,
+            left: 230,
             child: CardButton(
               course: course,
             ),
@@ -109,7 +109,7 @@ class CardButton extends StatelessWidget {
       },
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(30),
         ),
       ),
       child: const Text(

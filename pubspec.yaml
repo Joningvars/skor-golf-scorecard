@@ -87,7 +87,7 @@ flutter:
     - assets/images/logo-res.png
     - assets/images/icon.png
     - assets/images/splash_screen.png
-    - lib/data/dummy.json
+    - lib/data/course_data.json
 
 
 

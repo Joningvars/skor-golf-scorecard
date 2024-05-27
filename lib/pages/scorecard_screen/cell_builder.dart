@@ -32,7 +32,7 @@ Widget buildCell(
   }
 
   return SizedBox(
-    width: width,
+    width: 70,
     height: isPlayerTile ? 50 : 25,
     child: Container(
       decoration: BoxDecoration(

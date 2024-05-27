@@ -13,7 +13,7 @@ class Player {
     required this.lastName,
     this.relativeScore = 0,
     required this.strokes,
-    required this.selectedTee,
+    this.selectedTee = 0,
     this.initials = '',
   }) {
     calculateInitials();

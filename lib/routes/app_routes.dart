@@ -11,8 +11,6 @@ class AppRoutes {
   static const String inputScoreScreen = '/skr_skor_screen';
   static const String appNavigationScreen = '/app_navigation_screen';
   static const String initialRoute = '/initialRoute';
-  static const String exampleScreen = '/example_screen';
-  static const String roundSetupScreen = '/example_screen';
 
   static Map<String, WidgetBuilder> routes = {
     myScoresScreen: (context) => const MyScoresScreen(),

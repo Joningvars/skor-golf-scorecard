@@ -25,7 +25,7 @@ class ScorecardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool hasBack9Score =
+    bool hasBack9Score = players[0].strokes.length > 9 &&
         players[0].strokes.sublist(9, 18).any((stroke) => stroke != 0);
     Orientation currentOrientation = MediaQuery.of(context).orientation;
 
@@ -148,7 +148,8 @@ class ScorecardScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       Front9Widget(players: players, holes: holes),
-                      Back9Widget(players: players, holes: holes),
+                      if (hasBack9Score && holes.length > 9)
+                        Back9Widget(players: players, holes: holes),
                     ],
                   ),
                 );
@@ -214,7 +215,7 @@ class ScorecardScreen extends StatelessWidget {
                                   buildPlayerFront9(player, holes),
                               ],
                             ),
-                            if (hasBack9Score)
+                            if (hasBack9Score && holes.length > 9)
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [

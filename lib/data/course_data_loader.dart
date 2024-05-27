@@ -6,7 +6,7 @@ import 'package:score_card/models/hole.dart';
 Future<List<GolfCourse>> getCourseData() async {
   try {
     // read file
-    final jsonString = await rootBundle.loadString('lib/data/dummy.json');
+    final jsonString = await rootBundle.loadString('lib/data/course_data.json');
 
     // parse JSON
     List<dynamic> courses = jsonDecode(jsonString);

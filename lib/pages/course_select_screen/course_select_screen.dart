@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:score_card/data/course_data_loader.dart';
 import 'package:score_card/models/course.dart';
+import 'package:score_card/pages/course_select_screen/custom_search.dart';
 import 'package:score_card/theme/theme_helper.dart';
 import 'package:score_card/pages/course_select_screen/course_tile.dart';
 
@@ -36,10 +37,28 @@ class _CourseSelectScreenState extends State<CourseSelectScreen> {
         ),
         backgroundColor: Theme.of(context).primaryColor,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              showSearch(context: context, delegate: CustomSearchDelegate());
+          FutureBuilder<List<GolfCourse>>(
+            future: _coursesFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Container(); // Placeholder while loading
+              } else if (snapshot.hasError) {
+                return IconButton(
+                  icon: const Icon(Icons.error),
+                  onPressed: () {},
+                );
+              } else if (snapshot.hasData) {
+                return IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                    showSearch(
+                      context: context,
+                      delegate: CustomSearchDelegate(courses: snapshot.data!),
+                    );
+                  },
+                );
+              }
+              return Container(); //placeholder
             },
           ),
         ],
@@ -94,73 +113,6 @@ class CourseCardBuilder extends StatelessWidget {
         final course = courses[index];
         return CourseTile(
           course: course,
-        );
-      },
-    );
-  }
-}
-
-class CustomSearchDelegate extends SearchDelegate {
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: const Icon(Icons.clear),
-        onPressed: () {
-          query = '';
-        },
-      ),
-    ];
-  }
-
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return IconButton(
-      icon: AnimatedIcon(
-        icon: AnimatedIcons.menu_arrow,
-        progress: transitionAnimation,
-      ),
-      onPressed: () {
-        close(context, null);
-      },
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return Center(
-      child: Text(query),
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    // final suggestionList = query.isEmpty
-    //     ? []
-    //     : courses.where((course) => course.name.toLowerCase().startsWith(query.toLowerCase())).toList();
-    final suggestionList = [];
-
-    return ListView.builder(
-      itemCount: suggestionList.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: RichText(
-            text: TextSpan(
-              text: suggestionList[index].name.substring(0, query.length),
-              style: const TextStyle(
-                  color: Colors.black, fontWeight: FontWeight.bold),
-              children: [
-                TextSpan(
-                  text: suggestionList[index].name.substring(query.length),
-                  style: const TextStyle(color: Colors.grey),
-                ),
-              ],
-            ),
-          ),
-          onTap: () {
-            query = suggestionList[index].name;
-            showResults(context);
-          },
         );
       },
     );

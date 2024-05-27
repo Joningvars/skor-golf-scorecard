@@ -19,6 +19,7 @@ class RoundSetupScreen extends StatefulWidget {
 
 class _RoundSetupScreenState extends State<RoundSetupScreen> {
   List<Player> players = [];
+  int selectedTee = 0;
 
   @override
   void initState() {
@@ -65,7 +66,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
     _savePlayers();
   }
 
-  void _navigateToHoleDetailPage(int tee) {
+  void _navigateToHoleDetailPage() {
     if (players.isNotEmpty) {
       Navigator.push(
         context,
@@ -74,7 +75,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
             course: widget.course,
             holes: widget.course.holes,
             players: players,
-            selectedTee: tee,
+            selectedTee: selectedTee, // Pass the selected tee
           ),
         ),
       );
@@ -111,9 +112,11 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                         text: widget.course.whiteTee.toString(),
                         color: Colors.white,
                         onPressed: () {
+                          setState(() {
+                            selectedTee = 2;
+                          });
                           HapticFeedback.lightImpact();
-
-                          _navigateToHoleDetailPage(widget.course.whiteTee);
+                          _navigateToHoleDetailPage();
                         },
                       ),
                       const SizedBox(height: 10),
@@ -121,9 +124,11 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                         text: widget.course.yellowTee.toString(),
                         color: Colors.yellow,
                         onPressed: () {
+                          setState(() {
+                            selectedTee = 0;
+                          });
                           HapticFeedback.lightImpact();
-
-                          _navigateToHoleDetailPage(widget.course.yellowTee);
+                          _navigateToHoleDetailPage();
                         },
                       ),
                       const SizedBox(height: 10),
@@ -131,9 +136,11 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                         text: widget.course.blueTee.toString(),
                         color: Colors.blue,
                         onPressed: () {
+                          setState(() {
+                            selectedTee = 3;
+                          });
                           HapticFeedback.lightImpact();
-
-                          _navigateToHoleDetailPage(widget.course.blueTee);
+                          _navigateToHoleDetailPage();
                         },
                       ),
                       const SizedBox(height: 10),
@@ -141,9 +148,11 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                         text: widget.course.redTee.toString(),
                         color: Colors.red,
                         onPressed: () {
+                          setState(() {
+                            selectedTee = 1;
+                          });
                           HapticFeedback.lightImpact();
-
-                          _navigateToHoleDetailPage(widget.course.redTee);
+                          _navigateToHoleDetailPage();
                         },
                       ),
                       const SizedBox(height: 120),
@@ -158,7 +167,6 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                         color: Color.fromARGB(82, 15, 39, 58),
                         thickness: 4,
                       ),
-
                       // render buttons for every player
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
