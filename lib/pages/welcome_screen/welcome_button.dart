@@ -7,17 +7,20 @@ class WelcomeScreenButton extends StatelessWidget {
   final Color? color;
   final Color? textColor;
 
-  const WelcomeScreenButton(
-      {super.key,
-      required this.text,
-      required this.onPressed,
-      required this.textColor,
-      required this.color});
+  const WelcomeScreenButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    required this.textColor,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
     return SizedBox(
-      width: 370,
+      width: screenSize.width * 0.9,
       child: Material(
         elevation: 1,
         shadowColor: theme.primaryColor,
@@ -26,7 +29,7 @@ class WelcomeScreenButton extends StatelessWidget {
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: color,
-            fixedSize: const Size(230, 60),
+            fixedSize: Size(screenSize.width * 0.6, screenSize.height * 0.08),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
@@ -34,7 +37,10 @@ class WelcomeScreenButton extends StatelessWidget {
           child: Text(
             text,
             style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold, color: textColor),
+              fontSize: screenSize.width * 0.05,
+              fontWeight: FontWeight.bold,
+              color: textColor,
+            ),
           ),
         ),
       ),

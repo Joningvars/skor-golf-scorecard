@@ -16,17 +16,25 @@ class AddPlayerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: EdgeInsets.symmetric(
+          horizontal: screenSize.width * 0.03,
+          vertical: screenSize.height * 0.013),
       child: SizedBox(
-        width: 40,
-        height: 40,
+        width: screenSize.width * 0.1,
+        height: screenSize.width * 0.1,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-              backgroundColor: theme.colorScheme.secondary,
-              foregroundColor: Colors.white,
-              elevation: 2,
-              shadowColor: Colors.black),
+            backgroundColor: theme.colorScheme.secondary,
+            foregroundColor: Colors.white,
+            elevation: 2,
+            shadowColor: Colors.black,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(screenSize.width * 0.02),
+            ),
+          ),
           onPressed: () {
             HapticFeedback.selectionClick();
             Navigator.push(
@@ -42,6 +50,7 @@ class AddPlayerButton extends StatelessWidget {
           child: const Icon(
             Icons.add,
             color: Colors.white,
+            size: 24,
           ),
         ),
       ),

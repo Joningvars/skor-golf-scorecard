@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
 import 'package:score_card/models/player.dart';
@@ -32,12 +33,39 @@ class _HoleDetailPageState extends State<HoleDetailPage> {
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: 0);
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     super.dispose();
+  }
+
+  void _setOrientationForScorecard(bool isScorecard) {
+    if (isScorecard) {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]);
+    } else {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+    }
   }
 
   @override
@@ -47,6 +75,9 @@ class _HoleDetailPageState extends State<HoleDetailPage> {
       body: PageView.builder(
         controller: _pageController,
         itemCount: widget.holes.length + 1,
+        onPageChanged: (index) {
+          _setOrientationForScorecard(index == widget.holes.length);
+        },
         itemBuilder: (context, index) {
           if (index < widget.holes.length) {
             return HoleDetail(

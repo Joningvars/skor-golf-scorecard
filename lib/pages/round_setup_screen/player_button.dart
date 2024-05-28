@@ -15,22 +15,29 @@ class PlayerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: EdgeInsets.symmetric(
+        horizontal: screenSize.width * 0.03,
+      ),
       child: Column(
         children: [
           SizedBox(
-            width: 65,
-            height: 65,
+            width: screenSize.width * 0.15,
+            height: screenSize.width * 0.15,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  elevation: 3,
-                  shadowColor: Colors.black),
+                foregroundColor: Colors.white,
+                elevation: 3,
+                shadowColor: Colors.black,
+              ),
               onPressed: onEdit,
               child: Text(
                 player.initials,
-                style: const TextStyle(fontSize: 20),
+                style: TextStyle(
+                  fontSize: screenSize.width * 0.05,
+                ),
               ),
             ),
           ),

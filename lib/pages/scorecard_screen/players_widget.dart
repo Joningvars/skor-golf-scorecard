@@ -94,6 +94,7 @@ Widget buildPlayerBack9(Player player, List<Hole> holes, GolfCourse course) {
   int totalScoreBack9 = back9Scores.fold(0, (sum, score) => sum + score);
   List<int> back9Pars = holes.skip(9).map((hole) => hole.par).toList();
   int totalParBack9 = back9Pars.fold(0, (sum, par) => sum + par);
+  // ignore: unused_local_variable
   int relativeScoreBack9 = totalScoreBack9 - totalParBack9;
 
   int totalScore18 = player.strokes.fold(0, (sum, score) => sum + score);

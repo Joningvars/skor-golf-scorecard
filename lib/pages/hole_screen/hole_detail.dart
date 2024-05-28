@@ -27,28 +27,54 @@ class HoleDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.bottomCenter,
-          end: Alignment.topCenter,
-          colors: [
-            theme.colorScheme.secondary,
-            theme.primaryColor,
-            theme.primaryColor,
-          ],
+    final screenSize = MediaQuery.of(context).size;
+
+    return Scaffold(
+      body: Container(
+        width: screenSize.width,
+        height: screenSize.height,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            colors: [
+              theme.colorScheme.secondary,
+              theme.primaryColor,
+              theme.primaryColor,
+            ],
+          ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
-        child: OrientationBuilder(
-          builder: (context, orientation) {
-            return orientation == Orientation.landscape
-                ? SingleChildScrollView(
-                    child: _buildContent(currentHole, theme, context),
-                  )
-                : _buildContent(currentHole, theme, context);
-          },
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: screenSize.width * 0.04,
+            ),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: screenSize.height * 0.15,
+                  width: double.infinity,
+                  child: Image.asset(
+                    'assets/images/skor_logo.png',
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                Expanded(
+                  child: OrientationBuilder(
+                    builder: (context, orientation) {
+                      return orientation == Orientation.landscape
+                          ? SingleChildScrollView(
+                              child: _buildContent(
+                                  currentHole, theme, context, screenSize),
+                            )
+                          : _buildContent(
+                              currentHole, theme, context, screenSize);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -69,21 +95,10 @@ class HoleDetail extends StatelessWidget {
     }
   }
 
-  Widget _buildContent(
-      Hole currentHole, ThemeData theme, BuildContext context) {
+  Widget _buildContent(Hole currentHole, ThemeData theme, BuildContext context,
+      Size screenSize) {
     return Column(
       children: [
-        Row(
-          children: [
-            const SizedBox(width: 100),
-            SizedBox(
-              height: 130,
-              child: Image.asset(
-                'assets/images/skor_logo.png',
-              ),
-            ),
-          ],
-        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -116,11 +131,11 @@ class HoleDetail extends StatelessWidget {
             ]),
             Text(
               ' ${currentHole.number}',
-              style: const TextStyle(
-                fontSize: 146,
+              style: TextStyle(
+                fontSize: screenSize.width * 0.4,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                shadows: [
+                shadows: const [
                   Shadow(
                     offset: Offset(8.0, 8.0),
                     blurRadius: 0,
@@ -134,11 +149,11 @@ class HoleDetail extends StatelessWidget {
               children: [
                 Text(
                   'Par ${currentHole.par}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                    color: Color.fromARGB(255, 211, 221, 232),
-                    shadows: [
+                    fontSize: screenSize.width * 0.07,
+                    color: const Color.fromARGB(255, 211, 221, 232),
+                    shadows: const [
                       Shadow(
                         offset: Offset(3.0, 2.0),
                         blurRadius: 3.0,
@@ -149,11 +164,11 @@ class HoleDetail extends StatelessWidget {
                 ),
                 Text(
                   getDistanceForSelectedTee(currentHole, selectedTee),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                    color: Color(0XFF3270A2),
-                    shadows: [
+                    fontSize: screenSize.width * 0.07,
+                    color: const Color(0XFF3270A2),
+                    shadows: const [
                       Shadow(
                         offset: Offset(3.0, 2.0),
                         blurRadius: 5.0,
@@ -164,11 +179,11 @@ class HoleDetail extends StatelessWidget {
                 ),
                 Text(
                   'FGJ ${currentHole.handicap}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: screenSize.width * 0.038,
                     color: Colors.grey,
-                    shadows: [
+                    shadows: const [
                       Shadow(
                         offset: Offset(3.0, 2.0),
                         blurRadius: 5.0,
@@ -181,7 +196,7 @@ class HoleDetail extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 50),
+        Spacer(),
         const Divider(
           color: Color.fromARGB(82, 15, 39, 58),
           thickness: 4,
@@ -191,17 +206,13 @@ class HoleDetail extends StatelessWidget {
             children: players.map((player) {
               return Column(
                 children: [
-                  const SizedBox(height: 10),
+                  SizedBox(height: screenSize.height * 0.01),
                   Row(
                     children: [
-                      Row(
-                        children: [
-                          PlayerButton(
-                            player: player,
-                            onDelete: () {},
-                            onEdit: () {},
-                          ),
-                        ],
+                      PlayerButton(
+                        player: player,
+                        onDelete: () {},
+                        onEdit: () {},
                       ),
                       CustomCounter(
                         player: player,
@@ -214,10 +225,10 @@ class HoleDetail extends StatelessWidget {
               );
             }).toList(),
           ),
-        const Icon(
+        Icon(
           Icons.swipe,
-          color: Color.fromARGB(255, 27, 91, 141),
-          size: 40,
+          color: const Color.fromARGB(255, 27, 91, 141),
+          size: screenSize.width * 0.1,
         ),
       ],
     );
