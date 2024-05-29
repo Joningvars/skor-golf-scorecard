@@ -6,8 +6,7 @@ import 'package:score_card/pages/scorecard_screen/cell_builder.dart';
 
 Widget buildPlayerTotalStrokes(Player player, GolfCourse course) {
   int totalStrokes = player.strokes.fold(0, (sum, stroke) => sum + stroke);
-  int totalPar = course.holes.fold(0, (sum, hole) => sum + hole.par);
-  int relativeScore = totalStrokes - totalPar;
+  int relativeScore = player.relativeScore;
 
   return Padding(
     padding: const EdgeInsets.all(8.0),
@@ -53,11 +52,12 @@ Widget buildPlayerTotalStrokes(Player player, GolfCourse course) {
 }
 
 Widget buildPlayerFront9(Player player, List<Hole> holes) {
-  int totalScore9 =
-      player.strokes.take(9).fold(0, (prev, score) => prev + score);
+  List<int> front9Strokes =
+      player.strokes.take(9).where((stroke) => stroke > 0).toList();
+  int totalScore9 = front9Strokes.fold(0, (sum, score) => sum + score);
   List<int> pars = holes.take(9).map((hole) => hole.par).toList();
-  int totalPar9 = pars.fold(0, (sum, par) => sum + par);
-  int relativeScore9 = totalScore9 - totalPar9;
+  int relativeScore9 = totalScore9 -
+      pars.take(front9Strokes.length).fold(0, (sum, par) => sum + par);
 
   return Row(
     children: [
@@ -89,30 +89,34 @@ Widget buildPlayerBack9(Player player, List<Hole> holes, GolfCourse course) {
   if (player.strokes.length < 18) {
     return const SizedBox();
   }
-
-  List<int> back9Scores = player.strokes.skip(9).toList();
-  int totalScoreBack9 = back9Scores.fold(0, (sum, score) => sum + score);
+  List<int> back9Strokes =
+      player.strokes.skip(9).where((stroke) => stroke > 0).toList();
   List<int> back9Pars = holes.skip(9).map((hole) => hole.par).toList();
-  int totalParBack9 = back9Pars.fold(0, (sum, par) => sum + par);
-  // ignore: unused_local_variable
-  int relativeScoreBack9 = totalScoreBack9 - totalParBack9;
 
-  int totalScore18 = player.strokes.fold(0, (sum, score) => sum + score);
-  int totalPar18 = course.holes.fold(0, (sum, hole) => sum + hole.par);
-  int relativeScore18 = totalScore18 - totalPar18;
+  back9Strokes.fold(0, (sum, score) => sum + score);
+  back9Pars.take(back9Strokes.length).fold(0, (sum, par) => sum + par);
+
+  List<int> allNonZeroStrokes =
+      player.strokes.where((stroke) => stroke > 0).toList();
+  int totalStrokes = allNonZeroStrokes.fold(0, (sum, score) => sum + score);
+  int totalPar = holes
+      .map((hole) => hole.par)
+      .take(allNonZeroStrokes.length)
+      .fold(0, (sum, par) => sum + par);
+  int relativeScore18 = totalStrokes - totalPar;
 
   return Row(
     children: [
-      for (int i = 0; i < back9Scores.length; i++)
+      for (int i = 0; i < 9; i++)
         buildCell(
-          back9Scores[i].toString(),
+          player.strokes[9 + i].toString(),
           width: 50,
           isPlayerTile: true,
-          score: back9Scores[i],
+          score: player.strokes[9 + i],
           par: back9Pars[i],
         ),
       buildCell(
-        totalScore18.toString(),
+        totalStrokes.toString(),
         width: 50,
         isPlayerTile: true,
         fontSize: 30,

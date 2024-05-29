@@ -1,7 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:score_card/models/round.dart';
 import 'package:score_card/widgets/custom_appbar.dart';
@@ -29,9 +26,10 @@ class _MyScoresScreenState extends State<MyScoresScreen> {
     List<String>? roundJsonStrings = prefs.getStringList('savedRounds');
     if (roundJsonStrings != null) {
       setState(() {
-        savedRounds = roundJsonStrings
-            .map((jsonString) => Round.fromJson(json.decode(jsonString)))
-            .toList();
+        savedRounds = roundJsonStrings.map((jsonString) {
+          print('Loading Round: $jsonString'); // Debug statement
+          return Round.fromJson(json.decode(jsonString));
+        }).toList();
       });
     }
   }

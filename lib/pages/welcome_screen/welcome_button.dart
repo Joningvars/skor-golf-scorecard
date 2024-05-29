@@ -20,7 +20,8 @@ class WelcomeScreenButton extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
 
     return SizedBox(
-      width: screenSize.width * 0.9,
+      width: screenSize.width * 0.85,
+      height: screenSize.height * 0.075,
       child: Material(
         elevation: 1,
         shadowColor: theme.primaryColor,

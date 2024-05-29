@@ -21,8 +21,7 @@ class SavedRoundTile extends StatelessWidget {
         ? round.players[0].strokes.fold(0, (prev, score) => prev + score)
         : 0;
 
-    int totalPar = round.holes.fold(0, (sum, hole) => sum + hole.par);
-    int relativeScore = totalStrokes - totalPar;
+    int relativeScore = round.players[0].relativeScore;
 
     return Card(
       elevation: 4,

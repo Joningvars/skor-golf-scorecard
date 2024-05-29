@@ -14,17 +14,19 @@ Future<void> saveRound(BuildContext context, List<Player> players,
   int totalStrokes = players[0].strokes.fold(0, (sum, stroke) => sum + stroke);
   int totalPar = holes.fold(0, (sum, hole) => sum + hole.par);
   int totalRelativeScore = totalStrokes - totalPar;
-  String roundId = const Uuid().v4(); // unique id
+  String roundId = const Uuid().v4();
   Round round = Round(
     golfcourse: course,
     players: players,
     holes: holes,
     id: roundId,
+    date: DateTime.now(),
     totalRelativeScore: totalRelativeScore,
   );
 
   // json convert
   String roundJson = json.encode(round.toJson());
+  print('Saving Round: $roundJson'); // Debug statement
 
   // GET saved rounds
   final SharedPreferences prefs = await SharedPreferences.getInstance();

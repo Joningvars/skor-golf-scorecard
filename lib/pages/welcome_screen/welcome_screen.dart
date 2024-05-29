@@ -4,10 +4,35 @@ import 'package:score_card/routes/app_routes.dart';
 import 'package:score_card/theme/theme_helper.dart';
 import 'package:score_card/pages/welcome_screen/welcome_button.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
 
+  @override
+  _WelcomeScreenState createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
   final String imagePath = 'assets/images/';
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,8 +102,21 @@ class WelcomeScreen extends StatelessWidget {
                         text: 'Hefja Hring',
                         onPressed: () {
                           HapticFeedback.lightImpact();
+                          SystemChrome.setPreferredOrientations([
+                            DeviceOrientation.portraitUp,
+                            DeviceOrientation.portraitDown,
+                            DeviceOrientation.landscapeLeft,
+                            DeviceOrientation.landscapeRight,
+                          ]);
                           Navigator.pushNamed(
-                              context, AppRoutes.courseSelectScreen);
+                                  context, AppRoutes.courseSelectScreen)
+                              .then((_) {
+                            // Re-lock to portrait when returning
+                            SystemChrome.setPreferredOrientations([
+                              DeviceOrientation.portraitUp,
+                              DeviceOrientation.portraitDown,
+                            ]);
+                          });
                         },
                       ),
                       const SizedBox(height: 15),
@@ -88,9 +126,20 @@ class WelcomeScreen extends StatelessWidget {
                         text: 'Mínir Hringir',
                         onPressed: () {
                           HapticFeedback.lightImpact();
-
-                          Navigator.pushNamed(
-                              context, AppRoutes.myScoresScreen);
+                          SystemChrome.setPreferredOrientations([
+                            DeviceOrientation.portraitUp,
+                            DeviceOrientation.portraitDown,
+                            DeviceOrientation.landscapeLeft,
+                            DeviceOrientation.landscapeRight,
+                          ]);
+                          Navigator.pushNamed(context, AppRoutes.myScoresScreen)
+                              .then((_) {
+                            // Re-lock to portrait when returning
+                            SystemChrome.setPreferredOrientations([
+                              DeviceOrientation.portraitUp,
+                              DeviceOrientation.portraitDown,
+                            ]);
+                          });
                         },
                       ),
                     ],

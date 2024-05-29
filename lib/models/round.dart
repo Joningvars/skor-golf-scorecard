@@ -7,6 +7,7 @@ class Round {
   final GolfCourse golfcourse;
   final List<Player> players;
   final List<Hole> holes;
+  final DateTime date;
   int totalRelativeScore;
 
   Round({
@@ -14,6 +15,7 @@ class Round {
     required this.golfcourse,
     required this.players,
     required this.holes,
+    required this.date,
     this.totalRelativeScore = 0,
   });
 
@@ -27,6 +29,8 @@ class Round {
       holes: (json['holes'] as List)
           .map((holeJson) => Hole.fromJson(holeJson))
           .toList(),
+      date:
+          json['date'] != null ? DateTime.parse(json['date']) : DateTime.now(),
       totalRelativeScore: json['totalRelativeScore'] ?? 0,
     );
   }
@@ -37,8 +41,8 @@ class Round {
       'golfcourse': golfcourse.toJson(),
       'players': players.map((player) => player.toJson()).toList(),
       'holes': holes.map((hole) => hole.toJson()).toList(),
-      'totalRelativeScore':
-          totalRelativeScore, // Include totalRelativeScore in serialization
+      'date': date.toIso8601String(),
+      'totalRelativeScore': totalRelativeScore,
     };
   }
 }

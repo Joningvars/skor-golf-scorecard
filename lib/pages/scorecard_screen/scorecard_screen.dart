@@ -53,6 +53,9 @@ class ScorecardScreen extends StatelessWidget {
           IconButton(
             onPressed: () {
               saveRound(context, players, holes, course);
+              for (var player in players) {
+                player.resetScores();
+              }
             },
             icon: const Icon(Icons.save_alt_rounded),
           ),

@@ -166,7 +166,7 @@ class HoleDetail extends StatelessWidget {
                   getDistanceForSelectedTee(currentHole, selectedTee),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: screenSize.width * 0.07,
+                    fontSize: screenSize.width * 0.069,
                     color: const Color(0XFF3270A2),
                     shadows: const [
                       Shadow(
@@ -196,11 +196,11 @@ class HoleDetail extends StatelessWidget {
             ),
           ],
         ),
-        Spacer(),
         const Divider(
           color: Color.fromARGB(82, 15, 39, 58),
           thickness: 4,
         ),
+        const Spacer(),
         if (players.isNotEmpty)
           Column(
             children: players.map((player) {
@@ -225,6 +225,7 @@ class HoleDetail extends StatelessWidget {
               );
             }).toList(),
           ),
+        const Spacer(),
         Icon(
           Icons.swipe,
           color: const Color.fromARGB(255, 27, 91, 141),

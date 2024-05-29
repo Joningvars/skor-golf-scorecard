@@ -27,6 +27,24 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
   void initState() {
     super.initState();
     _loadPlayers();
+
+    // Lock the orientation to portrait mode
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
+  @override
+  void dispose() {
+    // Unlock the orientation when this screen is disposed
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+    super.dispose();
   }
 
   Future<void> _loadPlayers() async {
@@ -70,6 +88,13 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
 
   void _navigateToHoleDetailPage() {
     if (players.isNotEmpty) {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]);
+
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -80,7 +105,12 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
             selectedTee: selectedTee,
           ),
         ),
-      );
+      ).then((_) {
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.portraitDown,
+        ]);
+      });
     }
   }
 
@@ -160,7 +190,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                 ],
               ),
             ),
-            Spacer(),
+            const Spacer(),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text(

@@ -2767,5 +2767,218 @@
         }
       }
     ]
+  },
+  {
+    "club": "Golfklúbburinn Þorlákshöfn",
+    "course": "Þorlákshöfn",
+    "location": "Þorlákshöfn, Iceland",
+    "distance": {
+      "white": 5651,
+      "yellow": 5177,
+      "blue": 4700,
+      "red": 4378
+    },
+    "imgUrl": "https://scontent.frkv1-2.fna.fbcdn.net/v/t39.30808-6/305398879_571768644736778_613105426200924464_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=YMVE1it5I2AQ7kNvgFcoFuJ&_nc_ht=scontent.frkv1-2.fna&oh=00_AYDjasbXzdKmwdDDMdjEUtrYRrbT2cv8iSWAeQiuoquIrA&oe=665D11D3",
+    "par": 72,
+    "holes": [
+      {
+        "number": 1,
+        "par": 4,
+        "handicap": 11,
+        "distance": {
+          "white": 304,
+          "yellow": 280,
+          "blue": 280,
+          "red": 236
+        }
+      },
+      {
+        "number": 2,
+        "par": 3,
+        "handicap": 17,
+        "distance": {
+          "white": 107,
+          "yellow": 107,
+          "blue": 76,
+          "red": 76
+        }
+      },
+      {
+        "number": 3,
+        "par": 5,
+        "handicap": 3,
+        "distance": {
+          "white": 515,
+          "yellow": 440,
+          "blue": 440,
+          "red": 391
+        }
+      },
+      {
+        "number": 4,
+        "par": 4,
+        "handicap": 5,
+        "distance": {
+          "white": 383,
+          "yellow": 346,
+          "blue": 298,
+          "red": 298
+        }
+      },
+      {
+        "number": 5,
+        "par": 3,
+        "handicap": 15,
+        "distance": {
+          "white": 140,
+          "yellow": 140,
+          "blue": 111,
+          "red": 111
+        }
+      },
+      {
+        "number": 6,
+        "par": 4,
+        "handicap": 7,
+        "distance": {
+          "white": 360,
+          "yellow": 300,
+          "blue": 261,
+          "red": 229
+        }
+      },
+      {
+        "number": 7,
+        "par": 4,
+        "handicap": 13,
+        "distance": {
+          "white": 248,
+          "yellow": 248,
+          "blue": 221,
+          "red": 221
+        }
+      },
+      {
+        "number": 8,
+        "par": 5,
+        "handicap": 1,
+        "distance": {
+          "white": 464,
+          "yellow": 464,
+          "blue": 410,
+          "red": 410
+        }
+      },
+      {
+        "number": 9,
+        "par": 4,
+        "handicap": 9,
+        "distance": {
+          "white": 290,
+          "yellow": 285,
+          "blue": 273,
+          "red": 227
+        }
+      },
+      {
+        "number": 10,
+        "par": 3,
+        "handicap": 14,
+        "distance": {
+          "white": 132,
+          "yellow": 116,
+          "blue": 116,
+          "red": 97
+        }
+      },
+      {
+        "number": 11,
+        "par": 5,
+        "handicap": 4,
+        "distance": {
+          "white": 483,
+          "yellow": 436,
+          "blue": 374,
+          "red": 374
+        }
+      },
+      {
+        "number": 12,
+        "par": 3,
+        "handicap": 18,
+        "distance": {
+          "white": 113,
+          "yellow": 93,
+          "blue": 93,
+          "red": 82
+        }
+      },
+      {
+        "number": 13,
+        "par": 5,
+        "handicap": 2,
+        "distance": {
+          "white": 513,
+          "yellow": 447,
+          "blue": 402,
+          "red": 370
+        }
+      },
+      {
+        "number": 14,
+        "par": 4,
+        "handicap": 8,
+        "distance": {
+          "white": 371,
+          "yellow": 358,
+          "blue": 301,
+          "red": 301
+        }
+      },
+      {
+        "number": 15,
+        "par": 3,
+        "handicap": 12,
+        "distance": {
+          "white": 131,
+          "yellow": 121,
+          "blue": 121,
+          "red": 116
+        }
+      },
+      {
+        "number": 16,
+        "par": 4,
+        "handicap": 10,
+        "distance": {
+          "white": 309,
+          "yellow": 309,
+          "blue": 257,
+          "red": 257
+        }
+      },
+      {
+        "number": 17,
+        "par": 4,
+        "handicap": 16,
+        "distance": {
+          "white": 268,
+          "yellow": 251,
+          "blue": 230,
+          "red": 220
+        }
+      },
+      {
+        "number": 18,
+        "par": 5,
+        "handicap": 6,
+        "distance": {
+          "white": 520,
+          "yellow": 436,
+          "blue": 436,
+          "red": 362
+        }
+      }
+    ]
   }
 ]
