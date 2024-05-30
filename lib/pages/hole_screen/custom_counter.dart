@@ -145,7 +145,7 @@ class _CustomCounterState extends State<CustomCounter> {
                 RelativeScoreWidget(player: widget.player),
                 const Spacer(),
                 SizedBox(
-                  height: 65,
+                  height: 63,
                   child: Container(
                     padding: const EdgeInsets.all(3),
                     decoration: BoxDecoration(

@@ -27,7 +27,6 @@ class _MyScoresScreenState extends State<MyScoresScreen> {
     if (roundJsonStrings != null) {
       setState(() {
         savedRounds = roundJsonStrings.map((jsonString) {
-          print('Loading Round: $jsonString'); // Debug statement
           return Round.fromJson(json.decode(jsonString));
         }).toList();
       });

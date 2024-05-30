@@ -26,7 +26,7 @@ Future<void> saveRound(BuildContext context, List<Player> players,
 
   // json convert
   String roundJson = json.encode(round.toJson());
-  print('Saving Round: $roundJson'); // Debug statement
+  // Debug statement
 
   // GET saved rounds
   final SharedPreferences prefs = await SharedPreferences.getInstance();

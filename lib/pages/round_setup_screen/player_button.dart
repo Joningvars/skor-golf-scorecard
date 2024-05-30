@@ -24,8 +24,8 @@ class PlayerButton extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            width: screenSize.width * 0.157,
-            height: screenSize.width * 0.157,
+            width: screenSize.width * 0.161,
+            height: screenSize.width * 0.161,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
