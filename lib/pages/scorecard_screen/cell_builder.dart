@@ -20,7 +20,7 @@ Widget buildCell(
     } else if (score == par + 1) {
       return Colors.grey.shade300;
     } else {
-      return Colors.grey;
+      return Colors.white;
     }
   }
 

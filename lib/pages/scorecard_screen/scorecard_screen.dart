@@ -190,17 +190,6 @@ class ScorecardScreen extends StatelessWidget {
                                 fontSize: 20,
                                 color: Colors.white,
                                 fontWeight: FontWeight.w400,
-                                shadows: <Shadow>[
-                                  Shadow(
-                                    offset: Offset(1, 1),
-                                    blurRadius: 10,
-                                    color: Colors.black,
-                                  ),
-                                  Shadow(
-                                    blurRadius: 10,
-                                    color: Colors.black12,
-                                  ),
-                                ],
                               ),
                             ),
                             const Spacer(),
