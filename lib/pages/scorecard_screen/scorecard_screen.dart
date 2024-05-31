@@ -65,19 +65,31 @@ class ScorecardScreen extends StatelessWidget {
             icon: const Icon(Icons.save_alt_rounded),
           ),
           IconButton(
-              onPressed: () async {
+            onPressed: () async {
+              try {
                 final image = await screenshotController.captureFromLongWidget(
-                    ScoreCard(
-                        holes: holes,
-                        players: players,
-                        hasBack9Score: hasBack9Score,
-                        course: course),
-                    pixelRatio: pixelRatio,
-                    delay: const Duration(milliseconds: 10));
-                Share.shareXFiles([XFile.fromData(image, mimeType: "jpeg")],
-                    text: formattedDate);
-              },
-              icon: const Icon(Icons.ios_share)),
+                  ScoreCard(
+                    holes: holes,
+                    players: players,
+                    hasBack9Score: hasBack9Score,
+                    course: course,
+                  ),
+                  pixelRatio: pixelRatio,
+                  delay: const Duration(milliseconds: 10),
+                );
+
+                Share.shareXFiles(
+                  [XFile.fromData(image, mimeType: "image/jpeg")],
+                  text: formattedDate,
+                );
+              } catch (e) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Úps.. eitthvað fór úrskeiðis!: $e')),
+                );
+              }
+            },
+            icon: const Icon(Icons.ios_share),
+          )
         ],
         backgroundColor: theme.primaryColor,
         foregroundColor: Colors.white,
