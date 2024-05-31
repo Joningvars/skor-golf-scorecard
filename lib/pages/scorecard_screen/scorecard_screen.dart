@@ -10,6 +10,8 @@ import 'package:score_card/pages/scorecard_screen/players_widget.dart';
 import 'package:score_card/pages/scorecard_screen/save_round.dart';
 import 'package:score_card/routes/app_routes.dart';
 import 'package:score_card/theme/theme_helper.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ScorecardScreen extends StatelessWidget {
   final List<Player> players;
@@ -32,6 +34,9 @@ class ScorecardScreen extends StatelessWidget {
     var now = DateTime.now();
     var formatter = DateFormat('yyyy-MM-dd');
     String formattedDate = formatter.format(now);
+
+    final screenshotController = ScreenshotController();
+    double pixelRatio = MediaQuery.of(context).devicePixelRatio;
 
     return Scaffold(
       backgroundColor: theme.primaryColor,
@@ -59,6 +64,20 @@ class ScorecardScreen extends StatelessWidget {
             },
             icon: const Icon(Icons.save_alt_rounded),
           ),
+          IconButton(
+              onPressed: () async {
+                final image = await screenshotController.captureFromLongWidget(
+                    ScoreCard(
+                        holes: holes,
+                        players: players,
+                        hasBack9Score: hasBack9Score,
+                        course: course),
+                    pixelRatio: pixelRatio,
+                    delay: const Duration(milliseconds: 10));
+                Share.shareXFiles([XFile.fromData(image, mimeType: "jpeg")],
+                    text: formattedDate);
+              },
+              icon: const Icon(Icons.ios_share)),
         ],
         backgroundColor: theme.primaryColor,
         foregroundColor: Colors.white,
@@ -198,33 +217,11 @@ class ScorecardScreen extends StatelessWidget {
                         ),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                buildFront9holes(holes),
-                                buildFront9Par(holes),
-                                buildFront9Length(holes),
-                                buildFront9Handicap(holes),
-                                for (var player in players)
-                                  buildPlayerFront9(player, holes),
-                              ],
-                            ),
-                            if (hasBack9Score && holes.length > 9)
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  buildBack9Holes(holes),
-                                  buildBack9Par(holes),
-                                  buildBack9Length(holes),
-                                  buildBack9Handicap(holes),
-                                  for (var player in players)
-                                    buildPlayerBack9(player, holes, course),
-                                ],
-                              ),
-                          ],
-                        ),
+                        child: ScoreCard(
+                            holes: holes,
+                            players: players,
+                            hasBack9Score: hasBack9Score,
+                            course: course),
                       ),
                     ],
                   ),
@@ -234,6 +231,51 @@ class ScorecardScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class ScoreCard extends StatelessWidget {
+  const ScoreCard({
+    super.key,
+    required this.holes,
+    required this.players,
+    required this.hasBack9Score,
+    required this.course,
+  });
+
+  final List<Hole> holes;
+  final List<Player> players;
+  final bool hasBack9Score;
+  final GolfCourse course;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildFront9holes(holes),
+            buildFront9Par(holes),
+            buildFront9Length(holes),
+            buildFront9Handicap(holes),
+            for (var player in players) buildPlayerFront9(player, holes),
+          ],
+        ),
+        if (hasBack9Score && holes.length > 9)
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              buildBack9Holes(holes),
+              buildBack9Par(holes),
+              buildBack9Length(holes),
+              buildBack9Handicap(holes),
+              for (var player in players)
+                buildPlayerBack9(player, holes, course),
+            ],
+          ),
+      ],
     );
   }
 }
