@@ -41,7 +41,6 @@ class GolfCourse {
   }
 
   factory GolfCourse.fromJson(Map<String, dynamic> json) {
-    // Parse holes list from json
     List<dynamic> holesJson = json['holes'];
     List<Hole> parsedHoles =
         holesJson.map((holeJson) => Hole.fromJson(holeJson)).toList();

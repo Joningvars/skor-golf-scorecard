@@ -7,7 +7,7 @@ class Round {
   final GolfCourse golfcourse;
   final List<Player> players;
   final List<Hole> holes;
-  final DateTime date;
+  final String date;
   int totalRelativeScore;
 
   Round({
@@ -29,8 +29,7 @@ class Round {
       holes: (json['holes'] as List)
           .map((holeJson) => Hole.fromJson(holeJson))
           .toList(),
-      date:
-          json['date'] != null ? DateTime.parse(json['date']) : DateTime.now(),
+      date: json['date'],
       totalRelativeScore: json['totalRelativeScore'] ?? 0,
     );
   }
@@ -41,7 +40,7 @@ class Round {
       'golfcourse': golfcourse.toJson(),
       'players': players.map((player) => player.toJson()).toList(),
       'holes': holes.map((hole) => hole.toJson()).toList(),
-      'date': date.toIso8601String(),
+      'date': date,
       'totalRelativeScore': totalRelativeScore,
     };
   }

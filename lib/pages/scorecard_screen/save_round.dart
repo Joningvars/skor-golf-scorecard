@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
@@ -15,18 +14,18 @@ Future<void> saveRound(BuildContext context, List<Player> players,
   int totalPar = holes.fold(0, (sum, hole) => sum + hole.par);
   int totalRelativeScore = totalStrokes - totalPar;
   String roundId = const Uuid().v4();
+  String currentDate = DateTime.now().toIso8601String();
   Round round = Round(
     golfcourse: course,
     players: players,
     holes: holes,
     id: roundId,
-    date: DateTime.now(),
+    date: currentDate,
     totalRelativeScore: totalRelativeScore,
   );
 
   // json convert
   String roundJson = json.encode(round.toJson());
-  // Debug statement
 
   // GET saved rounds
   final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -42,7 +41,6 @@ Future<void> saveRound(BuildContext context, List<Player> players,
     player.resetScores();
   }
 
-  // Check if the widget is still mounted before navigating
   if (context.mounted) {
     Navigator.popUntil(context, ModalRoute.withName(AppRoutes.initialRoute));
   }

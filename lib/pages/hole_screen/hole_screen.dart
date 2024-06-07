@@ -31,6 +31,9 @@ class _HoleDetailPageState extends State<HoleDetailPage> {
 
   @override
   void initState() {
+    for (Player player in widget.players) {
+      player.resetScores();
+    }
     super.initState();
     _pageController = PageController(initialPage: 0);
 

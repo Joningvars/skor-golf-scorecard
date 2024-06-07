@@ -28,7 +28,6 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
     super.initState();
     _loadPlayers();
 
-    // Lock the orientation to portrait mode
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -37,7 +36,6 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
 
   @override
   void dispose() {
-    // Unlock the orientation when this screen is disposed
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,

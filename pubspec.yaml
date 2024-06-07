@@ -45,6 +45,9 @@ dependencies:
   flutter_icon_shadow: ^2.0.7
   screenshot: ^3.0.0
   share_plus: ^9.0.0
+  smooth_page_indicator: ^1.1.0
+  lottie: ^3.1.2
+  flutter_svg: ^2.0.10+1
 
 flutter_icons:
   android: true
@@ -87,6 +90,9 @@ flutter:
     - assets/images/skor_logo.png
     - assets/images/logo-res.png
     - assets/images/icon.png
+    - assets/images/golfer.svg
+    - assets/images/score.svg
+    - assets/images/course.svg
     - assets/images/splash_screen.png
     - lib/data/course_data.json
 
