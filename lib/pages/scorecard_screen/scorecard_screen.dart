@@ -56,8 +56,8 @@ class ScorecardScreen extends StatelessWidget {
             icon: const Icon(Icons.home),
           ),
           IconButton(
-            onPressed: () {
-              saveRound(context, players, holes, course);
+            onPressed: () async {
+              await saveRound(context, players, holes, course);
               for (var player in players) {
                 player.resetScores();
               }
@@ -67,12 +67,15 @@ class ScorecardScreen extends StatelessWidget {
           IconButton(
             onPressed: () async {
               try {
-                final image = await screenshotController.captureFromLongWidget(
-                  ScoreCard(
-                    holes: holes,
-                    players: players,
-                    hasBack9Score: hasBack9Score,
-                    course: course,
+                final image = await screenshotController.captureFromWidget(
+                  Material(
+                    type: MaterialType.transparency,
+                    child: ScoreCard(
+                      holes: holes,
+                      players: players,
+                      hasBack9Score: hasBack9Score,
+                      course: course,
+                    ),
                   ),
                   pixelRatio: pixelRatio,
                   delay: const Duration(milliseconds: 10),

@@ -17,7 +17,8 @@ class IntroPage extends StatelessWidget {
           const Text(
             'Takk fyrir að sækja Skor! Skor er hannað með einfaldleika í huga. Við viljum að þú getir einbeitt þér að því sem skiptir máli - að njóta golfsins. Með Skor getur þú auðveldlega skráð höggin þín og deilt árangri með vinum.',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+            style: TextStyle(
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.w200),
           )
         ],
       ),

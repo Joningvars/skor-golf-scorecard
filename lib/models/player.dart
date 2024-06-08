@@ -4,9 +4,9 @@ class Player {
   final String firstName;
   final String lastName;
   String initials;
-  List<int> strokes = List.generate(18, (i) => 0);
+  List<int> strokes;
   int selectedTee;
-  int relativeScore = 0;
+  int relativeScore;
 
   Player({
     required this.firstName,

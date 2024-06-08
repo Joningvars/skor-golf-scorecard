@@ -24,7 +24,7 @@ class _TeeSelectDropdownState extends State<TeeSelectDropdown> {
   void initState() {
     super.initState();
     _controller = ExpansionTileController();
-    _selectedTee = widget.course.yellowTee; //default gulur
+    _selectedTee = widget.course.yellowTee;
     _selectedTeeTitle = 'Gulur';
   }
 

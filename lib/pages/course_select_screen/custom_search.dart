@@ -106,26 +106,51 @@ class CustomSearchDelegate extends SearchDelegate<GolfCourse> {
     return ListView.builder(
       itemCount: suggestionList.length,
       itemBuilder: (context, index) {
+        final course = suggestionList[index];
+        final nameHighlight = _buildHighlightedText(course.name, query);
+        final clubHighlight = _buildHighlightedText(course.clubName, query);
+
         return ListTile(
-          title: RichText(
-            text: TextSpan(
-              text: suggestionList[index].name.substring(0, query.length),
-              style: const TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.bold),
-              children: [
-                TextSpan(
-                  text: suggestionList[index].name.substring(query.length),
-                  style: const TextStyle(color: Colors.grey),
-                ),
-              ],
-            ),
-          ),
+          title: nameHighlight,
+          subtitle: clubHighlight,
           onTap: () {
-            query = suggestionList[index].name;
+            query = course.name;
             showResults(context);
           },
         );
       },
+    );
+  }
+
+  RichText _buildHighlightedText(String text, String query) {
+    final startIndex = text.toLowerCase().indexOf(query.toLowerCase());
+    if (startIndex == -1) {
+      return RichText(
+        text: TextSpan(
+          text: text,
+          style: const TextStyle(color: Colors.grey),
+        ),
+      );
+    }
+
+    final endIndex = startIndex + query.length;
+
+    return RichText(
+      text: TextSpan(
+        text: text.substring(0, startIndex),
+        style: const TextStyle(color: Colors.grey),
+        children: [
+          TextSpan(
+            text: text.substring(startIndex, endIndex),
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          TextSpan(
+            text: text.substring(endIndex),
+            style: const TextStyle(color: Colors.grey),
+          ),
+        ],
+      ),
     );
   }
 }

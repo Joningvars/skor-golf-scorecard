@@ -1,6 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/player.dart';
 import 'package:score_card/pages/add_player_screen/add_player_screen.dart';
@@ -9,24 +9,22 @@ import 'package:score_card/pages/round_setup_screen/add_player_button.dart';
 import 'package:score_card/pages/round_setup_screen/custom_tee_button.dart';
 import 'package:score_card/pages/round_setup_screen/player_button.dart';
 import 'package:score_card/widgets/custom_appbar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:score_card/providers/player_list_provider.dart'; // Make sure this import is correct
 
-class RoundSetupScreen extends StatefulWidget {
+class RoundSetupScreen extends ConsumerStatefulWidget {
   const RoundSetupScreen({super.key, required this.course});
   final GolfCourse course;
 
   @override
-  State<RoundSetupScreen> createState() => _RoundSetupScreenState();
+  _RoundSetupScreenState createState() => _RoundSetupScreenState();
 }
 
-class _RoundSetupScreenState extends State<RoundSetupScreen> {
-  List<Player> players = [];
+class _RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
   int selectedTee = 0;
 
   @override
   void initState() {
     super.initState();
-    _loadPlayers();
 
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -45,46 +43,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
     super.dispose();
   }
 
-  Future<void> _loadPlayers() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final List<String>? playerJsonList = prefs.getStringList('players');
-    if (playerJsonList != null) {
-      setState(() {
-        players = playerJsonList
-            .map((jsonString) => Player.fromJson(json.decode(jsonString)))
-            .toList();
-      });
-    }
-  }
-
-  Future<void> _savePlayers() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final List<String> playerJsonList =
-        players.map((player) => json.encode(player.toJson())).toList();
-    await prefs.setStringList('players', playerJsonList);
-  }
-
-  void _addPlayer(String firstName, String lastName, int tee) {
-    Player newPlayer = Player(
-      firstName: firstName,
-      lastName: lastName,
-      strokes: [],
-      selectedTee: tee,
-    );
-    setState(() {
-      players.add(newPlayer);
-    });
-    _savePlayers();
-  }
-
-  void _deletePlayer(Player player) {
-    setState(() {
-      players.remove(player);
-    });
-    _savePlayers();
-  }
-
-  void _navigateToHoleDetailPage() {
+  void _navigateToHoleDetailPage(List<Player> players) {
     if (players.isNotEmpty) {
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
@@ -115,6 +74,8 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final players = ref.watch(playerListProvider);
+    final playerListNotifier = ref.read(playerListProvider.notifier);
 
     return Scaffold(
       appBar: const CustomAppBar(title: 'Velja teig'),
@@ -146,7 +107,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                         selectedTee = 2;
                       });
                       HapticFeedback.lightImpact();
-                      _navigateToHoleDetailPage();
+                      _navigateToHoleDetailPage(players);
                     },
                   ),
                   const SizedBox(height: 10),
@@ -158,7 +119,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                         selectedTee = 0;
                       });
                       HapticFeedback.lightImpact();
-                      _navigateToHoleDetailPage();
+                      _navigateToHoleDetailPage(players);
                     },
                   ),
                   const SizedBox(height: 10),
@@ -170,7 +131,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                         selectedTee = 3;
                       });
                       HapticFeedback.lightImpact();
-                      _navigateToHoleDetailPage();
+                      _navigateToHoleDetailPage(players);
                     },
                   ),
                   const SizedBox(height: 10),
@@ -182,7 +143,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                         selectedTee = 1;
                       });
                       HapticFeedback.lightImpact();
-                      _navigateToHoleDetailPage();
+                      _navigateToHoleDetailPage(players);
                     },
                   ),
                 ],
@@ -213,7 +174,7 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                       player: players[index],
                       onDelete: () {
                         HapticFeedback.lightImpact();
-                        _deletePlayer(players[index]);
+                        playerListNotifier.removePlayer(players[index]);
                       },
                       onEdit: () {
                         HapticFeedback.lightImpact();
@@ -230,12 +191,13 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                                     strokes: players[index].strokes,
                                     selectedTee: players[index].selectedTee,
                                   );
-                                  _savePlayers();
+                                  playerListNotifier.updatePlayer(
+                                      index, players[index]);
                                 });
                               },
                               initialPlayer: players[index],
-                              onDeletePlayer: () =>
-                                  _deletePlayer(players[index]),
+                              onDeletePlayer: () => playerListNotifier
+                                  .removePlayer(players[index]),
                             ),
                           ),
                         );
@@ -244,7 +206,15 @@ class _RoundSetupScreenState extends State<RoundSetupScreen> {
                   } else {
                     return AddPlayerButton(
                       course: widget.course,
-                      onAddPlayer: _addPlayer,
+                      onAddPlayer: (firstName, lastName, tee) {
+                        final newPlayer = Player(
+                          firstName: firstName,
+                          lastName: lastName,
+                          strokes: List.generate(18, (index) => 0),
+                          selectedTee: tee,
+                        );
+                        playerListNotifier.addPlayer(newPlayer);
+                      },
                     );
                   }
                 }),

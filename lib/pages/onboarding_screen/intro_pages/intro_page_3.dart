@@ -41,7 +41,11 @@ class IntroPage3 extends StatelessWidget {
           const Text(
             'Haltu utan um skorið! Með Skor getur þú auðveldlega skráð og fylgst með öllum þínum höggum á hverju holu. Vistaðu hringinn þinn í "Mínir hringir" og deildu honum með vinum!',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.w200,
+            ),
           ),
         ],
       ),

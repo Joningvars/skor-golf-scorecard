@@ -38,7 +38,11 @@ class IntroPage2 extends StatelessWidget {
           const Text(
             'Skráðu þig og eða allt hollið! Með Skor getur þú auðveldlega haldið utan um alla kylfinga í hópnum þínum.',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.w200,
+            ),
           )
         ],
       ),

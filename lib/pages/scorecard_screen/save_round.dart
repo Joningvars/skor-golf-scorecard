@@ -4,7 +4,6 @@ import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
 import 'package:score_card/models/player.dart';
 import 'package:score_card/models/round.dart';
-import 'package:score_card/routes/app_routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
@@ -29,7 +28,7 @@ Future<void> saveRound(BuildContext context, List<Player> players,
 
   // GET saved rounds
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  List<String>? savedRoundJsonList = prefs.getStringList('savedRounds') ?? [];
+  List<String> savedRoundJsonList = prefs.getStringList('savedRounds') ?? [];
 
   // add new round to list
   savedRoundJsonList.add(roundJson);
@@ -42,6 +41,6 @@ Future<void> saveRound(BuildContext context, List<Player> players,
   }
 
   if (context.mounted) {
-    Navigator.popUntil(context, ModalRoute.withName(AppRoutes.initialRoute));
+    Navigator.popUntil(context, (route) => route.isFirst);
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:lottie/lottie.dart';
 import 'package:score_card/theme/theme_helper.dart';
 
 class IntroPage1 extends StatelessWidget {
@@ -37,8 +36,12 @@ class IntroPage1 extends StatelessWidget {
           ),
           const SizedBox(height: 50),
           const Text(
-            'Einfaldlega velur einn af mörgum völlum sem skor hefur upp á að bjóða!',
-            style: TextStyle(color: Colors.white),
+            'Einfaldlega velur einn af helstu völlum landsins sem skor hefur upp á að bjóða!',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.w200,
+            ),
           ),
         ],
       ),

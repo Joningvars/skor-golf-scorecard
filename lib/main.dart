@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:score_card/pages/onboarding_screen/onboarding_screen.dart';
 import 'package:score_card/pages/welcome_screen/welcome_screen.dart';
 import 'package:score_card/routes/app_routes.dart';
@@ -10,7 +11,7 @@ var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   ThemeHelper().changeTheme('primary');
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -48,8 +49,8 @@ class _MyAppState extends State<MyApp> {
       theme: theme,
       title: 'skor',
       debugShowCheckedModeBanner: false,
-      home: OnBoardingScreen(),
-      // initialRoute: AppRoutes.initialRoute,
+      home: _isFirstLaunch ? const OnBoardingScreen() : const WelcomeScreen(),
+      initialRoute: AppRoutes.initialRoute,
       routes: AppRoutes.routes,
     );
   }
