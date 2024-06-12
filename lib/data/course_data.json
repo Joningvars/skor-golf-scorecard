@@ -160,10 +160,10 @@
         "par": 4,
         "handicap": 15,
         "distance": {
-          "white": 390,
-          "yellow": 370,
-          "blue": 350,
-          "red": 330
+          "white": 329,
+          "yellow": 310,
+          "blue": 276,
+          "red": 276
         }
       },
       {
@@ -171,10 +171,10 @@
         "par": 4,
         "handicap": 5,
         "distance": {
-          "white": 320,
-          "yellow": 285,
-          "blue": 250,
-          "red": 250
+          "white": 398,
+          "yellow": 350,
+          "blue": 340,
+          "red": 288
         }
       },
       {
@@ -182,10 +182,10 @@
         "par": 5,
         "handicap": 1,
         "distance": {
-          "white": 520,
-          "yellow": 460,
-          "blue": 420,
-          "red": 420
+          "white": 557,
+          "yellow": 491,
+          "blue": 461,
+          "red": 417
         }
       },
       {
@@ -193,20 +193,20 @@
         "par": 3,
         "handicap": 13,
         "distance": {
-          "white": 150,
-          "yellow": 135,
+          "white": 187,
+          "yellow": 148,
           "blue": 120,
-          "red": 120
+          "red": 107
         }
       },
       {
         "number": 18,
         "par": 4,
-        "handicap": 17,
+        "handicap": 7,
         "distance": {
-          "white": 310,
-          "yellow": 290,
-          "blue": 260,
+          "white": 430,
+          "yellow": 394,
+          "blue": 358,
           "red": 260
         }
       }
@@ -2778,7 +2778,7 @@
       "blue": 4700,
       "red": 4378
     },
-    "imgUrl": "https://scontent.frkv1-2.fna.fbcdn.net/v/t39.30808-6/305398879_571768644736778_613105426200924464_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=5f2048&_nc_ohc=YMVE1it5I2AQ7kNvgFcoFuJ&_nc_ht=scontent.frkv1-2.fna&oh=00_AYDjasbXzdKmwdDDMdjEUtrYRrbT2cv8iSWAeQiuoquIrA&oe=665D11D3",
+    "imgUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9edfOO7Ge1AqW9_jpqLUQwd_j1nnWaF1Etr1puyj2gOUsHeNz_iOg0HhKVNi6_YOIKoA&usqp=CAU",
     "par": 72,
     "holes": [
       {

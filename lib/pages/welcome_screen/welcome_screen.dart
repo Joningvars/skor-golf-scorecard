@@ -111,7 +111,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           Navigator.pushNamed(
                                   context, AppRoutes.courseSelectScreen)
                               .then((_) {
-                            // Re-lock to portrait when returning
                             SystemChrome.setPreferredOrientations([
                               DeviceOrientation.portraitUp,
                               DeviceOrientation.portraitDown,
@@ -134,7 +133,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           ]);
                           Navigator.pushNamed(context, AppRoutes.myScoresScreen)
                               .then((_) {
-                            // Re-lock to portrait when returning
                             SystemChrome.setPreferredOrientations([
                               DeviceOrientation.portraitUp,
                               DeviceOrientation.portraitDown,

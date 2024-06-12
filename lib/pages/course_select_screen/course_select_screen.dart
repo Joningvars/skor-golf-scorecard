@@ -41,7 +41,7 @@ class _CourseSelectScreenState extends State<CourseSelectScreen> {
             future: _coursesFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Container(); // Placeholder while loading
+                return Container(); // placeholder
               } else if (snapshot.hasError) {
                 return IconButton(
                   icon: const Icon(Icons.error),

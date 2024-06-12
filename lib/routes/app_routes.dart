@@ -6,6 +6,7 @@ import 'package:score_card/pages/welcome_screen/welcome_screen.dart';
 
 class AppRoutes {
   static const String myScoresScreen = '/my_scores_screen';
+  static const String myScoresScreenFromWelcome = '/my_scores_screen';
   static const String welcomeScreen = '/welcome_screen';
   static const String courseSelectScreen = '/hefja_hring_screen';
   static const String teeScreen = '/velja_teig_screen';

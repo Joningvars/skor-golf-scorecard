@@ -50,7 +50,7 @@ class _MyScoresScreenState extends State<MyScoresScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Vistaðir hringir'),
+      appBar: const CustomAppBar(title: 'Mínir Hringir'),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(

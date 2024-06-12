@@ -158,6 +158,7 @@ class CardButton extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => ScorecardScreen(
+              fromMyScores: true,
               course: round.golfcourse,
               players: round.players,
               holes: round.holes,

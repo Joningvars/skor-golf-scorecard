@@ -4,11 +4,12 @@ import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
 import 'package:score_card/models/player.dart';
 import 'package:score_card/pages/scorecard_screen/back9_widget.dart';
+import 'package:score_card/pages/scorecard_screen/bottom_nav.dart';
 import 'package:score_card/pages/scorecard_screen/front9_widget.dart';
-import 'package:score_card/pages/scorecard_screen/helpers.dart';
 import 'package:score_card/pages/scorecard_screen/players_widget.dart';
+import 'package:score_card/pages/scorecard_screen/scorecard_header.dart';
 import 'package:score_card/pages/scorecard_screen/save_round.dart';
-import 'package:score_card/routes/app_routes.dart';
+import 'package:score_card/pages/scorecard_screen/scorecard_widget.dart';
 import 'package:score_card/theme/theme_helper.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
@@ -17,12 +18,14 @@ class ScorecardScreen extends StatelessWidget {
   final List<Player> players;
   final List<Hole> holes;
   final GolfCourse course;
+  final bool fromMyScores;
 
   const ScorecardScreen({
     super.key,
     required this.players,
     required this.holes,
     required this.course,
+    this.fromMyScores = false,
   });
 
   @override
@@ -41,123 +44,26 @@ class ScorecardScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: theme.primaryColor,
       appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () {
-              for (var player in players) {
-                player.resetScores();
-              }
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                AppRoutes.initialRoute,
-                (route) => false,
-              );
-            },
-            icon: const Icon(Icons.home),
-          ),
-          IconButton(
-            onPressed: () async {
-              await saveRound(context, players, holes, course);
-              for (var player in players) {
-                player.resetScores();
-              }
-            },
-            icon: const Icon(Icons.save_alt_rounded),
-          ),
-          IconButton(
-            onPressed: () async {
-              try {
-                final image = await screenshotController.captureFromWidget(
-                  Material(
-                    type: MaterialType.transparency,
-                    child: ScoreCard(
-                      holes: holes,
-                      players: players,
-                      hasBack9Score: hasBack9Score,
-                      course: course,
-                    ),
-                  ),
-                  pixelRatio: pixelRatio,
-                  delay: const Duration(milliseconds: 10),
-                );
-
-                Share.shareXFiles(
-                  [XFile.fromData(image, mimeType: "image/jpeg")],
-                  text: formattedDate,
-                );
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Úps.. eitthvað fór úrskeiðis!: $e')),
-                );
-              }
-            },
-            icon: const Icon(Icons.ios_share),
-          )
-        ],
+        actions: _buildAppBarActions(
+          context,
+          players,
+          holes,
+          course,
+          screenshotController,
+          hasBack9Score,
+          formattedDate,
+          pixelRatio,
+          currentOrientation,
+          fromMyScores,
+        ),
         backgroundColor: theme.primaryColor,
         foregroundColor: Colors.white,
         title: Row(
           children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (currentOrientation == Orientation.landscape)
-                    Text(
-                      formattedDate,
-                      style: const TextStyle(color: Colors.white, fontSize: 12),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  Text(
-                    '${course.clubName} (${course.name})',
-                    style: const TextStyle(color: Colors.white, fontSize: 15),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        const Text(
-                          'ÖRN',
-                          style: TextStyle(color: Colors.green, fontSize: 10),
-                        ),
-                        const SizedBox(width: 5),
-                        const Text(
-                          'FUGL',
-                          style: TextStyle(color: Colors.red, fontSize: 10),
-                        ),
-                        const SizedBox(width: 5),
-                        const Text(
-                          'PAR',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 33, 109, 168),
-                            fontSize: 10,
-                          ),
-                        ),
-                        const SizedBox(width: 5),
-                        Text(
-                          'SKOLLI',
-                          style:
-                              TextStyle(color: Colors.grey[300], fontSize: 10),
-                        ),
-                        const SizedBox(width: 5),
-                        const Text(
-                          '2x SKOLLI',
-                          style: TextStyle(color: Colors.grey, fontSize: 10),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 100,
-              child: Image.asset(
-                'assets/images/skor_logo.png',
-                fit: BoxFit.contain,
-              ),
+            CourseInfoHeader(
+              currentOrientation: currentOrientation,
+              formattedDate: formattedDate,
+              course: course,
             ),
           ],
         ),
@@ -233,10 +139,11 @@ class ScorecardScreen extends StatelessWidget {
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: ScoreCard(
-                            holes: holes,
-                            players: players,
-                            hasBack9Score: hasBack9Score,
-                            course: course),
+                          holes: holes,
+                          players: players,
+                          hasBack9Score: hasBack9Score,
+                          course: course,
+                        ),
                       ),
                     ],
                   ),
@@ -246,51 +153,117 @@ class ScorecardScreen extends StatelessWidget {
           ),
         ),
       ),
+      bottomNavigationBar:
+          !fromMyScores && currentOrientation == Orientation.portrait
+              ? ScoreCardBottomNav(
+                  players: players,
+                  holes: holes,
+                  course: course,
+                  screenshotController: screenshotController,
+                  hasBack9Score: hasBack9Score,
+                  pixelRatio: pixelRatio,
+                  formattedDate: formattedDate,
+                )
+              : null,
     );
   }
-}
 
-class ScoreCard extends StatelessWidget {
-  const ScoreCard({
-    super.key,
-    required this.holes,
-    required this.players,
-    required this.hasBack9Score,
-    required this.course,
-  });
+  List<Widget> _buildAppBarActions(
+    BuildContext context,
+    List<Player> players,
+    List<Hole> holes,
+    GolfCourse course,
+    ScreenshotController screenshotController,
+    bool hasBack9Score,
+    String formattedDate,
+    double pixelRatio,
+    Orientation currentOrientation,
+    bool fromMyScores,
+  ) {
+    if (fromMyScores) {
+      return [
+        IconButton(
+          onPressed: () async {
+            try {
+              final image = await screenshotController.captureFromLongWidget(
+                ScoreCard(
+                  holes: holes,
+                  players: players,
+                  hasBack9Score: hasBack9Score,
+                  course: course,
+                ),
+                pixelRatio: pixelRatio,
+                delay: const Duration(milliseconds: 10),
+              );
 
-  final List<Hole> holes;
-  final List<Player> players;
-  final bool hasBack9Score;
-  final GolfCourse course;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            buildFront9holes(holes),
-            buildFront9Par(holes),
-            buildFront9Length(holes),
-            buildFront9Handicap(holes),
-            for (var player in players) buildPlayerFront9(player, holes),
-          ],
+              Share.shareXFiles(
+                [XFile.fromData(image, mimeType: "image/jpeg")],
+                text: formattedDate,
+              );
+            } catch (e) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Úps.. eitthvað fór úrskeiðis!: $e')),
+              );
+            }
+          },
+          icon: const Icon(Icons.ios_share),
         ),
-        if (hasBack9Score && holes.length > 9)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildBack9Holes(holes),
-              buildBack9Par(holes),
-              buildBack9Length(holes),
-              buildBack9Handicap(holes),
-              for (var player in players)
-                buildPlayerBack9(player, holes, course),
-            ],
+      ];
+    } else if (currentOrientation == Orientation.landscape) {
+      return [
+        IconButton(
+          onPressed: () {
+            saveRound(context, players, holes, course);
+            for (var player in players) {
+              player.resetScores();
+            }
+          },
+          icon: const Icon(
+            Icons.check,
+            color: Colors.green,
           ),
-      ],
-    );
+        ),
+        IconButton(
+          onPressed: () async {
+            try {
+              final image = await screenshotController.captureFromLongWidget(
+                ScoreCard(
+                  holes: holes,
+                  players: players,
+                  hasBack9Score: hasBack9Score,
+                  course: course,
+                ),
+                pixelRatio: pixelRatio,
+                delay: const Duration(milliseconds: 10),
+              );
+
+              Share.shareXFiles(
+                [XFile.fromData(image, mimeType: "image/jpeg")],
+                text: formattedDate,
+              );
+            } catch (e) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Úps.. eitthvað fór úrskeiðis!: $e')),
+              );
+            }
+          },
+          icon: const Icon(Icons.ios_share),
+        ),
+        IconButton(
+          onPressed: () {
+            saveRound(context, players, holes, course);
+            for (var player in players) {
+              player.resetScores();
+            }
+          },
+          icon: const Icon(
+            Icons.delete_forever_rounded,
+            color: Colors.red,
+          ),
+        ),
+      ];
+    } else {
+      return [];
+    }
   }
 }
