@@ -8,8 +8,9 @@ import 'package:score_card/pages/hole_screen/hole_screen.dart';
 import 'package:score_card/pages/round_setup_screen/add_player_button.dart';
 import 'package:score_card/pages/round_setup_screen/custom_tee_button.dart';
 import 'package:score_card/pages/round_setup_screen/player_button.dart';
+import 'package:score_card/providers/round_provider.dart';
 import 'package:score_card/widgets/custom_appbar.dart';
-import 'package:score_card/providers/player_list_provider.dart'; // Make sure this import is correct
+import 'package:score_card/providers/player_list_provider.dart';
 
 class RoundSetupScreen extends ConsumerStatefulWidget {
   const RoundSetupScreen({super.key, required this.course});
@@ -103,11 +104,26 @@ class _RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
                     text: widget.course.whiteTee.toString(),
                     color: Colors.white,
                     onPressed: () {
-                      setState(() {
-                        selectedTee = 2;
-                      });
-                      HapticFeedback.lightImpact();
-                      _navigateToHoleDetailPage(players);
+                      if (players.isNotEmpty) {
+                        ref.read(roundProvider.notifier).startRound(
+                              widget.course,
+                              players,
+                              widget.course.holes,
+                              2,
+                            );
+                        setState(() {
+                          selectedTee = 2;
+                        });
+                        HapticFeedback.lightImpact();
+                        _navigateToHoleDetailPage(players);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                'Vinsamlegast bættu við golfara svo hægt sé að byrja hring.'),
+                          ),
+                        );
+                      }
                     },
                   ),
                   const SizedBox(height: 10),
@@ -115,11 +131,26 @@ class _RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
                     text: widget.course.yellowTee.toString(),
                     color: Colors.yellow,
                     onPressed: () {
-                      setState(() {
-                        selectedTee = 0;
-                      });
-                      HapticFeedback.lightImpact();
-                      _navigateToHoleDetailPage(players);
+                      if (players.isNotEmpty) {
+                        ref.read(roundProvider.notifier).startRound(
+                              widget.course,
+                              players,
+                              widget.course.holes,
+                              0,
+                            );
+                        setState(() {
+                          selectedTee = 0;
+                        });
+                        HapticFeedback.lightImpact();
+                        _navigateToHoleDetailPage(players);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                'Vinsamlegast bættu við golfara svo hægt sé að byrja hring.'),
+                          ),
+                        );
+                      }
                     },
                   ),
                   const SizedBox(height: 10),
@@ -127,11 +158,26 @@ class _RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
                     text: widget.course.blueTee.toString(),
                     color: Colors.blue,
                     onPressed: () {
-                      setState(() {
-                        selectedTee = 3;
-                      });
-                      HapticFeedback.lightImpact();
-                      _navigateToHoleDetailPage(players);
+                      if (players.isNotEmpty) {
+                        ref.read(roundProvider.notifier).startRound(
+                              widget.course,
+                              players,
+                              widget.course.holes,
+                              3,
+                            );
+                        setState(() {
+                          selectedTee = 3;
+                        });
+                        HapticFeedback.lightImpact();
+                        _navigateToHoleDetailPage(players);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                'Vinsamlegast bættu við golfara svo hægt sé að byrja hring.'),
+                          ),
+                        );
+                      }
                     },
                   ),
                   const SizedBox(height: 10),
@@ -139,11 +185,26 @@ class _RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
                     text: widget.course.redTee.toString(),
                     color: Colors.red,
                     onPressed: () {
-                      setState(() {
-                        selectedTee = 1;
-                      });
-                      HapticFeedback.lightImpact();
-                      _navigateToHoleDetailPage(players);
+                      if (players.isNotEmpty) {
+                        ref.read(roundProvider.notifier).startRound(
+                              widget.course,
+                              players,
+                              widget.course.holes,
+                              1,
+                            );
+                        setState(() {
+                          selectedTee = 1;
+                        });
+                        HapticFeedback.lightImpact();
+                        _navigateToHoleDetailPage(players);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                'Vinsamlegast bættu við golfara svo hægt sé að byrja hring.'),
+                          ),
+                        );
+                      }
                     },
                   ),
                 ],

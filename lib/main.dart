@@ -50,7 +50,6 @@ class _MyAppState extends State<MyApp> {
       title: 'skor',
       debugShowCheckedModeBanner: false,
       home: _isFirstLaunch ? const OnBoardingScreen() : const WelcomeScreen(),
-      initialRoute: AppRoutes.initialRoute,
       routes: AppRoutes.routes,
     );
   }

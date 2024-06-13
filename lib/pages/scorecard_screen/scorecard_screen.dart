@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
@@ -13,8 +14,9 @@ import 'package:score_card/pages/scorecard_screen/scorecard_widget.dart';
 import 'package:score_card/theme/theme_helper.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:score_card/providers/round_provider.dart';
 
-class ScorecardScreen extends StatelessWidget {
+class ScorecardScreen extends ConsumerWidget {
   final List<Player> players;
   final List<Hole> holes;
   final GolfCourse course;
@@ -29,7 +31,7 @@ class ScorecardScreen extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     bool hasBack9Score = players[0].strokes.length > 9 &&
         players[0].strokes.sublist(9, 18).any((stroke) => stroke != 0);
     Orientation currentOrientation = MediaQuery.of(context).orientation;
@@ -46,6 +48,7 @@ class ScorecardScreen extends StatelessWidget {
       appBar: AppBar(
         actions: _buildAppBarActions(
           context,
+          ref,
           players,
           holes,
           course,
@@ -170,6 +173,7 @@ class ScorecardScreen extends StatelessWidget {
 
   List<Widget> _buildAppBarActions(
     BuildContext context,
+    WidgetRef ref,
     List<Player> players,
     List<Hole> holes,
     GolfCourse course,
@@ -185,6 +189,8 @@ class ScorecardScreen extends StatelessWidget {
         IconButton(
           onPressed: () async {
             try {
+              // takes a screenshot of the scorecard widget
+
               final image = await screenshotController.captureFromLongWidget(
                 ScoreCard(
                   holes: holes,
@@ -210,13 +216,18 @@ class ScorecardScreen extends StatelessWidget {
         ),
       ];
     } else if (currentOrientation == Orientation.landscape) {
+      //displaying the action buttons in the appbar
+      // instead of the navbar when in landscape
+
       return [
         IconButton(
           onPressed: () {
             saveRound(context, players, holes, course);
+            ref.read(roundProvider.notifier).endRound();
             for (var player in players) {
               player.resetScores();
             }
+            Navigator.popUntil(context, (route) => route.isFirst);
           },
           icon: const Icon(
             Icons.check,
@@ -251,10 +262,7 @@ class ScorecardScreen extends StatelessWidget {
         ),
         IconButton(
           onPressed: () {
-            for (var player in players) {
-              player.resetScores();
-            }
-            Navigator.popUntil(context, (route) => route.isFirst);
+            _showDeleteConfirmationDialog(context, ref, players);
           },
           icon: const Icon(
             Icons.delete_forever_rounded,
@@ -265,5 +273,37 @@ class ScorecardScreen extends StatelessWidget {
     } else {
       return [];
     }
+  }
+
+  void _showDeleteConfirmationDialog(
+      BuildContext context, WidgetRef ref, List<Player> players) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Eyða hring?'),
+          content: const Text('Ertu viss um að þú viljir eyða hringnum?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Hætta við'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                ref.read(roundProvider.notifier).endRound();
+                for (var player in players) {
+                  player.resetScores();
+                }
+                Navigator.popUntil(context, (route) => route.isFirst);
+              },
+              child: const Text('Eyða'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

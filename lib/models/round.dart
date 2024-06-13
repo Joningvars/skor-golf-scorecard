@@ -8,6 +8,7 @@ class Round {
   final List<Player> players;
   final List<Hole> holes;
   final String date;
+
   int totalRelativeScore;
 
   Round({

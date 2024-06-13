@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:score_card/models/hole.dart';
 import 'package:score_card/models/player.dart';
+import 'package:score_card/providers/round_provider.dart';
 import 'package:score_card/widgets/relative_score.dart';
 
-class CustomCounter extends StatefulWidget {
+class CustomCounter extends ConsumerStatefulWidget {
   final Player player;
   final int holeIndex;
   final List<Hole> holes;
@@ -17,10 +19,10 @@ class CustomCounter extends StatefulWidget {
   });
 
   @override
-  State<CustomCounter> createState() => _CustomCounterState();
+  ConsumerState<CustomCounter> createState() => _CustomCounterState();
 }
 
-class _CustomCounterState extends State<CustomCounter> {
+class _CustomCounterState extends ConsumerState<CustomCounter> {
   late int strokeCount;
   bool showCounter = false;
 
@@ -58,6 +60,10 @@ class _CustomCounterState extends State<CustomCounter> {
       player.relativeScore -= player.strokes[widget.holeIndex] - par;
       player.strokes[widget.holeIndex] = strokeCount;
       player.relativeScore += relativeScore;
+
+      ref
+          .read(roundProvider.notifier)
+          .updateScore(player, widget.holeIndex, strokeCount);
     });
   }
 

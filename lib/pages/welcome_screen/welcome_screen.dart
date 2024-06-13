@@ -1,26 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:score_card/models/round.dart';
+import 'package:score_card/pages/hole_screen/hole_screen.dart';
 import 'package:score_card/routes/app_routes.dart';
 import 'package:score_card/theme/theme_helper.dart';
 import 'package:score_card/pages/welcome_screen/welcome_button.dart';
+import 'package:score_card/providers/round_provider.dart';
 
-class WelcomeScreen extends StatefulWidget {
+class WelcomeScreen extends ConsumerStatefulWidget {
   const WelcomeScreen({super.key});
 
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
   final String imagePath = 'assets/images/';
 
   @override
   void initState() {
     super.initState();
+    _setPortraitMode();
+    _checkForUnfinishedRound();
+  }
+
+  void _setPortraitMode() {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
     ]);
+  }
+
+  void _checkForUnfinishedRound() async {
+    await ref.read(roundProvider.notifier).loadSavedRound();
+    final round = ref.read(roundProvider);
+    if (round != null) {
+      _showContinueRoundDialog(round);
+    }
+  }
+
+  void _showContinueRoundDialog(Round round) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Ókláraður hringur'),
+          content: const Text('Þú átt ókláraðan hring, viltu halda áfram?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _continueRound(round);
+              },
+              child: const Text('Já'),
+            ),
+            TextButton(
+              onPressed: () {
+                ref.read(roundProvider.notifier).endRound();
+                Navigator.of(context).pop();
+              },
+              child: const Text('Nei'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _continueRound(Round round) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HoleDetailPage(
+          holes: round.holes,
+          course: round.golfcourse,
+          selectedTee: round.players.first.selectedTee,
+          players: round.players,
+        ),
+      ),
+    ).then((_) {
+      _setPortraitMode();
+    });
   }
 
   @override
@@ -102,19 +162,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         text: 'Hefja Hring',
                         onPressed: () {
                           HapticFeedback.lightImpact();
-                          SystemChrome.setPreferredOrientations([
-                            DeviceOrientation.portraitUp,
-                            DeviceOrientation.portraitDown,
-                            DeviceOrientation.landscapeLeft,
-                            DeviceOrientation.landscapeRight,
-                          ]);
                           Navigator.pushNamed(
                                   context, AppRoutes.courseSelectScreen)
                               .then((_) {
-                            SystemChrome.setPreferredOrientations([
-                              DeviceOrientation.portraitUp,
-                              DeviceOrientation.portraitDown,
-                            ]);
+                            _setPortraitMode();
                           });
                         },
                       ),
@@ -125,18 +176,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         text: 'Mínir Hringir',
                         onPressed: () {
                           HapticFeedback.lightImpact();
-                          SystemChrome.setPreferredOrientations([
-                            DeviceOrientation.portraitUp,
-                            DeviceOrientation.portraitDown,
-                            DeviceOrientation.landscapeLeft,
-                            DeviceOrientation.landscapeRight,
-                          ]);
                           Navigator.pushNamed(context, AppRoutes.myScoresScreen)
                               .then((_) {
-                            SystemChrome.setPreferredOrientations([
-                              DeviceOrientation.portraitUp,
-                              DeviceOrientation.portraitDown,
-                            ]);
+                            _setPortraitMode();
                           });
                         },
                       ),

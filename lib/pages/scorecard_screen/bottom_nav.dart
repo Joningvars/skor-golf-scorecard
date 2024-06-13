@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
 import 'package:score_card/models/player.dart';
@@ -7,8 +8,9 @@ import 'package:score_card/pages/scorecard_screen/scorecard_widget.dart';
 import 'package:score_card/theme/theme_helper.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:score_card/providers/round_provider.dart';
 
-class ScoreCardBottomNav extends StatelessWidget {
+class ScoreCardBottomNav extends ConsumerWidget {
   const ScoreCardBottomNav({
     super.key,
     required this.players,
@@ -29,7 +31,7 @@ class ScoreCardBottomNav extends StatelessWidget {
   final String formattedDate;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return BottomNavigationBar(
       backgroundColor: theme.colorScheme.secondary,
       selectedItemColor: Colors.white,
@@ -60,6 +62,7 @@ class ScoreCardBottomNav extends StatelessWidget {
         switch (index) {
           case 0:
             saveRound(context, players, holes, course);
+            ref.read(roundProvider.notifier).endRound();
             for (var player in players) {
               player.resetScores();
             }
@@ -88,13 +91,45 @@ class ScoreCardBottomNav extends StatelessWidget {
             }
             break;
           case 2:
-            Navigator.popUntil(context, (route) => route.isFirst);
-            for (var player in players) {
-              player.resetScores();
-            }
+            _showDeleteConfirmationDialog(context, ref);
             break;
         }
       },
     );
+  }
+
+  void _showDeleteConfirmationDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Eyða hring?'),
+          content: const Text('Ertu viss um að þú viljir eyða hringnum?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Hætta við'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _deleteRound(context, ref);
+              },
+              child: const Text('Eyða'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteRound(BuildContext context, WidgetRef ref) {
+    ref.read(roundProvider.notifier).endRound();
+    Navigator.popUntil(context, (route) => route.isFirst);
+    for (var player in players) {
+      player.resetScores();
+    }
   }
 }
