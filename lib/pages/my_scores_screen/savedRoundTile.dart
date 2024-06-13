@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/round.dart';
+import 'package:score_card/pages/course_select_screen/course_tile.dart';
 import 'package:score_card/pages/scorecard_screen/scorecard_screen.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class SavedRoundTile extends StatelessWidget {
   final Round round;
@@ -93,16 +93,16 @@ class SavedRoundTile extends StatelessWidget {
           ),
           const Positioned(
             bottom: 0,
-            top: 150,
+            top: 140,
             right: 0,
             left: 00,
             child: CardHighlight(),
           ),
           Positioned(
-            top: 160,
+            top: 150,
             bottom: 10,
             right: 10,
-            left: 250,
+            left: 230,
             child: SizedBox(
               child: CardButton(
                 round: round,
@@ -158,17 +158,17 @@ class CardButton extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => ScorecardScreen(
-              fromMyScores: true,
               course: round.golfcourse,
               players: round.players,
               holes: round.holes,
+              fromMyScores: true,
             ),
           ),
         );
       },
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(30),
         ),
       ),
       child: const Text(
@@ -176,61 +176,6 @@ class CardButton extends StatelessWidget {
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-}
-
-class TeeLength extends StatelessWidget {
-  const TeeLength({super.key, required this.tee, required this.color});
-
-  final String tee;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(
-          Icons.sports_golf_rounded,
-          color: color,
-          size: 20,
-        ),
-        Text(
-          '${tee}m',
-          style: const TextStyle(
-              color: Color.fromARGB(255, 226, 226, 226),
-              fontSize: 10,
-              fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
-  }
-}
-
-class CardBackgroundImage extends StatelessWidget {
-  const CardBackgroundImage({
-    super.key,
-    required this.imageUrl,
-  });
-
-  final String imageUrl;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: FadeInImage.memoryNetwork(
-          placeholder: kTransparentImage,
-          image: imageUrl,
-          width: double.infinity,
-          fit: BoxFit.cover,
         ),
       ),
     );

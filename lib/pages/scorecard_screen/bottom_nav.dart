@@ -4,6 +4,7 @@ import 'package:score_card/models/hole.dart';
 import 'package:score_card/models/player.dart';
 import 'package:score_card/pages/scorecard_screen/save_round.dart';
 import 'package:score_card/pages/scorecard_screen/scorecard_widget.dart';
+import 'package:score_card/theme/theme_helper.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -30,7 +31,7 @@ class ScoreCardBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: theme.colorScheme.secondary,
       selectedItemColor: Colors.white,
       unselectedItemColor: Colors.white,
       items: const [
@@ -87,7 +88,7 @@ class ScoreCardBottomNav extends StatelessWidget {
             }
             break;
           case 2:
-            // saveRound(context, players, holes, course);
+            Navigator.popUntil(context, (route) => route.isFirst);
             for (var player in players) {
               player.resetScores();
             }

@@ -103,7 +103,7 @@ class ScorecardScreen extends StatelessWidget {
               } else {
                 // Portrait layout
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -251,10 +251,10 @@ class ScorecardScreen extends StatelessWidget {
         ),
         IconButton(
           onPressed: () {
-            saveRound(context, players, holes, course);
             for (var player in players) {
               player.resetScores();
             }
+            Navigator.popUntil(context, (route) => route.isFirst);
           },
           icon: const Icon(
             Icons.delete_forever_rounded,

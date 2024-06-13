@@ -39,7 +39,7 @@ class CourseTile extends StatelessWidget {
             bottom: 0,
             top: 140,
             right: 0,
-            left: 00,
+            left: 0,
             child: CardHighlight(),
           ),
           Positioned(
