@@ -5,6 +5,7 @@ import 'package:score_card/models/hole.dart';
 import 'package:score_card/models/player.dart';
 import 'package:score_card/pages/hole_screen/custom_counter.dart';
 import 'package:score_card/pages/round_setup_screen/player_button.dart';
+import 'package:score_card/widgets/custom_appbar.dart';
 
 class HoleDetail extends StatelessWidget {
   final Hole currentHole;
@@ -13,6 +14,7 @@ class HoleDetail extends StatelessWidget {
   final GolfCourse course;
   final List<Player> players;
   final int selectedTee;
+  final PageController controller;
 
   const HoleDetail({
     super.key,
@@ -22,6 +24,7 @@ class HoleDetail extends StatelessWidget {
     required this.course,
     required this.players,
     required this.selectedTee,
+    required this.controller,
   });
 
   @override
@@ -30,6 +33,25 @@ class HoleDetail extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: theme.primaryColor,
+      appBar: CustomAppBar(
+        title: '',
+        leadAction: PopupMenuButton<String>(
+          onSelected: (value) {
+            if (value == 'finish') {
+              controller.jumpTo(controller.position.maxScrollExtent);
+            }
+          },
+          itemBuilder: (BuildContext context) {
+            return [
+              PopupMenuItem<String>(
+                value: 'finish',
+                child: Text('Klára hring'),
+              ),
+            ];
+          },
+        ),
+      ),
       body: Container(
         width: screenSize.width,
         height: screenSize.height,
@@ -49,30 +71,15 @@ class HoleDetail extends StatelessWidget {
             padding: EdgeInsets.symmetric(
               horizontal: screenSize.width * 0.04,
             ),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: screenSize.height * 0.15,
-                  width: double.infinity,
-                  child: Image.asset(
-                    'assets/images/skor_logo.png',
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                Expanded(
-                  child: OrientationBuilder(
-                    builder: (context, orientation) {
-                      return orientation == Orientation.landscape
-                          ? SingleChildScrollView(
-                              child: _buildContent(
-                                  currentHole, theme, context, screenSize),
-                            )
-                          : _buildContent(
-                              currentHole, theme, context, screenSize);
-                    },
-                  ),
-                ),
-              ],
+            child: OrientationBuilder(
+              builder: (context, orientation) {
+                return orientation == Orientation.landscape
+                    ? SingleChildScrollView(
+                        child: _buildContent(
+                            currentHole, theme, context, screenSize),
+                      )
+                    : _buildContent(currentHole, theme, context, screenSize);
+              },
             ),
           ),
         ),
@@ -99,6 +106,7 @@ class HoleDetail extends StatelessWidget {
       Size screenSize) {
     return Column(
       children: [
+        Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.end,

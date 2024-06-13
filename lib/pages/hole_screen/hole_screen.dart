@@ -1,14 +1,15 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
 import 'package:score_card/models/player.dart';
+import 'package:score_card/models/round.dart';
 import 'package:score_card/pages/hole_screen/hole_detail.dart';
 import 'package:score_card/pages/scorecard_screen/scorecard_screen.dart';
+import 'package:score_card/providers/round_provider.dart';
 
-class HoleDetailPage extends StatefulWidget {
+class HoleDetailPage extends ConsumerStatefulWidget {
   final List<Hole> holes;
   final int selectedTee;
   final List<Player> players;
@@ -26,7 +27,7 @@ class HoleDetailPage extends StatefulWidget {
   _HoleDetailPageState createState() => _HoleDetailPageState();
 }
 
-class _HoleDetailPageState extends State<HoleDetailPage> {
+class _HoleDetailPageState extends ConsumerState<HoleDetailPage> {
   late PageController _pageController;
 
   @override
@@ -70,32 +71,39 @@ class _HoleDetailPageState extends State<HoleDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      body: PageView.builder(
-        controller: _pageController,
-        itemCount: widget.holes.length + 1,
-        onPageChanged: (index) {
-          _setOrientationForScorecard(index == widget.holes.length);
-        },
-        itemBuilder: (context, index) {
-          if (index < widget.holes.length) {
-            return HoleDetail(
-              currentHole: widget.holes[index],
-              currentHoleIndex: index,
-              totalHoles: widget.holes.length,
-              course: widget.course,
-              players: widget.players,
-              selectedTee: widget.selectedTee,
-            );
-          } else {
-            return ScorecardScreen(
-              players: widget.players,
-              holes: widget.holes,
-              course: widget.course,
-            );
-          }
-        },
+    return WillPopScope(
+      onWillPop: () async {
+        // Disable the back button
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: Theme.of(context).primaryColor,
+        body: PageView.builder(
+          controller: _pageController,
+          itemCount: widget.holes.length + 1,
+          onPageChanged: (index) {
+            _setOrientationForScorecard(index == widget.holes.length);
+          },
+          itemBuilder: (context, index) {
+            if (index < widget.holes.length) {
+              return HoleDetail(
+                currentHole: widget.holes[index],
+                currentHoleIndex: index,
+                totalHoles: widget.holes.length,
+                course: widget.course,
+                players: widget.players,
+                selectedTee: widget.selectedTee,
+                controller: _pageController,
+              );
+            } else {
+              return ScorecardScreen(
+                players: widget.players,
+                holes: widget.holes,
+                course: widget.course,
+              );
+            }
+          },
+        ),
       ),
     );
   }

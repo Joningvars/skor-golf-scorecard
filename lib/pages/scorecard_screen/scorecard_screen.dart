@@ -46,6 +46,7 @@ class ScorecardScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: theme.primaryColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         actions: _buildAppBarActions(
           context,
           ref,
