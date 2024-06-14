@@ -33,18 +33,16 @@ class ScoreCard extends StatelessWidget {
             for (var player in players) buildPlayerFront9(player, holes),
           ],
         ),
-        if (hasBack9Score && holes.length > 9)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildBack9Holes(holes),
-              buildBack9Par(holes),
-              buildBack9Length(holes),
-              buildBack9Handicap(holes),
-              for (var player in players)
-                buildPlayerBack9(player, holes, course),
-            ],
-          ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildBack9Holes(holes),
+            buildBack9Par(holes),
+            buildBack9Length(holes),
+            buildBack9Handicap(holes),
+            for (var player in players) buildPlayerBack9(player, holes, course),
+          ],
+        ),
       ],
     );
   }

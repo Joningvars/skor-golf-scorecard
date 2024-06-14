@@ -4,10 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
 import 'package:score_card/models/player.dart';
-import 'package:score_card/models/round.dart';
 import 'package:score_card/pages/hole_screen/hole_detail.dart';
 import 'package:score_card/pages/scorecard_screen/scorecard_screen.dart';
-import 'package:score_card/providers/round_provider.dart';
 
 class HoleDetailPage extends ConsumerStatefulWidget {
   final List<Hole> holes;
@@ -73,7 +71,7 @@ class _HoleDetailPageState extends ConsumerState<HoleDetailPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        // Disable the back button
+        // disable the back swipe
         return false;
       },
       child: Scaffold(

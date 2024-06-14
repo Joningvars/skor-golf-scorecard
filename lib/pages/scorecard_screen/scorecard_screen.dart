@@ -107,7 +107,7 @@ class ScorecardScreen extends ConsumerWidget {
               } else {
                 // Portrait layout
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -190,8 +190,6 @@ class ScorecardScreen extends ConsumerWidget {
         IconButton(
           onPressed: () async {
             try {
-              // takes a screenshot of the scorecard widget
-
               final image = await screenshotController.captureFromLongWidget(
                 ScoreCard(
                   holes: holes,
@@ -217,9 +215,6 @@ class ScorecardScreen extends ConsumerWidget {
         ),
       ];
     } else if (currentOrientation == Orientation.landscape) {
-      //displaying the action buttons in the appbar
-      // instead of the navbar when in landscape
-
       return [
         IconButton(
           onPressed: () {
@@ -263,7 +258,38 @@ class ScorecardScreen extends ConsumerWidget {
         ),
         IconButton(
           onPressed: () {
-            _showDeleteConfirmationDialog(context, ref, players);
+            void _showDeleteConfirmationDialog(
+                BuildContext context, WidgetRef ref) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Eyða hring?'),
+                    content:
+                        const Text('Ertu viss um að þú viljir eyða hringnum?'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text('Hætta við'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          ref.read(roundProvider.notifier).endRound();
+                          for (var player in players) {
+                            player.resetScores();
+                          }
+                          Navigator.popUntil(context, (route) => route.isFirst);
+                        },
+                        child: const Text('Eyða'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
           },
           icon: const Icon(
             Icons.delete_forever_rounded,
@@ -274,37 +300,5 @@ class ScorecardScreen extends ConsumerWidget {
     } else {
       return [];
     }
-  }
-
-  void _showDeleteConfirmationDialog(
-      BuildContext context, WidgetRef ref, List<Player> players) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Eyða hring?'),
-          content: const Text('Ertu viss um að þú viljir eyða hringnum?'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Hætta við'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                ref.read(roundProvider.notifier).endRound();
-                for (var player in players) {
-                  player.resetScores();
-                }
-                Navigator.popUntil(context, (route) => route.isFirst);
-              },
-              child: const Text('Eyða'),
-            ),
-          ],
-        );
-      },
-    );
   }
 }
