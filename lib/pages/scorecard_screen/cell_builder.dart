@@ -11,7 +11,9 @@ Widget buildCell(
   int? relativeScore,
 }) {
   Color calculateColor(int score, int par) {
-    if (score == par - 2) {
+    if (score == par - 3 && score != 0) {
+      return Colors.orange;
+    } else if (score == par - 2) {
       return Colors.green;
     } else if (score == par - 1) {
       return Colors.red;
@@ -19,6 +21,10 @@ Widget buildCell(
       return const Color.fromARGB(255, 33, 109, 168);
     } else if (score == par + 1) {
       return Colors.grey.shade300;
+    } else if (score == par + 2) {
+      return Colors.grey.shade500;
+    } else if (score > par + 2) {
+      return Colors.grey.shade800;
     } else {
       return Colors.white;
     }

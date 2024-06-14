@@ -48,6 +48,26 @@ class Player {
     }
   }
 
+  int calculateRelativeScoreFront9(List<Hole> holes) {
+    int relativeScoreFront9 = 0;
+    for (int i = 0; i < 9 && i < holes.length && i < strokes.length; i++) {
+      if (strokes[i] > 0) {
+        relativeScoreFront9 += (strokes[i] - holes[i].par);
+      }
+    }
+    return relativeScoreFront9;
+  }
+
+  int calculateRelativeScoreBack9(List<Hole> holes) {
+    int relativeScoreBack9 = 0;
+    for (int i = 9; i < 18 && i < holes.length && i < strokes.length; i++) {
+      if (strokes[i] > 0) {
+        relativeScoreBack9 += (strokes[i] - holes[i].par);
+      }
+    }
+    return relativeScoreBack9;
+  }
+
   void resetScores() {
     strokes = List.generate(18, (i) => 0);
     relativeScore = 0;

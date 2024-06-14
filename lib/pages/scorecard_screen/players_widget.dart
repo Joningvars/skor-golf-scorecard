@@ -52,12 +52,11 @@ Widget buildPlayerTotalStrokes(Player player, GolfCourse course) {
 }
 
 Widget buildPlayerFront9(Player player, List<Hole> holes) {
-  List<int> front9Strokes =
-      player.strokes.take(9).where((stroke) => stroke > 0).toList();
+  int validHoleCount = holes.length < 9 ? holes.length : 9;
+  List<int> front9Strokes = player.strokes.take(validHoleCount).toList();
+  List<int> pars = holes.take(validHoleCount).map((hole) => hole.par).toList();
   int totalScore9 = front9Strokes.fold(0, (sum, score) => sum + score);
-  List<int> pars = holes.take(9).map((hole) => hole.par).toList();
-  int relativeScore9 = totalScore9 -
-      pars.take(front9Strokes.length).fold(0, (sum, par) => sum + par);
+  int relativeScore9 = player.calculateRelativeScoreFront9(holes);
 
   return Row(
     children: [
@@ -66,12 +65,12 @@ Widget buildPlayerFront9(Player player, List<Hole> holes) {
         width: 100,
         isPlayerTile: true,
       ),
-      for (var i = 0; i < 9; i++)
+      for (var i = 0; i < validHoleCount; i++)
         buildCell(
-          player.strokes[i].toString(),
+          player.strokes.length > i ? player.strokes[i].toString() : '0',
           width: 50,
           isPlayerTile: true,
-          score: player.strokes[i],
+          score: player.strokes.length > i ? player.strokes[i] : 0,
           par: pars[i],
         ),
       buildCell(
@@ -86,37 +85,30 @@ Widget buildPlayerFront9(Player player, List<Hole> holes) {
 }
 
 Widget buildPlayerBack9(Player player, List<Hole> holes, GolfCourse course) {
-  if (player.strokes.length < 18) {
-    return const SizedBox();
-  }
-  List<int> back9Strokes =
-      player.strokes.skip(9).where((stroke) => stroke > 0).toList();
-  List<int> back9Pars = holes.skip(9).map((hole) => hole.par).toList();
-
-  back9Strokes.fold(0, (sum, score) => sum + score);
-  back9Pars.take(back9Strokes.length).fold(0, (sum, par) => sum + par);
-
-  List<int> allNonZeroStrokes =
-      player.strokes.where((stroke) => stroke > 0).toList();
-  int totalStrokes = allNonZeroStrokes.fold(0, (sum, score) => sum + score);
-  int totalPar = holes
-      .map((hole) => hole.par)
-      .take(allNonZeroStrokes.length)
-      .fold(0, (sum, par) => sum + par);
-  int relativeScore18 = totalStrokes - totalPar;
+  int validHoleCount = holes.length < 18 ? holes.length - 9 : 9;
+  List<int> back9Strokes = player.strokes.length > 9
+      ? player.strokes.sublist(9, 9 + validHoleCount).toList()
+      : List<int>.filled(validHoleCount, 0);
+  List<int> pars = holes.length > 9
+      ? holes.sublist(9, 9 + validHoleCount).map((hole) => hole.par).toList()
+      : List<int>.filled(validHoleCount, 0);
+  int totalScore9 = back9Strokes.fold(0, (sum, score) => sum + score);
+  int relativeScore18 = player.relativeScore;
 
   return Row(
     children: [
-      for (int i = 0; i < 9; i++)
+      for (int i = 0; i < validHoleCount; i++)
         buildCell(
-          player.strokes[9 + i].toString(),
+          player.strokes.length > (9 + i)
+              ? player.strokes[9 + i].toString()
+              : '0',
           width: 50,
           isPlayerTile: true,
-          score: player.strokes[9 + i],
-          par: back9Pars[i],
+          score: player.strokes.length > (9 + i) ? player.strokes[9 + i] : 0,
+          par: pars[i],
         ),
       buildCell(
-        totalStrokes.toString(),
+        totalScore9.toString(),
         width: 50,
         isPlayerTile: true,
         fontSize: 30,
