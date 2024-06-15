@@ -142,11 +142,16 @@ class ScorecardScreen extends ConsumerWidget {
                         ),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
-                        child: ScoreCard(
-                          holes: holes,
-                          players: players,
-                          hasBack9Score: hasBack9Score,
-                          course: course,
+                        child: Row(
+                          children: [
+                            Front9Widget(players: players, holes: holes),
+                            if (hasBack9Score && holes.length > 9)
+                              Back9Widget(
+                                players: players,
+                                holes: holes,
+                                course: course,
+                              ),
+                          ],
                         ),
                       ),
                     ],
@@ -258,38 +263,7 @@ class ScorecardScreen extends ConsumerWidget {
         ),
         IconButton(
           onPressed: () {
-            void _showDeleteConfirmationDialog(
-                BuildContext context, WidgetRef ref) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Eyða hring?'),
-                    content:
-                        const Text('Ertu viss um að þú viljir eyða hringnum?'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: const Text('Hætta við'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          ref.read(roundProvider.notifier).endRound();
-                          for (var player in players) {
-                            player.resetScores();
-                          }
-                          Navigator.popUntil(context, (route) => route.isFirst);
-                        },
-                        child: const Text('Eyða'),
-                      ),
-                    ],
-                  );
-                },
-              );
-            }
+            _showDeleteConfirmationDialog(context, ref);
           },
           icon: const Icon(
             Icons.delete_forever_rounded,
@@ -300,5 +274,36 @@ class ScorecardScreen extends ConsumerWidget {
     } else {
       return [];
     }
+  }
+
+  void _showDeleteConfirmationDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Eyða hring?'),
+          content: const Text('Ertu viss um að þú viljir eyða hringnum?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Hætta við'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                ref.read(roundProvider.notifier).endRound();
+                for (var player in players) {
+                  player.resetScores();
+                }
+                Navigator.popUntil(context, (route) => route.isFirst);
+              },
+              child: const Text('Eyða'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
