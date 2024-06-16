@@ -48,7 +48,7 @@ Widget buildCell(
           Align(
             alignment: Alignment.center,
             child: Text(
-              text,
+              score == 0 ? '-' : text,
               style: TextStyle(
                 color: textColor,
                 fontWeight: FontWeight.bold,
