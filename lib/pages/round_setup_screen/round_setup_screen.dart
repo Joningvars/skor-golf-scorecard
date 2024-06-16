@@ -95,11 +95,18 @@ class _RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 40),
+            const SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: Column(
                 children: [
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Text(
+                      'Velja teig',
+                      style: TextStyle(color: Colors.white, fontSize: 25),
+                    ),
+                  ),
                   CustomTeeButton(
                     text: widget.course.whiteTee.toString(),
                     color: Colors.white,

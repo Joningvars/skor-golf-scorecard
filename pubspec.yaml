@@ -96,7 +96,6 @@ flutter:
     - assets/images/golfer.svg
     - assets/images/score.svg
     - assets/images/course.svg
-    - assets/images/splash_screen.png
     - assets/course_images/
     - lib/data/course_data.json
 

@@ -10,7 +10,7 @@ class IntroPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset('assets/images/logo-res.png'),
+          Image.asset('assets/images/logo-smaller.png'),
           const SizedBox(
             height: 70,
           ),

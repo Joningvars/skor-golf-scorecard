@@ -44,7 +44,7 @@ class HoleDetail extends StatelessWidget {
           },
           itemBuilder: (BuildContext context) {
             return [
-              PopupMenuItem<String>(
+              const PopupMenuItem<String>(
                 value: 'finish',
                 child: Text('Klára hring'),
               ),
@@ -106,7 +106,7 @@ class HoleDetail extends StatelessWidget {
       Size screenSize) {
     return Column(
       children: [
-        Spacer(),
+        const Spacer(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.end,

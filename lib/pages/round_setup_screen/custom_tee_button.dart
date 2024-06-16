@@ -23,7 +23,7 @@ class CustomTeeButton extends StatelessWidget {
       onPressed: onPressed,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 30),
-        height: 70,
+        height: 65,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
