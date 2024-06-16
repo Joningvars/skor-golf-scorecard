@@ -32,6 +32,7 @@ class ScorecardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    //checks to see if user has strokes on back 9
     bool hasBack9Score = players[0].strokes.length > 9 &&
         players[0].strokes.sublist(9, 18).any((stroke) => stroke != 0);
     Orientation currentOrientation = MediaQuery.of(context).orientation;
@@ -163,6 +164,7 @@ class ScorecardScreen extends ConsumerWidget {
         ),
       ),
       bottomNavigationBar:
+          //checks if the scorecard screen is being accessed from my scores or not
           !fromMyScores && currentOrientation == Orientation.portrait
               ? ScoreCardBottomNav(
                   players: players,
@@ -194,6 +196,7 @@ class ScorecardScreen extends ConsumerWidget {
       return [
         IconButton(
           onPressed: () async {
+            //takes a screenshot of the scorecard widget and shares it
             try {
               final image = await screenshotController.captureFromLongWidget(
                 ScoreCard(
@@ -237,6 +240,7 @@ class ScorecardScreen extends ConsumerWidget {
         ),
         IconButton(
           onPressed: () async {
+            //takes a screenshot of the scorecard widget and shares it
             try {
               final image = await screenshotController.captureFromLongWidget(
                 ScoreCard(

@@ -9,7 +9,7 @@
       "blue": 53,
       "red": 47
     },
-    "imgUrl": "https://www.keilir.is/wp-content/uploads/2016/12/000_Keilir_GC_JacobSjoman_lowres_sample-preview_.jpg",
+    "imgUrl": "assets/course_images/hvaleyrarvollur-min.jpg",
     "par": 71,
     "holes": [
       {
@@ -222,7 +222,7 @@
       "blue": 46,
       "red": 46
     },
-    "imgUrl": "https://api.blika.is/static/img/golf/Golfkl%C3%BAbburinn%20Keilir.webp",
+    "imgUrl": "assets/course_images/setbergsvollur-min.jpeg",
     "par": 72,
     "holes": [
       {
@@ -435,7 +435,7 @@
       "blue": 50,
       "red": 47
     },
-    "imgUrl": "https://cdn.sanity.io/images/arkm1m4f/production/f82f4823922e074d6c9691c747dccf9009791f09-3748x3640.jpg",
+    "imgUrl": "assets/course_images/gkg-min.jpeg",
     "par": 71,
     "holes": [
       {
@@ -648,7 +648,7 @@
       "blue": 16,
       "red": 16
     },
-    "imgUrl": "https://cdn.sanity.io/images/arkm1m4f/production/f82f4823922e074d6c9691c747dccf9009791f09-3748x3640.jpg",
+    "imgUrl": "assets/course_images/gkg-min.jpeg",
     "par": 34,
     "holes": [
       {
@@ -861,7 +861,7 @@
       "blue": 52,
       "red": 46
     },
-    "imgUrl": "https://grgolf.is/wp-content/uploads/2023/03/i-wrdmTT9-X3.jpg",
+    "imgUrl": "assets/course_images/grafarholt-min.jpeg",
     "par": 69,
     "holes": [
       {
@@ -1074,7 +1074,7 @@
       "blue": 52,
       "red": 46
     },
-    "imgUrl": "https://grgolf.is/wp-content/uploads/2023/02/DJI_0056-1024x576.jpg",
+    "imgUrl": "assets/course_images/korpan-min.jpeg",
     "par": 72,
     "holes": [
       {
@@ -1287,7 +1287,7 @@
       "blue": 48,
       "red": 42
     },
-    "imgUrl": "https://static.wixstatic.com/media/068a05_2567adc8c01644cda713ece9505278d7~mv2.jpg/v1/fill/w_640,h_596,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/068a05_2567adc8c01644cda713ece9505278d7~mv2.jpg",
+    "imgUrl": "assets/course_images/borgarnes.webp",
     "par": 71,
     "holes": [
       {
@@ -1500,7 +1500,7 @@
       "blue": 51,
       "red": 46
     },
-    "imgUrl": "https://static.blika.is/media/golf/294678517_1009104223260871_455167905946953202_n.jpg",
+    "imgUrl": "assets/course_images/keflavik-min.jpeg",
     "par": 72,
     "holes": [
       {
@@ -1713,7 +1713,7 @@
       "blue": 49,
       "red": 47
     },
-    "imgUrl": "https://www.kylfingur.is/media/1/feat_ok_leiran_12-1024x453.jpg",
+    "imgUrl": "assets/course_images/sandgerdi.webp",
     "par": 72,
     "holes": [
       {
@@ -1926,7 +1926,7 @@
       "blue": 49,
       "red": 46
     },
-    "imgUrl": "https://www.kylfingur.is/media/1/Urridavollur_loftmynd.jpg",
+    "imgUrl": "assets/course_images/urridavollur-min.jpeg",
     "par": 71,
     "holes": [
       {
@@ -2139,7 +2139,7 @@
       "blue": 47,
       "red": 46
     },
-    "imgUrl": "https://live.staticflickr.com/5774/21243526715_a54f1eaa1e_b.jpg",
+    "imgUrl": "assets/course_images/kidjaberg-min.jpeg",
     "par": 71,
     "holes": [
       {
@@ -2352,7 +2352,7 @@
       "blue": 46,
       "red": 46
     },
-    "imgUrl": "https://images.squarespace-cdn.com/content/v1/618b9d53d7db02078c92a09b/fe52fe5c-bf67-47a0-be6b-2df010ef2825/Photo_6553608_DJI_8_jpg_9569169_0_2021717656_photo_original.jpg",
+    "imgUrl": "assets/course_images/ondverdarnes-min.jpeg",
     "par": 71,
     "holes": [
       {
@@ -2565,7 +2565,7 @@
       "blue": 21,
       "red": 21
     },
-    "imgUrl": "https://gosgolf.is/wp-content/uploads/2018/09/4-og-5-braut-1024x794.jpg",
+    "imgUrl": "assets/course_images/selfoss-min.jpeg",
     "par": 35,
     "holes": [
       {
@@ -2778,7 +2778,7 @@
       "blue": 4700,
       "red": 4378
     },
-    "imgUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9edfOO7Ge1AqW9_jpqLUQwd_j1nnWaF1Etr1puyj2gOUsHeNz_iOg0HhKVNi6_YOIKoA&usqp=CAU",
+    "imgUrl": "assets/course_images/torlakshofn-min.jpeg",
     "par": 72,
     "holes": [
       {

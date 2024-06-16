@@ -113,22 +113,24 @@ class _CustomCounterState extends ConsumerState<CustomCounter> {
     int par = widget.holes[widget.holeIndex].par;
     int relativeScore = score - par;
 
-    if (relativeScore < -2) {
-      return Colors.orange.shade400;
-    } else if (relativeScore == -2) {
-      return Colors.green.shade400;
-    } else if (relativeScore == -1) {
-      return Colors.red.shade400;
-    } else if (relativeScore == 0) {
-      return const Color(0XFF3270A2);
-    } else if (relativeScore == 1) {
-      return Colors.grey;
-    } else if (relativeScore == 2) {
-      return Colors.grey.shade700;
-    } else if (relativeScore > 2) {
-      return Colors.grey.shade900;
-    } else {
-      return const Color(0XFF3270A2);
+    //return color depending on relative score
+    switch (relativeScore) {
+      case < -2:
+        return Colors.orange;
+      case -2:
+        return Colors.green.shade400;
+      case -1:
+        return Colors.red.shade400;
+      case 0:
+        return const Color(0XFF3270A2);
+      case 1:
+        return Colors.grey;
+      case 2:
+        return Colors.grey.shade700;
+      case >= 3:
+        return Colors.grey.shade900;
+      default:
+        return const Color(0XFF3270A2);
     }
   }
 

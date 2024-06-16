@@ -59,9 +59,10 @@ flutter_icons:
 
 flutter_native_splash:
   color: "#13334c"
+  image: assets/images/logo_splash.png
   android: true
   ios: true
-  fullscreen: true
+  fullscreen: false
 
 dev_dependencies:
   flutter_test:
@@ -89,12 +90,14 @@ flutter:
   assets:
     - assets/images/golf_background.jpeg
     - assets/images/skor_logo.png
-    - assets/images/logo-res.png
+    - assets/images/logo-smaller.png
+    - assets/images/logo_splash.png
     - assets/images/icon.png
     - assets/images/golfer.svg
     - assets/images/score.svg
     - assets/images/course.svg
     - assets/images/splash_screen.png
+    - assets/course_images/
     - lib/data/course_data.json
 
 

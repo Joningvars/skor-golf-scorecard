@@ -10,30 +10,28 @@ Widget buildCell(
   Color tileColor = const Color(0XFF195482),
   int? relativeScore,
 }) {
-  Color calculateColor(int score, int par) {
+  //returns color depending on relative score else returns white
+  Color getScoreColor(int score, int par) {
+    final colorMap = {
+      par - 2: Colors.green,
+      par - 1: Colors.red,
+      par: const Color.fromARGB(255, 33, 109, 168),
+      par + 1: Colors.grey.shade300,
+      par + 2: Colors.grey.shade500,
+    };
+
     if (score == par - 3 && score != 0) {
       return Colors.orange;
-    } else if (score == par - 2) {
-      return Colors.green;
-    } else if (score == par - 1) {
-      return Colors.red;
-    } else if (score == par) {
-      return const Color.fromARGB(255, 33, 109, 168);
-    } else if (score == par + 1) {
-      return Colors.grey.shade300;
-    } else if (score == par + 2) {
-      return Colors.grey.shade500;
-    } else if (score > par + 2) {
-      return Colors.grey.shade800;
-    } else {
-      return Colors.white;
     }
+
+    return colorMap[score] ??
+        (score > par + 2 ? Colors.grey.shade800 : Colors.white);
   }
 
   Color textColor = Colors.white;
 
   if (isPlayerTile && score != null && par != null) {
-    tileColor = calculateColor(score, par);
+    tileColor = getScoreColor(score, par);
     textColor = Colors.black;
   }
 

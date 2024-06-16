@@ -5,9 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/pages/round_setup_screen/round_setup_screen.dart';
 
-import 'package:transparent_image/transparent_image.dart';
-
-class CourseTile extends StatelessWidget {
+class CourseTile extends StatefulWidget {
   final GolfCourse course;
 
   const CourseTile({
@@ -16,22 +14,27 @@ class CourseTile extends StatelessWidget {
   });
 
   @override
+  State<CourseTile> createState() => _CourseTileState();
+}
+
+class _CourseTileState extends State<CourseTile> {
+  @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Stack(
         children: [
-          CardBackgroundImage(imageUrl: course.imgUrl),
+          CardBackgroundImage(imageUrl: widget.course.imgUrl),
           const CardShader(),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ShadowText(text: course.clubName),
-                ShadowText(text: '(${course.name})'),
-                smallerShadowText(text: course.location),
+                ShadowText(text: widget.course.clubName),
+                ShadowText(text: '(${widget.course.name})'),
+                smallerShadowText(text: widget.course.location),
               ],
             ),
           ),
@@ -48,7 +51,7 @@ class CourseTile extends StatelessWidget {
             right: 10,
             left: 230,
             child: CardButton(
-              course: course,
+              course: widget.course,
             ),
           ),
           // Tee lengths
@@ -60,19 +63,19 @@ class CourseTile extends StatelessWidget {
             child: Row(
               children: [
                 TeeLength(
-                  tee: course.whiteTee.toString(),
+                  tee: widget.course.whiteTee.toString(),
                   color: Colors.white,
                 ),
                 TeeLength(
-                  tee: course.yellowTee.toString(),
+                  tee: widget.course.yellowTee.toString(),
                   color: Colors.yellow,
                 ),
                 TeeLength(
-                  tee: course.blueTee.toString(),
+                  tee: widget.course.blueTee.toString(),
                   color: Colors.blue,
                 ),
                 TeeLength(
-                  tee: course.redTee.toString(),
+                  tee: widget.course.redTee.toString(),
                   color: Colors.red,
                 ),
               ],
@@ -168,9 +171,8 @@ class CardBackgroundImage extends StatelessWidget {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        child: FadeInImage.memoryNetwork(
-          placeholder: kTransparentImage,
-          image: imageUrl,
+        child: Image.asset(
+          imageUrl,
           width: double.infinity,
           fit: BoxFit.cover,
         ),

@@ -139,7 +139,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                             ],
                           ),
                           child: Image.asset(
-                            'assets/images/logo-res.png',
+                            'assets/images/logo-smaller.png',
                             fit: BoxFit.contain,
                             frameBuilder: (BuildContext context, Widget child,
                                 int? frame, bool wasSynchronouslyLoaded) {
