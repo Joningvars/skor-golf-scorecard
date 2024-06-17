@@ -48,6 +48,7 @@ Widget buildCell(
           Align(
             alignment: Alignment.center,
             child: Text(
+              //if hole has no score then display "-" else display score"
               score == 0 ? '-' : text,
               style: TextStyle(
                 color: textColor,
