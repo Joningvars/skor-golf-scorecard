@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:score_card/theme/theme_helper.dart';
 
 class IntroPage3 extends StatelessWidget {
-  BoxDecoration background = BoxDecoration(
+  final BoxDecoration background = BoxDecoration(
     gradient: LinearGradient(
       begin: Alignment.bottomCenter,
       end: Alignment.topCenter,
@@ -14,6 +14,8 @@ class IntroPage3 extends StatelessWidget {
       ],
     ),
   );
+
+  IntroPage3({super.key});
 
   @override
   Widget build(BuildContext context) {

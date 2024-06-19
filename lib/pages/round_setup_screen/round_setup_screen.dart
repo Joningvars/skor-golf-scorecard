@@ -19,15 +19,16 @@ class RoundSetupScreen extends ConsumerStatefulWidget {
   final GolfCourse course;
 
   @override
-  _RoundSetupScreenState createState() => _RoundSetupScreenState();
+  RoundSetupScreenState createState() => RoundSetupScreenState();
 }
 
-class _RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
+class RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
   int selectedTee = 0;
   int selectedFront9Index = 1;
   int selectedBack9Index = 1;
   bool isSpecificCourse = false;
 
+  //names of the different set of 9 holes for Korpan
   final List<String> courseNames = ['Sjórinn', 'Áin', 'Landið'];
   List<Hole> _currentHoles = [];
 
@@ -93,6 +94,7 @@ class _RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
     }
   }
 
+  //updates korpan depending on chosen front 9 and back 9 (as it has 27 holes)
   void _updateHoles() {
     if (isSpecificCourse) {
       List<Hole> front9;
@@ -208,6 +210,8 @@ class _RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
                   ],
                 ),
               ),
+
+              //korpan front 9 and back 9 picker(as it has 27 holes)
               if (isSpecificCourse) ...[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -226,7 +230,7 @@ class _RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
                                 controller: front9Controller,
                                 diameterRatio: 1.2,
                                 perspective: 0.005,
-                                physics: FixedExtentScrollPhysics(),
+                                physics: const FixedExtentScrollPhysics(),
                                 onSelectedItemChanged: (index) {
                                   HapticFeedback.selectionClick();
                                   setState(() {
@@ -271,7 +275,7 @@ class _RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
                                 controller: back9Controller,
                                 diameterRatio: 1.2,
                                 perspective: 0.005,
-                                physics: FixedExtentScrollPhysics(),
+                                physics: const FixedExtentScrollPhysics(),
                                 onSelectedItemChanged: (index) {
                                   HapticFeedback.selectionClick();
                                   setState(() {
@@ -303,7 +307,7 @@ class _RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
                   ),
                 ),
               ] else ...[
-                SizedBox(height: 70)
+                const SizedBox(height: 70)
               ],
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
@@ -327,6 +331,7 @@ class _RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
     );
   }
 
+  //starts the "round" for saving unfinished round and then loading it back up
   void _startRound(List<Player> players, int tee) {
     if (players.isNotEmpty) {
       ref.read(roundProvider.notifier).startRound(
@@ -348,16 +353,6 @@ class _RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
         ),
       );
     }
-  }
-
-  Widget _buildCourseListTile(String title, VoidCallback onTap) {
-    return ListTile(
-      title: Text(
-        title,
-        style: const TextStyle(color: Colors.white),
-      ),
-      onTap: onTap,
-    );
   }
 
   Widget _buildPlayerButtons(List<Player> players, var playerListNotifier) {

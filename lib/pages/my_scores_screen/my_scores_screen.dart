@@ -9,10 +9,10 @@ class MyScoresScreen extends StatefulWidget {
   const MyScoresScreen({super.key});
 
   @override
-  _MyScoresScreenState createState() => _MyScoresScreenState();
+  MyScoresScreenState createState() => MyScoresScreenState();
 }
 
-class _MyScoresScreenState extends State<MyScoresScreen> {
+class MyScoresScreenState extends State<MyScoresScreen> {
   List<Round> savedRounds = [];
 
   @override

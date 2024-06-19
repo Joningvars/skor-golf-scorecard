@@ -144,7 +144,7 @@ class HoleDetail extends StatelessWidget {
             Text(
               ' ${pageIndex.toString()}',
               style: TextStyle(
-                fontSize: screenSize.width * 0.4,
+                fontSize: screenSize.width * 0.399,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 shadows: const [

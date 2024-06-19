@@ -25,7 +25,7 @@ class RoundNotifier extends StateNotifier<Round?> {
     for (var player in players) {
       player.selectedTee = selectedTee;
     }
-    _saveRoundState();
+    saveRoundState();
   }
 
   void updateScore(Player player, int holeIndex, int score) {
@@ -33,23 +33,23 @@ class RoundNotifier extends StateNotifier<Round?> {
       player.strokes[holeIndex] = score;
 
       state = state; // updating the state
-      _saveRoundState();
+      saveRoundState();
     }
   }
 
   void endRound() {
     state = null;
-    _clearRoundState();
+    clearRoundState();
   }
 
-  Future<void> _saveRoundState() async {
+  Future<void> saveRoundState() async {
     final prefs = await SharedPreferences.getInstance();
     if (state != null) {
       prefs.setString('saved_round', jsonEncode(state!.toJson()));
     }
   }
 
-  Future<void> _clearRoundState() async {
+  Future<void> clearRoundState() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('saved_round');
   }

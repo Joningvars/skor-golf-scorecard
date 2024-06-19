@@ -22,10 +22,10 @@ class HoleDetailPage extends ConsumerStatefulWidget {
   });
 
   @override
-  _HoleDetailPageState createState() => _HoleDetailPageState();
+  HoleDetailPageState createState() => HoleDetailPageState();
 }
 
-class _HoleDetailPageState extends ConsumerState<HoleDetailPage> {
+class HoleDetailPageState extends ConsumerState<HoleDetailPage> {
   late PageController _pageController;
 
   @override

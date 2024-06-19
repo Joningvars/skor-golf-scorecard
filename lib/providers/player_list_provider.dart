@@ -5,10 +5,10 @@ import 'package:score_card/models/player.dart';
 
 class PlayerList extends StateNotifier<List<Player>> {
   PlayerList() : super([]) {
-    _loadPlayers();
+    loadPlayers();
   }
 
-  Future<void> _loadPlayers() async {
+  Future<void> loadPlayers() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final List<String>? playerJsonList = prefs.getStringList('players');
     if (playerJsonList != null) {
@@ -18,7 +18,7 @@ class PlayerList extends StateNotifier<List<Player>> {
     }
   }
 
-  Future<void> _savePlayers() async {
+  Future<void> savePlayers() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final List<String> playerJsonList =
         state.map((player) => json.encode(player.toJson())).toList();
@@ -27,7 +27,7 @@ class PlayerList extends StateNotifier<List<Player>> {
 
   void addPlayer(Player player) {
     state = [...state, player];
-    _savePlayers();
+    savePlayers();
   }
 
   void updatePlayer(int index, Player player) {
@@ -35,12 +35,12 @@ class PlayerList extends StateNotifier<List<Player>> {
       for (int i = 0; i < state.length; i++)
         if (i == index) player else state[i]
     ];
-    _savePlayers();
+    savePlayers();
   }
 
   void removePlayer(Player player) {
     state = state.where((p) => p != player).toList();
-    _savePlayers();
+    savePlayers();
   }
 }
 

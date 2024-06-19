@@ -12,10 +12,10 @@ class WelcomeScreen extends ConsumerStatefulWidget {
   const WelcomeScreen({super.key});
 
   @override
-  _WelcomeScreenState createState() => _WelcomeScreenState();
+  WelcomeScreenState createState() => WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
+class WelcomeScreenState extends ConsumerState<WelcomeScreen> {
   final String imagePath = 'assets/images/';
 
   @override

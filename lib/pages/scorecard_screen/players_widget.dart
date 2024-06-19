@@ -86,9 +86,6 @@ Widget buildPlayerFront9(Player player, List<Hole> holes) {
 
 Widget buildPlayerBack9(Player player, List<Hole> holes, GolfCourse course) {
   int validHoleCount = holes.length < 18 ? holes.length - 9 : 9;
-  List<int> back9Strokes = player.strokes.length > 9
-      ? player.strokes.sublist(9, 9 + validHoleCount).toList()
-      : List<int>.filled(validHoleCount, 0);
   List<int> total18strokes = player.strokes.isNotEmpty
       ? player.strokes.sublist(0, 9 + validHoleCount).toList()
       : List<int>.filled(validHoleCount, 0);
