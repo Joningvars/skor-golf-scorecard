@@ -89,10 +89,13 @@ Widget buildPlayerBack9(Player player, List<Hole> holes, GolfCourse course) {
   List<int> back9Strokes = player.strokes.length > 9
       ? player.strokes.sublist(9, 9 + validHoleCount).toList()
       : List<int>.filled(validHoleCount, 0);
+  List<int> total18strokes = player.strokes.isNotEmpty
+      ? player.strokes.sublist(0, 9 + validHoleCount).toList()
+      : List<int>.filled(validHoleCount, 0);
   List<int> pars = holes.length > 9
       ? holes.sublist(9, 9 + validHoleCount).map((hole) => hole.par).toList()
       : List<int>.filled(validHoleCount, 0);
-  int totalScore9 = back9Strokes.fold(0, (sum, score) => sum + score);
+  int totalScore18 = total18strokes.fold(0, (sum, score) => sum + score);
   int relativeScore18 = player.relativeScore;
 
   return Row(
@@ -108,7 +111,7 @@ Widget buildPlayerBack9(Player player, List<Hole> holes, GolfCourse course) {
           par: pars[i],
         ),
       buildCell(
-        totalScore9.toString(),
+        totalScore18.toString(),
         width: 50,
         isPlayerTile: true,
         fontSize: 30,

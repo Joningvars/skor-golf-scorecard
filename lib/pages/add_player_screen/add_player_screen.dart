@@ -127,6 +127,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               TextFormField(
+                maxLength: 12,
                 controller: _firstNameController,
                 decoration: const InputDecoration(labelText: 'Fornafn'),
                 validator: (value) {
@@ -137,6 +138,7 @@ class _AddPlayerScreenState extends State<AddPlayerScreen> {
                 },
               ),
               TextFormField(
+                maxLength: 12,
                 controller: _lastNameController,
                 decoration: const InputDecoration(labelText: 'Eftirnafn'),
               ),

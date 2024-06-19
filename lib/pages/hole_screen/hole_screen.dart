@@ -85,9 +85,11 @@ class _HoleDetailPageState extends ConsumerState<HoleDetailPage> {
           itemBuilder: (context, index) {
             if (index < widget.holes.length) {
               return HoleDetail(
+                pageIndex: index + 1,
                 currentHole: widget.holes[index],
                 currentHoleIndex: index,
                 totalHoles: widget.holes.length,
+                holes: widget.holes,
                 course: widget.course,
                 players: widget.players,
                 selectedTee: widget.selectedTee,

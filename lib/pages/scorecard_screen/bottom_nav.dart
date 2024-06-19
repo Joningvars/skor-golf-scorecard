@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
@@ -61,6 +62,7 @@ class ScoreCardBottomNav extends ConsumerWidget {
       onTap: (index) async {
         switch (index) {
           case 0:
+            HapticFeedback.lightImpact();
             saveRound(context, players, holes, course);
             ref.read(roundProvider.notifier).endRound();
             for (var player in players) {
@@ -68,6 +70,7 @@ class ScoreCardBottomNav extends ConsumerWidget {
             }
             break;
           case 1:
+            HapticFeedback.lightImpact();
             try {
               final image = await screenshotController.captureFromLongWidget(
                 ScoreCard(
@@ -91,6 +94,7 @@ class ScoreCardBottomNav extends ConsumerWidget {
             }
             break;
           case 2:
+            HapticFeedback.lightImpact();
             _showDeleteConfirmationDialog(context, ref);
             break;
         }
@@ -108,12 +112,14 @@ class ScoreCardBottomNav extends ConsumerWidget {
           actions: <Widget>[
             TextButton(
               onPressed: () {
+                HapticFeedback.lightImpact();
                 Navigator.of(context).pop();
               },
               child: const Text('Hætta við'),
             ),
             TextButton(
               onPressed: () {
+                HapticFeedback.lightImpact();
                 Navigator.of(context).pop();
                 _deleteRound(context, ref);
               },

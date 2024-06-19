@@ -11,16 +11,20 @@ class HoleDetail extends StatelessWidget {
   final Hole currentHole;
   final int currentHoleIndex;
   final int totalHoles;
+  final List<Hole> holes;
   final GolfCourse course;
   final List<Player> players;
   final int selectedTee;
   final PageController controller;
+  final int pageIndex;
 
   const HoleDetail({
     super.key,
     required this.currentHole,
+    required this.pageIndex,
     required this.currentHoleIndex,
     required this.totalHoles,
+    required this.holes,
     required this.course,
     required this.players,
     required this.selectedTee,
@@ -138,7 +142,7 @@ class HoleDetail extends StatelessWidget {
               ),
             ]),
             Text(
-              ' ${currentHole.number}',
+              ' ${pageIndex.toString()}',
               style: TextStyle(
                 fontSize: screenSize.width * 0.4,
                 color: Colors.white,
@@ -225,7 +229,7 @@ class HoleDetail extends StatelessWidget {
                       CustomCounter(
                         player: player,
                         holeIndex: currentHoleIndex,
-                        holes: course.holes,
+                        holes: holes,
                       ),
                     ],
                   ),
