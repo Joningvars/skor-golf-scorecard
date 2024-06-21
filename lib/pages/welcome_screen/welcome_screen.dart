@@ -49,6 +49,7 @@ class WelcomeScreenState extends ConsumerState<WelcomeScreen> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
+                HapticFeedback.lightImpact();
                 Navigator.of(context).pop();
                 _continueRound(round);
               },
@@ -56,6 +57,7 @@ class WelcomeScreenState extends ConsumerState<WelcomeScreen> {
             ),
             TextButton(
               onPressed: () {
+                HapticFeedback.lightImpact();
                 ref.read(roundProvider.notifier).endRound();
                 Navigator.of(context).pop();
               },

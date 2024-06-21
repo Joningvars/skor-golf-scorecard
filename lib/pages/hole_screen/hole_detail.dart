@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_icon_shadow/flutter_icon_shadow.dart';
 import 'package:score_card/models/course.dart';
 import 'package:score_card/models/hole.dart';
@@ -120,6 +121,7 @@ class HoleDetail extends StatelessWidget {
                                     : Colors.grey.shade300,
                               ),
                               onPressed: () {
+                                HapticFeedback.selectionClick();
                                 Navigator.pop(context);
                                 controller.jumpToPage(index);
                                 setState(() {});
@@ -145,6 +147,7 @@ class HoleDetail extends StatelessWidget {
                       width: 350,
                       child: ElevatedButton(
                         onPressed: () {
+                          HapticFeedback.lightImpact();
                           Navigator.pop(context);
                           controller
                               .jumpTo(controller.position.maxScrollExtent);
