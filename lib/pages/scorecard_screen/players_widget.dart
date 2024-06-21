@@ -33,16 +33,17 @@ Widget buildPlayerTotalStrokes(Player player, GolfCourse course) {
         ),
         Column(
           children: [
-            Text(
-              relativeScore > 0
-                  ? '+$relativeScore'
-                  : (relativeScore == 0 ? 'E' : '$relativeScore'),
-              style: const TextStyle(
-                color: Colors.white70,
-                fontWeight: FontWeight.bold,
-                fontSize: 10,
+            if (course.par != 0)
+              Text(
+                relativeScore > 0
+                    ? '+$relativeScore'
+                    : (relativeScore == 0 ? 'E' : '$relativeScore'),
+                style: const TextStyle(
+                  color: Colors.white70,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 10,
+                ),
               ),
-            ),
             const SizedBox(height: 30),
           ],
         ),
@@ -60,11 +61,6 @@ Widget buildPlayerFront9(Player player, List<Hole> holes) {
 
   return Row(
     children: [
-      buildCell(
-        player.initials,
-        width: 100,
-        isPlayerTile: true,
-      ),
       for (var i = 0; i < validHoleCount; i++)
         buildCell(
           player.strokes.length > i ? player.strokes[i].toString() : '0',
@@ -78,7 +74,7 @@ Widget buildPlayerFront9(Player player, List<Hole> holes) {
         width: 50,
         isPlayerTile: true,
         fontSize: 30,
-        relativeScore: relativeScore9,
+        relativeScore: holes[0].par == 0 ? 0 : relativeScore9,
       ),
     ],
   );
@@ -112,7 +108,7 @@ Widget buildPlayerBack9(Player player, List<Hole> holes, GolfCourse course) {
         width: 50,
         isPlayerTile: true,
         fontSize: 30,
-        relativeScore: relativeScore18,
+        relativeScore: course.par > 0 ? relativeScore18 : 0,
       ),
     ],
   );

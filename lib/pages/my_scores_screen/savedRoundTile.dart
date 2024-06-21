@@ -21,7 +21,8 @@ class SavedRoundTile extends StatelessWidget {
         ? round.players[0].strokes.fold(0, (prev, score) => prev + score)
         : 0;
 
-    int relativeScore = round.players[0].relativeScore;
+    int relativeScore =
+        round.golfcourse.par == 0 ? 0 : round.players[0].relativeScore;
 
     return Card(
       elevation: 4,
@@ -41,7 +42,7 @@ class SavedRoundTile extends StatelessWidget {
                     SizedBox(
                         width: 210,
                         child: ShadowText(text: round.golfcourse.clubName)),
-                    ShadowText(text: '(${round.golfcourse.name})'),
+                    ShadowText(text: round.golfcourse.name),
                     smallerShadowText(text: round.golfcourse.location),
                   ],
                 ),
@@ -67,37 +68,39 @@ class SavedRoundTile extends StatelessWidget {
                     ),
                   ),
                 ),
-                Text(
-                  relativeScore > 0
-                      ? '+$relativeScore'
-                      : (relativeScore == 0 ? 'E' : '$relativeScore'),
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 10,
-                    shadows: <Shadow>[
-                      Shadow(
-                        offset: Offset(1, 1),
-                        blurRadius: 4,
-                        color: Colors.black54,
-                      ),
-                      Shadow(
-                        blurRadius: 30,
-                        color: Colors.black54,
-                      ),
-                    ],
+                if (round.golfcourse.par != 0)
+                  Text(
+                    relativeScore > 0
+                        ? '+$relativeScore'
+                        : (relativeScore == 0 ? 'E' : '$relativeScore'),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 10,
+                      shadows: <Shadow>[
+                        Shadow(
+                          offset: Offset(1, 1),
+                          blurRadius: 4,
+                          color: Colors.black54,
+                        ),
+                        Shadow(
+                          blurRadius: 30,
+                          color: Colors.black54,
+                        ),
+                      ],
+                    ),
                   ),
-                ),
               ],
             ),
           ),
-          const Positioned(
-            bottom: 0,
-            top: 140,
-            right: 0,
-            left: 00,
-            child: CardHighlight(),
-          ),
+          if (round.golfcourse.par != 0)
+            const Positioned(
+              bottom: 0,
+              top: 140,
+              right: 0,
+              left: 00,
+              child: CardHighlight(),
+            ),
           Positioned(
             top: 150,
             bottom: 10,
@@ -111,32 +114,33 @@ class SavedRoundTile extends StatelessWidget {
             ),
           ),
           // Tee lengths
-          Positioned(
-            top: 160,
-            bottom: 10,
-            right: 10,
-            left: 10,
-            child: Row(
-              children: [
-                TeeLength(
-                  tee: round.golfcourse.whiteTee.toString(),
-                  color: Colors.white,
-                ),
-                TeeLength(
-                  tee: round.golfcourse.yellowTee.toString(),
-                  color: Colors.yellow,
-                ),
-                TeeLength(
-                  tee: round.golfcourse.blueTee.toString(),
-                  color: Colors.blue,
-                ),
-                TeeLength(
-                  tee: round.golfcourse.redTee.toString(),
-                  color: Colors.red,
-                ),
-              ],
+          if (round.golfcourse.par != 0)
+            Positioned(
+              top: 160,
+              bottom: 10,
+              right: 10,
+              left: 10,
+              child: Row(
+                children: [
+                  TeeLength(
+                    tee: round.golfcourse.whiteTee.toString(),
+                    color: Colors.white,
+                  ),
+                  TeeLength(
+                    tee: round.golfcourse.yellowTee.toString(),
+                    color: Colors.yellow,
+                  ),
+                  TeeLength(
+                    tee: round.golfcourse.blueTee.toString(),
+                    color: Colors.blue,
+                  ),
+                  TeeLength(
+                    tee: round.golfcourse.redTee.toString(),
+                    color: Colors.red,
+                  ),
+                ],
+              ),
             ),
-          ),
         ],
       ),
     );
@@ -173,10 +177,7 @@ class CardButton extends StatelessWidget {
       ),
       child: const Text(
         'Skoða',
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
+        style: TextStyle(color: Colors.white, fontSize: 14),
       ),
     );
   }

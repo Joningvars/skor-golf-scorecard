@@ -1,5 +1,3 @@
-// ignore_for_file: camel_case_types
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:score_card/models/course.dart';
@@ -18,70 +16,87 @@ class CourseTile extends StatefulWidget {
 }
 
 class _CourseTileState extends State<CourseTile> {
+  void navigateToRound() {
+    HapticFeedback.lightImpact();
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RoundSetupScreen(
+          course: widget.course,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      child: Stack(
-        children: [
-          CardBackgroundImage(imageUrl: widget.course.imgUrl),
-          const CardShader(),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ShadowText(text: widget.course.clubName),
-                ShadowText(text: '(${widget.course.name})'),
-                smallerShadowText(text: widget.course.location),
-              ],
+    return InkWell(
+      onTap: navigateToRound,
+      child: Card(
+        elevation: 4,
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        child: Stack(
+          children: [
+            CardBackgroundImage(imageUrl: widget.course.imgUrl),
+            const CardShader(),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ShadowText(text: widget.course.clubName),
+                  ShadowText(text: widget.course.name),
+                  smallerShadowText(text: widget.course.location),
+                ],
+              ),
             ),
-          ),
-          const Positioned(
-            bottom: 0,
-            top: 140,
-            right: 0,
-            left: 0,
-            child: CardHighlight(),
-          ),
-          Positioned(
-            top: 150,
-            bottom: 10,
-            right: 10,
-            left: 230,
-            child: CardButton(
-              course: widget.course,
+            const Positioned(
+              bottom: 0,
+              top: 140,
+              right: 0,
+              left: 0,
+              child: CardHighlight(),
             ),
-          ),
-          // Tee lengths
-          Positioned(
-            top: 160,
-            bottom: 10,
-            right: 10,
-            left: 10,
-            child: Row(
-              children: [
-                TeeLength(
-                  tee: widget.course.whiteTee.toString(),
-                  color: Colors.white,
-                ),
-                TeeLength(
-                  tee: widget.course.yellowTee.toString(),
-                  color: Colors.yellow,
-                ),
-                TeeLength(
-                  tee: widget.course.blueTee.toString(),
-                  color: Colors.blue,
-                ),
-                TeeLength(
-                  tee: widget.course.redTee.toString(),
-                  color: Colors.red,
-                ),
-              ],
+            Positioned(
+              top: 150,
+              bottom: 10,
+              right: 10,
+              left: 230,
+              child: CardButton(
+                navigateToRound: navigateToRound,
+                course: widget.course,
+              ),
             ),
-          ),
-        ],
+            // Tee lengths
+            Positioned(
+              top: 150,
+              bottom: 10,
+              right: 10,
+              left: 10,
+              child: Row(
+                children: [
+                  TeeLength(
+                    tee: widget.course.whiteTee.toString(),
+                    color: Colors.white,
+                  ),
+                  TeeLength(
+                    tee: widget.course.yellowTee.toString(),
+                    color: Colors.yellow,
+                  ),
+                  TeeLength(
+                    tee: widget.course.blueTee.toString(),
+                    color: Colors.blue,
+                  ),
+                  TeeLength(
+                    tee: widget.course.redTee.toString(),
+                    color: Colors.red,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -89,27 +104,18 @@ class _CourseTileState extends State<CourseTile> {
 
 class CardButton extends StatelessWidget {
   final GolfCourse course;
+  final VoidCallback navigateToRound;
 
   const CardButton({
     super.key,
     required this.course,
+    required this.navigateToRound,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        HapticFeedback.lightImpact();
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => RoundSetupScreen(
-              course: course,
-            ),
-          ),
-        );
-      },
+      onPressed: navigateToRound,
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
@@ -117,10 +123,7 @@ class CardButton extends StatelessWidget {
       ),
       child: const Text(
         'Velja',
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
+        style: TextStyle(color: Colors.white, fontSize: 14),
       ),
     );
   }

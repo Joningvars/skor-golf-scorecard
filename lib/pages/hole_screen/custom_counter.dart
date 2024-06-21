@@ -73,7 +73,9 @@ class _CustomCounterState extends ConsumerState<CustomCounter> {
     int relativeScore = score - par;
     String scoreText = '';
 
-    if (widget.holeIndex >= 0 && widget.holeIndex < widget.holes.length) {
+    if (widget.holeIndex >= 0 &&
+        widget.holeIndex < widget.holes.length &&
+        par != 0) {
       switch (relativeScore) {
         case -3:
           scoreText = 'ALBATROSS';
@@ -114,24 +116,27 @@ class _CustomCounterState extends ConsumerState<CustomCounter> {
     int relativeScore = score - par;
 
     //return color depending on relative score
-    switch (relativeScore) {
-      case < -2:
-        return Colors.orange;
-      case -2:
-        return Colors.green.shade400;
-      case -1:
-        return Colors.red.shade400;
-      case 0:
-        return const Color(0XFF3270A2);
-      case 1:
-        return Colors.grey;
-      case 2:
-        return Colors.grey.shade700;
-      case >= 3:
-        return Colors.grey.shade900;
-      default:
-        return const Color(0XFF3270A2);
+    if (par != 0) {
+      switch (relativeScore) {
+        case < -2:
+          return Colors.orange;
+        case -2:
+          return Colors.green.shade400;
+        case -1:
+          return Colors.red.shade400;
+        case 0:
+          return const Color(0XFF3270A2);
+        case 1:
+          return Colors.grey;
+        case 2:
+          return Colors.grey.shade700;
+        case >= 3:
+          return Colors.grey.shade900;
+        default:
+          return const Color(0XFF3270A2);
+      }
     }
+    return Colors.grey.shade400;
   }
 
   void _showCounter() {
@@ -150,7 +155,8 @@ class _CustomCounterState extends ConsumerState<CustomCounter> {
         ? Expanded(
             child: Row(
               children: [
-                RelativeScoreWidget(player: widget.player),
+                if (widget.holes[0].par != 0)
+                  RelativeScoreWidget(player: widget.player),
                 const Spacer(),
                 SizedBox(
                   height: 63,
@@ -196,17 +202,18 @@ class _CustomCounterState extends ConsumerState<CustomCounter> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SizedBox(
-                                  width: double.infinity,
-                                  child: Text(
-                                    textAlign: TextAlign.center,
-                                    _displayScoreText(),
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 8,
-                                    ),
-                                  ),
-                                ),
+                                    width: double.infinity,
+                                    child: widget.holes[0].par != 0
+                                        ? Text(
+                                            textAlign: TextAlign.center,
+                                            _displayScoreText(),
+                                            style: const TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 8,
+                                            ),
+                                          )
+                                        : null),
                                 SizedBox(
                                   width: double.infinity,
                                   child: Text(
@@ -244,7 +251,8 @@ class _CustomCounterState extends ConsumerState<CustomCounter> {
         : Expanded(
             child: Row(
               children: [
-                RelativeScoreWidget(player: widget.player),
+                if (widget.holes[0].par != 0)
+                  RelativeScoreWidget(player: widget.player),
                 const Spacer(),
                 IconButton(
                   icon: const Icon(Icons.add, color: Colors.white, size: 35),

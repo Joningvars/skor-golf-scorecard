@@ -177,7 +177,9 @@ class RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
                       ),
                     ),
                     CustomTeeButton(
-                      text: widget.course.whiteTee.toString(),
+                      text: widget.course.par == 0
+                          ? 'Hvítur'
+                          : widget.course.whiteTee.toString(),
                       color: Colors.white,
                       onPressed: () {
                         _startRound(players, 2);
@@ -185,7 +187,9 @@ class RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
                     ),
                     const SizedBox(height: 10),
                     CustomTeeButton(
-                      text: widget.course.yellowTee.toString(),
+                      text: widget.course.par == 0
+                          ? 'Gulur'
+                          : widget.course.yellowTee.toString(),
                       color: Colors.yellow,
                       onPressed: () {
                         _startRound(players, 0);
@@ -193,7 +197,9 @@ class RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
                     ),
                     const SizedBox(height: 10),
                     CustomTeeButton(
-                      text: widget.course.blueTee.toString(),
+                      text: widget.course.par == 0
+                          ? 'Blár'
+                          : widget.course.blueTee.toString(),
                       color: Colors.blue,
                       onPressed: () {
                         _startRound(players, 3);
@@ -201,7 +207,9 @@ class RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
                     ),
                     const SizedBox(height: 10),
                     CustomTeeButton(
-                      text: widget.course.redTee.toString(),
+                      text: widget.course.par == 0
+                          ? 'Rauður'
+                          : widget.course.redTee.toString(),
                       color: Colors.red,
                       onPressed: () {
                         _startRound(players, 1);
@@ -238,7 +246,7 @@ class RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
                                     _updateHoles();
                                   });
                                 },
-                                itemExtent: 40,
+                                itemExtent: 30,
                                 childDelegate: ListWheelChildBuilderDelegate(
                                   builder: (context, index) {
                                     return Text(
@@ -283,7 +291,7 @@ class RoundSetupScreenState extends ConsumerState<RoundSetupScreen> {
                                     _updateHoles();
                                   });
                                 },
-                                itemExtent: 40,
+                                itemExtent: 30,
                                 childDelegate: ListWheelChildBuilderDelegate(
                                   builder: (context, index) {
                                     return Text(

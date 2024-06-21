@@ -20,6 +20,10 @@ Widget buildCell(
       par + 2: Colors.grey.shade500,
     };
 
+    if (par == 0) {
+      return Colors.white;
+    }
+
     if (score == par - 3 && score != 0) {
       return Colors.orange;
     }
@@ -35,43 +39,45 @@ Widget buildCell(
     textColor = Colors.black;
   }
 
-  return SizedBox(
-    width: 70,
-    height: isPlayerTile ? 50 : 25,
-    child: Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black, width: 0.05),
-        color: tileColor,
-      ),
-      child: Stack(
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              //if hole has no score then display "-" else display score"
-              score == 0 ? '-' : text,
-              style: TextStyle(
-                color: textColor,
-                fontWeight: FontWeight.bold,
-                fontSize: fontSize,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ),
-          if (relativeScore != null)
-            Positioned(
-              right: 2,
-              top: 1,
+  return Padding(
+    padding: const EdgeInsets.all(0.1),
+    child: SizedBox(
+      width: 70,
+      height: isPlayerTile ? 50 : 25,
+      child: Container(
+        decoration: BoxDecoration(
+          color: tileColor,
+        ),
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.center,
               child: Text(
-                relativeScore > 0 ? '+$relativeScore' : '$relativeScore',
-                style: const TextStyle(
-                  color: Colors.white70,
+                //if hole has no score then display "-" else display score"
+                score == 0 ? '-' : text,
+                style: TextStyle(
+                  color: textColor,
                   fontWeight: FontWeight.bold,
-                  fontSize: 10,
+                  fontSize: fontSize,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),
-        ],
+            if (relativeScore != null)
+              Positioned(
+                right: 2,
+                top: 1,
+                child: Text(
+                  relativeScore > 0 ? '+$relativeScore' : '$relativeScore',
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 10,
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     ),
   );

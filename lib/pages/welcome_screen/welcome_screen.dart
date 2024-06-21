@@ -171,7 +171,7 @@ class WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                       ),
                       const SizedBox(height: 15),
                       WelcomeScreenButton(
-                        textColor: Colors.black,
+                        textColor: theme.primaryColor,
                         color: const Color.fromARGB(150, 233, 233, 233),
                         text: 'Mínir Hringir',
                         onPressed: () {

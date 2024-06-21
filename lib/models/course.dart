@@ -58,4 +58,30 @@ class GolfCourse {
       holes: parsedHoles,
     );
   }
+
+  //create an empty GolfCourse
+  static GolfCourse defaultCourse() {
+    return GolfCourse(
+      clubName: 'Hringur án vallar',
+      imgUrl: 'assets/course_images/placeholder.webp',
+      location: '',
+      yellowTee: 0,
+      blueTee: 0,
+      redTee: 0,
+      whiteTee: 0,
+      name: 'enginn völlur valinn',
+      par: 0,
+      holes: List.generate(
+          18,
+          (index) => Hole(
+                yellowTee: 0,
+                handicap: 0,
+                blueTee: 0,
+                redTee: 0,
+                whiteTee: 0,
+                number: index + 1,
+                par: 0,
+              )),
+    );
+  }
 }

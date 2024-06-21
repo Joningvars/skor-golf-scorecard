@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:score_card/pages/onboarding_screen/onboarding_screen.dart';
 import 'package:score_card/pages/welcome_screen/welcome_screen.dart';
@@ -10,6 +11,9 @@ var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   ThemeHelper().changeTheme('primary');
   runApp(const ProviderScope(child: MyApp()));
 }
