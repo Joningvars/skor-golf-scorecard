@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:score_card/theme/theme_helper.dart';
 
 Widget buildCell(
   String text, {
@@ -7,7 +8,7 @@ Widget buildCell(
   double fontSize = 14,
   int? score,
   int? par,
-  Color tileColor = const Color(0XFF195482),
+  Color tileColor = Colors.transparent,
   int? relativeScore,
 }) {
   //returns color depending on relative score else returns white
@@ -46,6 +47,13 @@ Widget buildCell(
       height: isPlayerTile ? 50 : 25,
       child: Container(
         decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: theme.primaryColor.withOpacity(0.05),
+              spreadRadius: 5,
+              blurRadius: 15,
+            ),
+          ],
           color: tileColor,
         ),
         child: Stack(

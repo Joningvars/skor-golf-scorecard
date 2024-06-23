@@ -91,6 +91,15 @@ Widget buildPlayerBack9(Player player, List<Hole> holes, GolfCourse course) {
   int totalScore18 = total18strokes.fold(0, (sum, score) => sum + score);
   int relativeScore18 = player.relativeScore;
 
+  //back 9 stats
+  int relativeScoreBack9 = player.calculateRelativeScoreBack9(holes);
+  List<int> back9Strokes = player.strokes.sublist(validHoleCount).toList();
+  int totalScoreBack9 = back9Strokes.fold(0, (sum, score) => sum + score);
+  //front 9 stats
+  List<int> front9Strokes = player.strokes.take(validHoleCount).toList();
+  int totalScoreFront9 = front9Strokes.fold(0, (sum, score) => sum + score);
+  int relativeScoreFront9 = player.calculateRelativeScoreFront9(holes);
+
   return Row(
     children: [
       for (int i = 0; i < validHoleCount; i++)
@@ -103,6 +112,20 @@ Widget buildPlayerBack9(Player player, List<Hole> holes, GolfCourse course) {
           score: player.strokes.length > (9 + i) ? player.strokes[9 + i] : 0,
           par: pars[i],
         ),
+      buildCell(
+        totalScoreFront9.toString(),
+        width: 50,
+        isPlayerTile: true,
+        fontSize: 30,
+        relativeScore: course.par > 0 ? relativeScoreFront9 : 0,
+      ),
+      buildCell(
+        totalScoreBack9.toString(),
+        width: 50,
+        isPlayerTile: true,
+        fontSize: 30,
+        relativeScore: course.par > 0 ? relativeScoreBack9 : 0,
+      ),
       buildCell(
         totalScore18.toString(),
         width: 50,

@@ -42,7 +42,6 @@ class ScorecardScreenState extends ConsumerState<ScorecardScreen> {
   @override
   void initState() {
     super.initState();
-    // Allowing both portrait and landscape modes for ScorecardScreen
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.landscapeLeft,
@@ -52,7 +51,6 @@ class ScorecardScreenState extends ConsumerState<ScorecardScreen> {
 
   @override
   void dispose() {
-    // Resetting to portrait mode only when leaving ScorecardScreen
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
@@ -110,18 +108,16 @@ class ScorecardScreenState extends ConsumerState<ScorecardScreen> {
             colors: [
               theme.colorScheme.secondary,
               theme.primaryColor,
-              theme.primaryColor,
             ],
           ),
         ),
         child: SafeArea(
-          left: false,
+          left: true,
           child: Screenshot(
             controller: screenshotController,
             child: LayoutBuilder(
               builder: (context, constraints) {
                 if (currentOrientation == Orientation.landscape) {
-                  // Landscape layout
                   return Row(
                     children: [
                       Column(
@@ -159,7 +155,6 @@ class ScorecardScreenState extends ConsumerState<ScorecardScreen> {
                     ],
                   );
                 } else {
-                  // Portrait layout
                   return SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -201,7 +196,7 @@ class ScorecardScreenState extends ConsumerState<ScorecardScreen> {
                             ),
                           ),
                         const SizedBox(height: 30),
-                        _buildScoreCard(
+                        BuildScorecard(
                           players: widget.players,
                           holes: widget.holes,
                           hasBack9Score: hasBack9Score,
@@ -217,7 +212,6 @@ class ScorecardScreenState extends ConsumerState<ScorecardScreen> {
         ),
       ),
       bottomNavigationBar:
-          // Checks if the scorecard screen is being accessed from my scores or not
           !widget.fromMyScores && currentOrientation == Orientation.portrait
               ? ScoreCardBottomNav(
                   players: widget.players,
@@ -249,7 +243,6 @@ class ScorecardScreenState extends ConsumerState<ScorecardScreen> {
       return [
         IconButton(
           onPressed: () async {
-            // Takes a screenshot of the scorecard widget and shares it
             try {
               final image = await screenshotController.captureFromWidget(
                 ScoreCard(
@@ -293,7 +286,6 @@ class ScorecardScreenState extends ConsumerState<ScorecardScreen> {
         ),
         IconButton(
           onPressed: () async {
-            // Takes a screenshot of the scorecard widget and shares it
             try {
               final image = await screenshotController.captureFromLongWidget(
                 ScoreCard(
@@ -364,8 +356,8 @@ class ScorecardScreenState extends ConsumerState<ScorecardScreen> {
   }
 }
 
-class _buildScoreCard extends StatelessWidget {
-  const _buildScoreCard({
+class BuildScorecard extends StatelessWidget {
+  const BuildScorecard({
     super.key,
     required this.players,
     required this.holes,
@@ -384,10 +376,10 @@ class _buildScoreCard extends StatelessWidget {
       children: [
         Column(
           children: [
+            buildCell('Hola', width: 100),
             buildCell('Par', width: 100),
             buildCell('Gulur(M)', width: 100),
             buildCell('Forgjöf', width: 100),
-            buildCell('Hola', width: 100),
             for (Player player in players)
               buildCell(
                 player.initials,

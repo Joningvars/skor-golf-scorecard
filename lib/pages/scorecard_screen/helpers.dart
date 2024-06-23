@@ -50,29 +50,42 @@ Widget buildBack9Holes(List<Hole> holes) {
     children: [
       for (var holeNumber = 10; holeNumber <= 18; holeNumber++)
         buildCell('$holeNumber', width: 50, isPlayerTile: false),
+      buildCell('INN', width: 50, isPlayerTile: false),
       buildCell('ÚT', width: 50, isPlayerTile: false),
+      buildCell('TOT', width: 50, isPlayerTile: false),
     ],
   );
 }
 
 Widget buildBack9Length(List<Hole> holes) {
+  int totalFront9Length =
+      holes.take(9).fold(0, (prev, hole) => prev + hole.yellowTee);
   int totalLength18 = holes.fold(0, (prev, hole) => prev + hole.yellowTee);
+  int totalLengthBack9 =
+      holes.skip(9).take(9).fold(0, (prev, hole) => prev + hole.yellowTee);
   return Row(
     children: [
       for (var i = 9; i < 18; i++)
         buildCell('${holes[i].yellowTee}', width: 50, isPlayerTile: false),
+      buildCell(totalFront9Length.toString(), width: 50, isPlayerTile: false),
+      buildCell(totalLengthBack9.toString(), width: 50, isPlayerTile: false),
       buildCell(totalLength18.toString(), width: 50, isPlayerTile: false),
     ],
   );
 }
 
 Widget buildBack9Par(List<Hole> holes) {
-  int totalPar9 = holes.fold(0, (prev, hole) => prev + hole.par);
+  int totalPar18 = holes.fold(0, (prev, hole) => prev + hole.par);
+  int totalFront9Par = holes.take(9).fold(0, (prev, hole) => prev + hole.par);
+  int totalBack9Par =
+      holes.skip(9).take(9).fold(0, (prev, hole) => prev + hole.par);
   return Row(
     children: [
       for (var i = 9; i < 18; i++)
         buildCell('${holes[i].par}', width: 50, isPlayerTile: false),
-      buildCell(totalPar9.toString(), width: 50, isPlayerTile: false),
+      buildCell(totalFront9Par.toString(), width: 50, isPlayerTile: false),
+      buildCell(totalBack9Par.toString(), width: 50, isPlayerTile: false),
+      buildCell(totalPar18.toString(), width: 50, isPlayerTile: false),
     ],
   );
 }
@@ -82,6 +95,8 @@ Widget buildBack9Handicap(List<Hole> holes) {
     children: [
       for (var i = 9; i < 18; i++)
         buildCell('${holes[i].handicap}', width: 50, isPlayerTile: false),
+      buildCell('', width: 50, isPlayerTile: false),
+      buildCell('', width: 50, isPlayerTile: false),
       buildCell('', width: 50, isPlayerTile: false),
     ],
   );
