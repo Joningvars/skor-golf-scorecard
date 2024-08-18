@@ -276,19 +276,26 @@ class HoleDetail extends StatelessWidget {
                 ),
               ),
             ]),
-            Text(
-              ' ${pageIndex.toString()}',
-              style: TextStyle(
-                fontSize: screenSize.width * 0.399,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                shadows: const [
-                  Shadow(
-                    offset: Offset(8.0, 8.0),
-                    blurRadius: 0,
-                    color: Color.fromARGB(82, 7, 19, 29),
-                  ),
-                ],
+            GestureDetector(
+              onTap: () => _showHoleNavigator(
+                context,
+                currentHoleIndex,
+                holes,
+              ),
+              child: Text(
+                ' ${pageIndex.toString()}',
+                style: TextStyle(
+                  fontSize: screenSize.width * 0.399,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  shadows: const [
+                    Shadow(
+                      offset: Offset(8.0, 8.0),
+                      blurRadius: 0,
+                      color: Color.fromARGB(82, 7, 19, 29),
+                    ),
+                  ],
+                ),
               ),
             ),
             currentHole.par != 0

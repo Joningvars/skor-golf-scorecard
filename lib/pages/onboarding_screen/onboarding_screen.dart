@@ -5,6 +5,7 @@ import 'package:score_card/pages/onboarding_screen/intro_pages/intro_page_2.dart
 import 'package:score_card/pages/onboarding_screen/intro_pages/intro_page_3.dart';
 import 'package:score_card/pages/welcome_screen/welcome_screen.dart';
 import 'package:score_card/theme/theme_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -16,6 +17,13 @@ class OnBoardingScreen extends StatefulWidget {
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   final PageController _controller = PageController();
+  void navigateToWelcomePage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isFirstLaunch', false);
+
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => const WelcomeScreen()));
+  }
 
   bool lastPage = false;
 
@@ -78,13 +86,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   ),
                   lastPage
                       ? GestureDetector(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const WelcomeScreen()));
-                          },
+                          onTap: navigateToWelcomePage,
                           child: const Icon(
                             Icons.check,
                             color: Colors.white70,

@@ -15,33 +15,28 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
   ThemeHelper().changeTheme('primary');
-  runApp(const ProviderScope(child: MyApp()));
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true;
+
+  runApp(ProviderScope(
+      child: MyApp(
+    isFirstLaunch: isFirstLaunch,
+  )));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.isFirstLaunch});
+
+  final bool isFirstLaunch;
 
   @override
   MyAppState createState() => MyAppState();
 }
 
 class MyAppState extends State<MyApp> {
-  bool _isFirstLaunch = true;
-
   @override
   void initState() {
     super.initState();
-    _checkFirstLaunch();
-  }
-
-  Future _checkFirstLaunch() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true;
-
-    if (isFirstLaunch) {
-      await prefs.setBool('isFirstLaunch', false);
-    }
-    return isFirstLaunch;
   }
 
   @override
@@ -50,7 +45,9 @@ class MyAppState extends State<MyApp> {
       theme: theme,
       title: 'skor',
       debugShowCheckedModeBanner: false,
-      home: _isFirstLaunch ? const OnBoardingScreen() : const WelcomeScreen(),
+      home: widget.isFirstLaunch
+          ? const OnBoardingScreen()
+          : const WelcomeScreen(),
       routes: AppRoutes.routes,
     );
   }
