@@ -34,17 +34,14 @@ class MyAppState extends State<MyApp> {
     _checkFirstLaunch();
   }
 
-  Future<void> _checkFirstLaunch() async {
+  Future _checkFirstLaunch() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true;
 
     if (isFirstLaunch) {
       await prefs.setBool('isFirstLaunch', false);
     }
-
-    setState(() {
-      _isFirstLaunch = isFirstLaunch;
-    });
+    return isFirstLaunch;
   }
 
   @override
